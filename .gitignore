@@ -1,0 +1,16 @@
+# bkit state
+.bkit/
+
+# Playwright MCP
+.playwright-mcp/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Node
+node_modules/
