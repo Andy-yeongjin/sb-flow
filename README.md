@@ -65,6 +65,7 @@ C:\sb-flow\install.ps1
 
 ```
 claude
+claude --dangerously-skip-permissions
 ```
 
 Claude Code 대화창에서:

@@ -254,6 +254,7 @@ Write-Host "━━━━━━━━━━━━━━━━━━━━━━�
 Write-Host ""
 Write-Host "  1. Claude Code 실행:"
 Write-Host "     claude" -ForegroundColor Cyan
+Write-Host "     claude --dangerously-skip-permissions" -ForegroundColor DarkCyan
 Write-Host ""
 Write-Host "  2. Claude Code 대화창에서 bkit 설치:"
 Write-Host "     /plugin marketplace add popup-studio-ai/bkit-claude-code" -ForegroundColor Cyan

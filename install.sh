@@ -237,6 +237,7 @@ echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━�
 echo ""
 echo "  1. Claude Code 실행:"
 echo -e "     ${CYAN}claude${RESET}"
+echo -e "     ${CYAN}claude --dangerously-skip-permissions${RESET}"
 echo ""
 echo "  2. Claude Code 대화창에서 bkit 설치:"
 echo -e "     ${CYAN}/plugin marketplace add popup-studio-ai/bkit-claude-code${RESET}"
