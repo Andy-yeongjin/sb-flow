@@ -76,15 +76,7 @@ C:\sb-flow\install.ps1 확인하고 수동으로 직접 실행해줘
 > Claude Code가 스크립트를 실행하며, uv 설치 · spec-kit 초기화 · 헌법/명령어/템플릿 복사를 순서대로 진행합니다.
 > 중간에 직접 실행해야 하는 단계가 있으며, 안내에 따라 진행하면 됩니다.
 
-### 5. Vercel React Best Practices 스킬 설치
-
-Claude Code 대화창에서:
-
-```
-npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
-```
-
-### 6. bkit 플러그인 설치
+### 5. bkit 플러그인 설치
 
 Claude Code 대화창에서:
 
@@ -93,7 +85,7 @@ Claude Code 대화창에서:
 /plugin install bkit
 ```
 
-### 7. 개발 시작
+### 6. 개발 시작
 
 ```
 /sb-oneshot 사용자가 이메일과 비밀번호로 가입하고 로그인할 수 있는 인증 기능

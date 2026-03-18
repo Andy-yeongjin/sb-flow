@@ -97,22 +97,14 @@ C:\sb-flow\install.ps1 확인하고 수동으로 직접 실행해줘
 |------|------|------|
 | [1/8] | uv 설치 확인 (없으면 자동 설치) | 자동 |
 | [2/8] | spec-kit 초기화 (`specify init`) | **안내에 따라 진행** |
-| [3/8] | Vercel React Best Practices 스킬 설치 | **4단계에서 별도 실행** |
+| [3/8] | Vercel React Best Practices 스킬 설치 | 자동 |
 | [4/8] | CLAUDE.md + 커스텀 명령어 복사 | 자동 |
 | [5/8] | 개발 헌법 복사 (sb-flow 헌법으로 교체) | 자동 |
 | [6/8] | SDD 학습 문서 복사 | 자동 |
 | [7/8] | SPEC_CONTEXT.md 템플릿 복사 | 자동 |
 | [8/8] | 디자인 시스템 복사 (design.md + design-tokens.css) | 자동 |
 
-### 4단계. Vercel React Best Practices 스킬 설치
-
-Claude Code 대화창에서:
-
-```
-npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
-```
-
-### 5단계. bkit 플러그인 설치
+### 4단계. bkit 플러그인 설치
 
 Claude Code 대화창에서:
 
@@ -121,7 +113,7 @@ Claude Code 대화창에서:
 /plugin install bkit
 ```
 
-### 6단계. 개발 시작
+### 5단계. 개발 시작
 
 ```
 /sb-oneshot 만들고 싶은 기능 설명
