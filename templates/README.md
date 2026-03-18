@@ -55,6 +55,9 @@ claude
 
 ## 새 프로젝트 시작하기
 
+> **모든 설치 과정은 Claude Code 안에서 실행합니다.**
+> PowerShell 환경 차이로 인한 오류를 방지하기 위해, Claude Code 대화창에서 명령어를 입력하는 방식으로 통일합니다.
+
 ### 1단계. 새 프로젝트 폴더 만들기
 
 파일 탐색기에서 빈 폴더를 만듭니다.
@@ -63,70 +66,60 @@ claude
 예: C:\projects\my-app
 ```
 
-### 2단계. 만든 폴더에서 PowerShell 열기
+### 2단계. 만든 폴더에서 Claude Code 실행
 
-파일 탐색기에서 방금 만든 폴더(`my-app`) 안으로 들어간 뒤 PowerShell을 엽니다:
-
-- **Windows 11**: 폴더 빈 곳 우클릭 → `터미널에서 열기`
-- **Windows 10**: `Shift + 우클릭` → `PowerShell 창 여기서 열기`
-
-> ⚠️ **Git Bash나 WSL은 사용하지 마세요.**
-> 한글이 포함된 스크립트를 실행할 때 인코딩 오류가 발생합니다.
-> 반드시 **PowerShell** 또는 **Windows Terminal(PowerShell 탭)** 을 사용하세요.
-
-### 3단계. setup.ps1 실행
-
-PowerShell 창에서 아래 명령어를 입력합니다 (`.`은 현재 폴더를 의미):
+터미널(PowerShell, Terminal 등)에서 프로젝트 폴더로 이동 후 Claude Code를 실행합니다:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File C:\sb-flow\templates\setup.ps1 . C:\sb-flow
+cd C:\projects\my-app
+claude --dangerously-skip-permissions
 ```
 
-> `C:\sb-flow`는 실제 sb-flow 폴더 경로로 바꿔주세요.
+### 3단계. Claude Code 안에서 설치 스크립트 실행
+
+Claude Code 대화창에 아래를 입력합니다:
+
+**Windows**
+```
+C:\sb-flow\install.ps1 확인하고 수동으로 직접 실행해줘
+```
+
+**macOS / Linux**
+```
+~/sb-flow/install.sh 확인하고 수동으로 직접 실행해줘
+```
+
+> `C:\sb-flow`는 실제 sb-flow 클론 경로로 바꿔주세요.
 
 스크립트가 아래 순서로 진행됩니다:
 
 | 단계 | 작업 | 방식 |
 |------|------|------|
-| [1/7] | uv 설치 확인 (없으면 자동 설치) | 자동 |
-| [2/7] | spec-kit 초기화 (`specify init`) | **사용자 직접 입력** |
-| [3/7] | Vercel React Best Practices 스킬 설치 | **사용자 직접 입력** |
-| [4/7] | CLAUDE.md + 커스텀 명령어 복사 | 자동 |
-| [5/7] | 개발 헌법 복사 (sb-flow 헌법으로 교체) | 자동 |
-| [6/7] | SDD 학습 문서 복사 | 자동 |
-| [7/7] | SPEC_CONTEXT.md 템플릿 복사 | 자동 |
+| [1/8] | uv 설치 확인 (없으면 자동 설치) | 자동 |
+| [2/8] | spec-kit 초기화 (`specify init`) | **안내에 따라 진행** |
+| [3/8] | Vercel React Best Practices 스킬 설치 | **4단계에서 별도 실행** |
+| [4/8] | CLAUDE.md + 커스텀 명령어 복사 | 자동 |
+| [5/8] | 개발 헌법 복사 (sb-flow 헌법으로 교체) | 자동 |
+| [6/8] | SDD 학습 문서 복사 | 자동 |
+| [7/8] | SPEC_CONTEXT.md 템플릿 복사 | 자동 |
+| [8/8] | 디자인 시스템 복사 (design.md + design-tokens.css) | 자동 |
 
-**[2/7] spec-kit 초기화 단계**에서 스크립트가 잠시 멈추고 아래 명령어를 안내합니다:
+### 4단계. Vercel React Best Practices 스킬 설치
 
-```powershell
-uvx --from "git+https://github.com/github/spec-kit.git" specify init .
+Claude Code 대화창에서:
+
+```
+npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
 ```
 
-**새 터미널 창을 열어** 위 명령어를 직접 실행한 뒤, 원래 스크립트 창으로 돌아와 Enter를 누르면 나머지가 자동으로 진행됩니다.
+### 5단계. bkit 플러그인 설치
 
-> specify init은 AI 어시스턴트 선택 등 대화형 항목이 있어 직접 실행해야 합니다.
-
-### 4단계. Claude Code 실행
-
-setup.ps1이 완료되면 같은 PowerShell 창에서:
-
-```powershell
-claude
-```
-
-### 5단계. bkit 플러그인 설치 (Claude Code 안에서)
-
-Claude Code 대화창에 아래 두 명령어를 순서대로 입력합니다:
+Claude Code 대화창에서:
 
 ```
 /plugin marketplace add popup-studio-ai/bkit-claude-code
-```
-
-```
 /plugin install bkit
 ```
-
-> bkit은 터미널이 아닌 **Claude Code 대화창**에서 설치합니다.
 
 ### 6단계. 개발 시작
 
@@ -181,10 +174,11 @@ Claude Code 대화창에 아래 두 명령어를 순서대로 입력합니다:
 터미널에 출력된 URL을 복사해 브라우저에 직접 붙여넣기 하세요.
 
 **Q. "UnicodeEncodeError" 오류가 나요**
-Git Bash나 WSL에서 실행한 경우 발생합니다. PowerShell에서 직접 실행해주세요.
+Claude Code 안에서 설치 스크립트를 실행하면 이 문제가 발생하지 않습니다.
+만약 터미널에서 직접 실행 중이라면 Claude Code 대화창에서 다시 시도해주세요.
 
 **Q. uv 설치 후 "uvx를 찾을 수 없다"는 오류가 나요**
-PowerShell을 완전히 닫고 다시 열어서 setup.ps1을 재실행해주세요. PATH가 새로 적용됩니다.
+Claude Code를 완전히 종료(`exit`) 후 다시 실행하면 PATH가 적용됩니다.
 
 **Q. specify init 단계에서 "Directory already exists" 오류가 나요**
 `--here --force` 옵션이 이를 해결합니다. 스크립트가 안내하는 명령어를 그대로 사용하세요.
@@ -197,6 +191,6 @@ Claude Code를 재시작하면 새 명령어가 인식됩니다.
 `/plugin install bkit` 을 Claude Code 대화창에서 다시 실행해보세요.
 
 **Q. `@vercel-react-best-practices`가 인식이 안 돼요**
-setup.ps1의 [3/7] 단계에서 안내하는 명령어를 실행했는지 확인해주세요:
-`npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices`
+4단계에서 아래 명령어를 Claude Code 대화창에서 실행했는지 확인해주세요:
+`npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y`
 설치 후 Claude Code를 재시작하면 인식됩니다.

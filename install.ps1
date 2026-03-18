@@ -70,9 +70,9 @@ function Copy-WithPrompt {
 }
 
 # ════════════════════════════════════════════════════════════
-# [1/7] uv 설치 확인
+# [1/8] uv 설치 확인
 # ════════════════════════════════════════════════════════════
-Write-Host "[1/7] uv 설치 확인..." -ForegroundColor Yellow
+Write-Host "[1/8] uv 설치 확인..." -ForegroundColor Yellow
 
 if (Get-Command uvx -ErrorAction SilentlyContinue) {
     Write-Host "  [OK] uv 이미 설치됨" -ForegroundColor Green
@@ -101,10 +101,10 @@ if (Get-Command uvx -ErrorAction SilentlyContinue) {
 }
 
 # ════════════════════════════════════════════════════════════
-# [2/7] spec-kit 초기화 (사용자 직접 실행)
+# [2/8] spec-kit 초기화 (사용자 직접 실행)
 # ════════════════════════════════════════════════════════════
 Write-Host ""
-Write-Host "[2/7] spec-kit 초기화..." -ForegroundColor Yellow
+Write-Host "[2/8] spec-kit 초기화..." -ForegroundColor Yellow
 
 $specifyDir = Join-Path $ProjectDir ".specify"
 if (Test-Path $specifyDir) {
@@ -117,7 +117,7 @@ if (Test-Path $specifyDir) {
     Write-Host "  새 터미널 창을 열어서 아래 명령어를 직접 실행해주세요:" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "  cd `"$ProjectDir`"" -ForegroundColor White
-    Write-Host "  uvx --from `"git+https://github.com/github/spec-kit.git`" specify init ." -ForegroundColor White
+    Write-Host "  uvx --from `"git+https://github.com/github/spec-kit.git`" specify init . --ai claude --script ps --force" -ForegroundColor White
     Write-Host ""
     Read-Host "  실행 완료 후 Enter를 눌러주세요"
 
@@ -130,24 +130,24 @@ if (Test-Path $specifyDir) {
 }
 
 # ════════════════════════════════════════════════════════════
-# [3/7] Vercel React Best Practices 스킬 설치 안내
+# [3/8] Vercel React Best Practices 스킬 설치 안내
 # ════════════════════════════════════════════════════════════
 Write-Host ""
-Write-Host "[3/7] Vercel React Best Practices 스킬 설치..." -ForegroundColor Yellow
+Write-Host "[3/8] Vercel React Best Practices 스킬 설치..." -ForegroundColor Yellow
 Write-Host ""
 Write-Host "  아래 명령어를 터미널에서 직접 실행해주세요." -ForegroundColor Cyan
 Write-Host "  (8~10단계 /pdca plan, design, do 기준으로 사용됩니다)" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices" -ForegroundColor White
+Write-Host "  npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y" -ForegroundColor White
 Write-Host ""
 Read-Host "  실행 완료 후 Enter를 눌러주세요"
 Write-Host "  [OK] vercel-react-best-practices 스킬 설치 완료" -ForegroundColor Green
 
 # ════════════════════════════════════════════════════════════
-# [4/7] CLAUDE.md + 커스텀 명령어 복사
+# [4/8] CLAUDE.md + 커스텀 명령어 복사
 # ════════════════════════════════════════════════════════════
 Write-Host ""
-Write-Host "[4/7] CLAUDE.md 및 커스텀 명령어 설치..." -ForegroundColor Yellow
+Write-Host "[4/8] CLAUDE.md 및 커스텀 명령어 설치..." -ForegroundColor Yellow
 
 $src = Join-Path $TemplatesDir "CLAUDE.md"
 $dst = Join-Path $ProjectDir   "CLAUDE.md"
@@ -170,10 +170,10 @@ foreach ($cmd in @("sb-guide", "sb-oneshot", "sb-setup", "sb-bridge")) {
 }
 
 # ════════════════════════════════════════════════════════════
-# [5/7] 개발 헌법 복사 (spec-kit 기본 헌법을 sb-flow 헌법으로 교체)
+# [5/8] 개발 헌법 복사 (spec-kit 기본 헌법을 sb-flow 헌법으로 교체)
 # ════════════════════════════════════════════════════════════
 Write-Host ""
-Write-Host "[5/7] 개발 헌법 설치..." -ForegroundColor Yellow
+Write-Host "[5/8] 개발 헌법 설치..." -ForegroundColor Yellow
 
 $constitutionSrc = Join-Path $SbflowDir "constitution.md"
 $constitutionDst = Join-Path $ProjectDir ".specify\memory\constitution.md"
@@ -191,10 +191,10 @@ if (Test-Path $constitutionSrc) {
 }
 
 # ════════════════════════════════════════════════════════════
-# [6/7] SDD 학습 문서 복사
+# [6/8] SDD 학습 문서 복사
 # ════════════════════════════════════════════════════════════
 Write-Host ""
-Write-Host "[6/7] SDD 학습 문서 설치..." -ForegroundColor Yellow
+Write-Host "[6/8] SDD 학습 문서 설치..." -ForegroundColor Yellow
 
 $sddGuideSrc = Join-Path $SbflowDir "sdd_guide.md"
 $sddGuideDst = Join-Path $ProjectDir "sdd_guide.md"
@@ -211,10 +211,10 @@ if (Test-Path $sddGuideSrc) {
 }
 
 # ════════════════════════════════════════════════════════════
-# [7/7] SPEC_CONTEXT.md 템플릿 복사
+# [7/8] SPEC_CONTEXT.md 템플릿 복사
 # ════════════════════════════════════════════════════════════
 Write-Host ""
-Write-Host "[7/7] SPEC_CONTEXT.md 템플릿 설치..." -ForegroundColor Yellow
+Write-Host "[7/8] SPEC_CONTEXT.md 템플릿 설치..." -ForegroundColor Yellow
 
 $specContextSrc = Join-Path $SbflowDir "SPEC_CONTEXT.md"
 $specContextDst = Join-Path $ProjectDir  "SPEC_CONTEXT.md"
@@ -228,6 +228,32 @@ if (Test-Path $specContextSrc) {
     }
 } else {
     Write-Host "  SPEC_CONTEXT.md 템플릿을 찾을 수 없습니다." -ForegroundColor Yellow
+}
+
+# ════════════════════════════════════════════════════════════
+# [8/8] 디자인 시스템 파일 복사
+# ════════════════════════════════════════════════════════════
+Write-Host ""
+Write-Host "[8/8] 디자인 시스템 설치..." -ForegroundColor Yellow
+
+$designMdSrc = Join-Path $SbflowDir "design.md"
+$designMdDst = Join-Path $ProjectDir "design.md"
+
+if (Test-Path $designMdSrc) {
+    Copy-Item -Path $designMdSrc -Destination $designMdDst -Force
+    Write-Host "  [OK] design.md 설치" -ForegroundColor Green
+} else {
+    Write-Host "  design.md를 찾을 수 없습니다." -ForegroundColor Yellow
+}
+
+$designTokensSrc = Join-Path $TemplatesDir "design-tokens.css"
+$designTokensDst = Join-Path $ProjectDir "design-tokens.css"
+
+if (Test-Path $designTokensSrc) {
+    Copy-Item -Path $designTokensSrc -Destination $designTokensDst -Force
+    Write-Host "  [OK] design-tokens.css 설치" -ForegroundColor Green
+} else {
+    Write-Host "  design-tokens.css를 찾을 수 없습니다." -ForegroundColor Yellow
 }
 
 # ════════════════════════════════════════════════════════════
@@ -247,6 +273,8 @@ Write-Host "  . .claude\commands\sb-guide.md      -- /sb-guide"
 Write-Host "  . .claude\commands\sb-oneshot.md    -- /sb-oneshot"
 Write-Host "  . .claude\commands\sb-setup.md      -- /sb-setup"
 Write-Host "  . .claude\commands\sb-bridge.md     -- /sb-bridge"
+Write-Host "  . design.md                         -- 디자인 시스템 명세"
+Write-Host "  . design-tokens.css                 -- CSS 디자인 토큰"
 Write-Host ""
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Yellow
 Write-Host "  다음: Claude Code에서 bkit 설치" -ForegroundColor Yellow

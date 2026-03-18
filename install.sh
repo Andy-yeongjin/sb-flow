@@ -68,9 +68,9 @@ copy_with_prompt() {
 }
 
 # ════════════════════════════════════════════════════════════
-# [1/7] uv 설치 확인
+# [1/8] uv 설치 확인
 # ════════════════════════════════════════════════════════════
-echo -e "${YELLOW}[1/7] uv 설치 확인...${RESET}"
+echo -e "${YELLOW}[1/8] uv 설치 확인...${RESET}"
 
 if command -v uvx &> /dev/null; then
     echo -e "  ${GREEN}[OK] uv 이미 설치됨${RESET}"
@@ -91,10 +91,10 @@ else
 fi
 
 # ════════════════════════════════════════════════════════════
-# [2/7] spec-kit 초기화 (사용자 직접 실행)
+# [2/8] spec-kit 초기화 (사용자 직접 실행)
 # ════════════════════════════════════════════════════════════
 echo ""
-echo -e "${YELLOW}[2/7] spec-kit 초기화...${RESET}"
+echo -e "${YELLOW}[2/8] spec-kit 초기화...${RESET}"
 
 SPECIFY_DIR="$PROJECT_DIR/.specify"
 if [ -d "$SPECIFY_DIR" ]; then
@@ -107,7 +107,7 @@ else
     echo -e "  ${YELLOW}새 터미널 창을 열어서 아래 명령어를 직접 실행해주세요:${RESET}"
     echo ""
     echo "  cd \"$PROJECT_DIR\""
-    echo "  uvx --from \"git+https://github.com/github/spec-kit.git\" specify init ."
+    echo "  uvx --from \"git+https://github.com/github/spec-kit.git\" specify init . --ai claude --script bash --force"
     echo ""
     read -p "  실행 완료 후 Enter를 눌러주세요" _
 
@@ -120,24 +120,24 @@ else
 fi
 
 # ════════════════════════════════════════════════════════════
-# [3/7] Vercel React Best Practices 스킬 설치 안내
+# [3/8] Vercel React Best Practices 스킬 설치 안내
 # ════════════════════════════════════════════════════════════
 echo ""
-echo -e "${YELLOW}[3/7] Vercel React Best Practices 스킬 설치...${RESET}"
+echo -e "${YELLOW}[3/8] Vercel React Best Practices 스킬 설치...${RESET}"
 echo ""
 echo -e "  ${CYAN}아래 명령어를 터미널에서 직접 실행해주세요.${RESET}"
 echo -e "  ${CYAN}(8~10단계 /pdca plan, design, do 기준으로 사용됩니다)${RESET}"
 echo ""
-echo "  npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices"
+echo "  npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y"
 echo ""
 read -p "  실행 완료 후 Enter를 눌러주세요" _
 echo -e "  ${GREEN}[OK] vercel-react-best-practices 스킬 설치 완료${RESET}"
 
 # ════════════════════════════════════════════════════════════
-# [4/7] CLAUDE.md + 커스텀 명령어 복사
+# [4/8] CLAUDE.md + 커스텀 명령어 복사
 # ════════════════════════════════════════════════════════════
 echo ""
-echo -e "${YELLOW}[4/7] CLAUDE.md 및 커스텀 명령어 설치...${RESET}"
+echo -e "${YELLOW}[4/8] CLAUDE.md 및 커스텀 명령어 설치...${RESET}"
 
 copy_with_prompt "$TEMPLATES_DIR/CLAUDE.md" "$PROJECT_DIR/CLAUDE.md" "CLAUDE.md"
 
@@ -156,10 +156,10 @@ for cmd in "${COMMANDS[@]}"; do
 done
 
 # ════════════════════════════════════════════════════════════
-# [5/7] 개발 헌법 복사
+# [5/8] 개발 헌법 복사
 # ════════════════════════════════════════════════════════════
 echo ""
-echo -e "${YELLOW}[5/7] 개발 헌법 설치...${RESET}"
+echo -e "${YELLOW}[5/8] 개발 헌법 설치...${RESET}"
 
 CONSTITUTION_SRC="$SBFLOW_DIR/constitution.md"
 CONSTITUTION_DST="$PROJECT_DIR/.specify/memory/constitution.md"
@@ -174,10 +174,10 @@ else
 fi
 
 # ════════════════════════════════════════════════════════════
-# [6/7] SDD 학습 문서 복사
+# [6/8] SDD 학습 문서 복사
 # ════════════════════════════════════════════════════════════
 echo ""
-echo -e "${YELLOW}[6/7] SDD 학습 문서 설치...${RESET}"
+echo -e "${YELLOW}[6/8] SDD 학습 문서 설치...${RESET}"
 
 SDD_GUIDE_SRC="$SBFLOW_DIR/sdd_guide.md"
 SDD_GUIDE_DST="$PROJECT_DIR/sdd_guide.md"
@@ -194,10 +194,10 @@ else
 fi
 
 # ════════════════════════════════════════════════════════════
-# [7/7] SPEC_CONTEXT.md 템플릿 복사
+# [7/8] SPEC_CONTEXT.md 템플릿 복사
 # ════════════════════════════════════════════════════════════
 echo ""
-echo -e "${YELLOW}[7/7] SPEC_CONTEXT.md 템플릿 설치...${RESET}"
+echo -e "${YELLOW}[7/8] SPEC_CONTEXT.md 템플릿 설치...${RESET}"
 
 SPEC_CONTEXT_SRC="$SBFLOW_DIR/SPEC_CONTEXT.md"
 SPEC_CONTEXT_DST="$PROJECT_DIR/SPEC_CONTEXT.md"
@@ -211,6 +211,32 @@ if [ -f "$SPEC_CONTEXT_SRC" ]; then
     fi
 else
     echo -e "  ${YELLOW}SPEC_CONTEXT.md 템플릿을 찾을 수 없습니다.${RESET}"
+fi
+
+# ════════════════════════════════════════════════════════════
+# [8/8] 디자인 시스템 파일 복사
+# ════════════════════════════════════════════════════════════
+echo ""
+echo -e "${YELLOW}[8/8] 디자인 시스템 설치...${RESET}"
+
+DESIGN_MD_SRC="$SBFLOW_DIR/design.md"
+DESIGN_MD_DST="$PROJECT_DIR/design.md"
+
+if [ -f "$DESIGN_MD_SRC" ]; then
+    cp "$DESIGN_MD_SRC" "$DESIGN_MD_DST"
+    echo -e "  ${GREEN}[OK] design.md 설치${RESET}"
+else
+    echo -e "  ${YELLOW}design.md를 찾을 수 없습니다.${RESET}"
+fi
+
+DESIGN_TOKENS_SRC="$TEMPLATES_DIR/design-tokens.css"
+DESIGN_TOKENS_DST="$PROJECT_DIR/design-tokens.css"
+
+if [ -f "$DESIGN_TOKENS_SRC" ]; then
+    cp "$DESIGN_TOKENS_SRC" "$DESIGN_TOKENS_DST"
+    echo -e "  ${GREEN}[OK] design-tokens.css 설치${RESET}"
+else
+    echo -e "  ${YELLOW}design-tokens.css를 찾을 수 없습니다.${RESET}"
 fi
 
 # ════════════════════════════════════════════════════════════
@@ -230,6 +256,8 @@ echo -e "  . ${BLUE}.claude/commands/sb-guide.md${RESET}      -- /sb-guide"
 echo -e "  . ${BLUE}.claude/commands/sb-oneshot.md${RESET}    -- /sb-oneshot"
 echo -e "  . ${BLUE}.claude/commands/sb-setup.md${RESET}      -- /sb-setup"
 echo -e "  . ${BLUE}.claude/commands/sb-bridge.md${RESET}     -- /sb-bridge"
+echo -e "  . ${BLUE}design.md${RESET}                         -- 디자인 시스템 명세"
+echo -e "  . ${BLUE}design-tokens.css${RESET}                 -- CSS 디자인 토큰"
 echo ""
 echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
 echo -e "${YELLOW}  다음: Claude Code에서 bkit 설치${RESET}"

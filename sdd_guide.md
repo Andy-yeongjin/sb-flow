@@ -66,7 +66,7 @@ The `specify` CLI bootstraps SDD scaffolding for a project. It creates two key d
 # Persistent (recommended)
 uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
 # One-time usage
-uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
+uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME> --ai claude --script ps --force
 ```
 **Prerequisites:** Linux/macOS/Windows, Python 3.11+, `uv` package manager, Git, and a supported AI coding agent.
 During `specify init`, the CLI asks which AI agent you are using and generates the corresponding prompt/command files for that agent.

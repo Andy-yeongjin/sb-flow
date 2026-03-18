@@ -191,7 +191,7 @@ SPEC_CONTEXT.md 파일을 참조해서 작업해줘.
 > ℹ️  Vercel React Best Practices 스킬이 필요합니다.
 > 터미널에서 아래 명령어를 실행 후 이 대화를 계속해주세요:
 >
-> npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices
+> npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
 > ```
 > 사용자가 "계속"/"설치했어" → 바로 진행. "그냥 진행해줘" → 스킬 없이 진행.
 

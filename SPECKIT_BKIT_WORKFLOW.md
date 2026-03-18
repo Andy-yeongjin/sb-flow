@@ -79,7 +79,7 @@ SPEC_CONTEXT.md 파일을 설계 기준으로 사용해줘.
 
 ```bash
 # uv/uvx 설정 후 실행
-uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
+uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME> --ai claude --script ps --force
 ```
 
 ### 2. bkit 설치
@@ -94,7 +94,7 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME
 8~10단계(개발 계획 → 상세 설계 → 구현)에서 프론트엔드 아키텍처 기준으로 사용합니다.
 
 ```bash
-npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices
+npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
 ```
 
 설치 후에는 Claude Code 명령어에서 `@vercel-react-best-practices`로 참조하며, **8·9·10단계 실행 시 이 가이드라인을 먼저 읽고 기준에 맞춰 계획·설계·구현**을 진행합니다.

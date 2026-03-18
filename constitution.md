@@ -1,9 +1,10 @@
 <!--
 Sync Impact Report
-- Version change: 1.9.1 → 1.10.0
+- Version change: 1.10.0 → 1.13.0
 - List of modified principles:
-  - [ADDED/REORDERED] 제5조: 프론트엔드 아키텍처 및 품질 (Vercel React Best Practices 준수 의무화)
-  - [RENUMBERED] 제6조 ~ 제14조 (기존 제5조 ~ 제13조가 한 단계씩 뒤로 이동)
+  - [ADDED] 제15조: 메인 화면 우선 개발 및 비인증 탐색 보장 (Main Screen First & Unauthenticated Browsing)
+  - [ADDED] 제16조: 통합 디자인 시스템 준수 (Unified Design System)
+  - [ADDED] 제17조: Pencil.dev 디자인 원본 준수 (Design Source Fidelity)
 - Added sections: None
 - Removed sections: None
 - Templates requiring updates (✅ updated):
@@ -64,6 +65,15 @@ AI와 개발자는 코드 수정 시 반드시 관련된 명세서(`SPEC.md`)와
 ### 제14조: 구조화된 로깅 및 관측 가능성 (Structured Logging & Observability)
 시스템의 모든 주요 상태 변화와 비즈니스 흐름, 그리고 예외 상황은 반드시 구조화된 형태(Structured Logging)로 기록합니다. 로그는 단순한 텍스트가 아닌 분석 가능한 데이터(JSON 등)로 구성하며, 서비스 장애 추적을 위해 요청 식별자(Request ID)와 맥락(Context)을 포함해야 합니다. 기록된 로그는 시스템의 건강 상태를 모니터링하고 신속한 장애 조치를 위한 핵심 지표로 활용하며, 제10조(보안)에 따라 민감한 개인 정보는 로그 기록에서 엄격히 제외합니다.
 
+### 제15조: 메인 화면 우선 개발 및 비인증 탐색 보장 (Main Screen First & Unauthenticated Browsing)
+모든 기능 개발은 반드시 메인 화면(홈 페이지)을 최우선으로 구현하는 것에서 시작합니다. 메인 화면은 서비스의 첫인상이자 핵심 진입점이므로, 다른 하위 기능보다 항상 먼저 완성합니다. 또한 사용자는 로그인하지 않은 상태에서도 서비스의 주요 페이지를 자유롭게 탐색할 수 있어야 합니다. 인증이 필요한 기능(데이터 생성, 수정, 삭제 등)은 해당 액션 시점에서만 로그인을 요구하며, 콘텐츠 열람과 페이지 탐색 자체를 로그인 벽(Login Wall)으로 차단하지 않습니다.
+
+### 제16조: 통합 디자인 시스템 준수 (Unified Design System)
+모든 UI 요소는 `design.md`에 정의된 디자인 명세를 따르며, `design-tokens.css`의 CSS 변수를 사용하여 구현합니다. 본 디자인 시스템의 색상, 간격, 그림자, 둥글기, 브레이크포인트 등 모든 토큰 값은 Tailwind CSS(https://tailwindcss.com/docs)의 디자인 스케일을 기반으로 정의되었습니다. 색상, 크기, 간격, 그림자, 둥글기 등의 시각적 값을 직접 하드코딩하지 않으며, 반드시 디자인 토큰 변수를 참조합니다. 디자인 토큰에 정의되지 않은 임의의 값 사용을 금지하며, 같은 목적의 요소는 항상 동일한 토큰을 적용하여 프로젝트 전체의 시각적 일관성을 보장합니다. **`design.md`와 `design-tokens.css`는 sb-flow 원본에서만 관리하는 불변 파일이며, 개별 프로젝트 개발 과정에서 어떠한 이유로도 수정·삭제·덮어쓰기할 수 없습니다.** 디자인 변경이 필요한 경우 반드시 sb-flow 원본 저장소에서 수정한 뒤 프로젝트에 재배포하는 절차를 따릅니다.
+
+### 제17조: Pencil.dev 디자인 원본 준수 (Design Source Fidelity)
+프로젝트에 Pencil.dev 디자인 파일(`.pen`)이 존재하는 경우, 해당 파일을 UI 구현의 최우선 시각적 원본으로 삼습니다. AI와 개발자는 `.pen` 파일에 정의된 레이아웃, 컴포넌트 배치, 간격, 크기 비율을 그대로 재현하며, 임의로 디자인을 변경하거나 재해석하지 않습니다. `.pen` 파일이 없는 경우 `design.md`와 `design-tokens.css`만으로 구현합니다.
+
 ## 기술 스택 (Technology Stack)
 
 - **Framework**: Next.js (App Router)
@@ -80,4 +90,4 @@ AI와 개발자는 코드 수정 시 반드시 관련된 명세서(`SPEC.md`)와
 - **버전 정책**: MAJOR(원칙 재정의), MINOR(원칙 추가/확장), PATCH(문구 수정).
 - **템플릿 준수**: 모든 명세서, 계획서, 작업 리스트 템플릿은 반드시 상단에 `지침: 모든 계획서 내용은 반드시 한글로 작성합니다.`를 포함해야 하며, 이를 통해 제0조를 산출물 수준에서 강제합니다.
 
-**Version**: 1.10.0 | **Ratified**: 2026-02-26 | **Last Amended**: 2026-03-10
+**Version**: 1.13.0 | **Ratified**: 2026-02-26 | **Last Amended**: 2026-03-18
