@@ -1,10 +1,11 @@
 <!--
 Sync Impact Report
-- Version change: 1.10.0 → 1.13.0
+- Version change: 1.10.0 → 1.14.0
 - List of modified principles:
   - [ADDED] 제15조: 메인 화면 우선 개발 및 비인증 탐색 보장 (Main Screen First & Unauthenticated Browsing)
   - [ADDED] 제16조: 통합 디자인 시스템 준수 (Unified Design System)
   - [ADDED] 제17조: Pencil.dev 디자인 원본 준수 (Design Source Fidelity)
+  - [ADDED] 제18조: 로컬 개발 DB 및 배포 전 DB 결정 원칙 (Local SQLite First & Pre-Deployment DB Decision)
 - Added sections: None
 - Removed sections: None
 - Templates requiring updates (✅ updated):
@@ -72,13 +73,16 @@ AI와 개발자는 코드 수정 시 반드시 관련된 명세서(`SPEC.md`)와
 모든 UI 요소는 `design.md`에 정의된 디자인 명세를 따르며, `design-tokens.css`의 CSS 변수를 사용하여 구현합니다. 본 디자인 시스템의 색상, 간격, 그림자, 둥글기, 브레이크포인트 등 모든 토큰 값은 Tailwind CSS(https://tailwindcss.com/docs)의 디자인 스케일을 기반으로 정의되었습니다. 색상, 크기, 간격, 그림자, 둥글기 등의 시각적 값을 직접 하드코딩하지 않으며, 반드시 디자인 토큰 변수를 참조합니다. 디자인 토큰에 정의되지 않은 임의의 값 사용을 금지하며, 같은 목적의 요소는 항상 동일한 토큰을 적용하여 프로젝트 전체의 시각적 일관성을 보장합니다. **`design.md`와 `design-tokens.css`는 sb-flow 원본에서만 관리하는 불변 파일이며, 개별 프로젝트 개발 과정에서 어떠한 이유로도 수정·삭제·덮어쓰기할 수 없습니다.** 디자인 변경이 필요한 경우 반드시 sb-flow 원본 저장소에서 수정한 뒤 프로젝트에 재배포하는 절차를 따릅니다.
 
 ### 제17조: Pencil.dev 디자인 원본 준수 (Design Source Fidelity)
-프로젝트에 Pencil.dev 디자인 파일(`.pen`)이 존재하는 경우, 해당 파일을 UI 구현의 최우선 시각적 원본으로 삼습니다. AI와 개발자는 `.pen` 파일에 정의된 레이아웃, 컴포넌트 배치, 간격, 크기 비율을 그대로 재현하며, 임의로 디자인을 변경하거나 재해석하지 않습니다. `.pen` 파일이 없는 경우 `design.md`와 `design-tokens.css`만으로 구현합니다.
+프로젝트에 Pencil.dev 디자인 파일(`.pen`)이 제공된 경우, 해당 파일은 UI 구현의 **절대적 최우선 시각적 원본**입니다. AI와 개발자는 `.pen` 파일에 정의된 레이아웃, 컴포넌트 배치, 간격, 색상, 크기 비율을 픽셀 단위로 충실히 재현해야 하며, 어떠한 이유로도 임의로 디자인을 변경하거나 재해석하지 않습니다. `.pen` 파일이 제공된 상황에서 디자인 판단이 필요한 경우, 반드시 `.pen` 파일을 우선 참조하고 그 결과를 따릅니다. `.pen` 파일이 없는 경우에만 `design.md`와 `design-tokens.css`를 기준으로 구현합니다.
+
+### 제18조: 로컬 개발 DB 및 배포 전 DB 결정 원칙 (Local SQLite First & Pre-Deployment DB Decision)
+로컬 개발 환경에서는 별도의 DB 서버 설치 없이 빠르게 개발할 수 있도록 **SQLite를 기본 데이터베이스로 사용**합니다. 이는 제4조(인프라스트럭처 교체 가능성)에 따라 ORM(Prisma 또는 Drizzle)을 통해 추상화된 구조로 구현하여, DB 종류에 무관하게 동일한 비즈니스 로직이 동작하도록 보장합니다. **프로덕션 배포 직전, 프로젝트의 트래픽 규모, 비용, 운영 환경을 고려하여 최종 DB(NeonDB 또는 Supabase)를 결정**하고, 이 결정은 제12조(ADR)에 따라 문서화합니다. 단, 배포 전 DB 마이그레이션이 원활히 수행될 수 있도록 스키마 설계 단계에서부터 특정 DB 벤더에 종속적인 기능(예: DB 전용 함수, 특수 타입)의 사용을 최소화합니다.
 
 ## 기술 스택 (Technology Stack)
 
 - **Framework**: Next.js (App Router)
 - **Language**: TypeScript (Strict Mode)
-- **Database**: PostgreSQL (Neon, Supabase 등)
+- **Database**: SQLite (로컬 개발) → NeonDB 또는 Supabase (배포 전 결정)
 - **ORM**: Prisma 또는 Drizzle
 - **Styling**: Vanilla CSS (CSS Modules)
 - **Security**: Auth.js (NextAuth) 또는 유사 세션 관리
@@ -90,4 +94,4 @@ AI와 개발자는 코드 수정 시 반드시 관련된 명세서(`SPEC.md`)와
 - **버전 정책**: MAJOR(원칙 재정의), MINOR(원칙 추가/확장), PATCH(문구 수정).
 - **템플릿 준수**: 모든 명세서, 계획서, 작업 리스트 템플릿은 반드시 상단에 `지침: 모든 계획서 내용은 반드시 한글로 작성합니다.`를 포함해야 하며, 이를 통해 제0조를 산출물 수준에서 강제합니다.
 
-**Version**: 1.13.0 | **Ratified**: 2026-02-26 | **Last Amended**: 2026-03-18
+**Version**: 1.14.0 | **Ratified**: 2026-02-26 | **Last Amended**: 2026-03-19
