@@ -99,6 +99,16 @@ npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-
 
 설치 후에는 Claude Code 명령어에서 `@vercel-react-best-practices`로 참조하며, **8·9·10단계 실행 시 이 가이드라인을 먼저 읽고 기준에 맞춰 계획·설계·구현**을 진행합니다.
 
+### 4. Claude Code 재시작
+
+모든 설치가 끝나면 `Ctrl+C`로 Claude Code를 종료한 뒤 다시 실행합니다:
+
+```
+claude --dangerously-skip-permissions
+```
+
+> 재시작하지 않으면 새로 설치한 명령어(`/sb-oneshot` 등)가 표시되지 않습니다.
+
 ---
 
 ## 전체 플로우차트

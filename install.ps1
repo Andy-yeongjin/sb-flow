@@ -288,6 +288,10 @@ Write-Host "  2. Claude Code 대화창에서 bkit 설치:"
 Write-Host "     /plugin marketplace add popup-studio-ai/bkit-claude-code" -ForegroundColor Cyan
 Write-Host "     /plugin install bkit" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  3. 개발 시작:"
+Write-Host "  3. Claude Code 재시작 (Ctrl+C 후 다시 실행):"
+Write-Host "     claude --dangerously-skip-permissions" -ForegroundColor Cyan
+Write-Host "     (재시작하지 않으면 명령어가 표시되지 않습니다)" -ForegroundColor DarkCyan
+Write-Host ""
+Write-Host "  4. 개발 시작:"
 Write-Host "     /sb-oneshot [기능 설명]" -ForegroundColor Cyan
 Write-Host ""

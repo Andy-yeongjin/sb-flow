@@ -85,7 +85,17 @@ Claude Code 대화창에서:
 /plugin install bkit
 ```
 
-### 6. 개발 시작
+### 6. Claude Code 재시작
+
+설치가 완료되면 `Ctrl+C`로 Claude Code를 종료한 뒤 다시 실행합니다:
+
+```
+claude --dangerously-skip-permissions
+```
+
+> 재시작하지 않으면 새로 설치한 명령어(`/sb-oneshot` 등)가 표시되지 않습니다.
+
+### 7. 개발 시작
 
 ```
 /sb-oneshot 사용자가 이메일과 비밀번호로 가입하고 로그인할 수 있는 인증 기능
