@@ -683,26 +683,16 @@ body.show-notes .slide.active .speaker-notes {
       </div>
       <p data-step="0" style="color:rgba(255,255,255,0.6);">SDD 피드백 루프의 닫힘점 &mdash; 다음 기능 개발의 정확한 출발점 보장</p>
 
-      <div class="card-row cols-2 build slide-up" data-step="1">
-        <div class="card purple-border">
-          <h3><span class="accent-purple">SpecKit 사용 시</span></h3>
-          <p style="font-weight:600; margin-bottom:0.5em;">3단계 실행:</p>
-          <ul>
-            <li>spec.md + tasks.md 통합 동기화</li>
-            <li><span class="cmd">/speckit.analyze</span> 최종 검증</li>
-            <li>SPEC_CONTEXT.md 갱신</li>
-          </ul>
-          <p style="margin-top:0.5em; font-size:0.85em; color:rgba(255,255,255,0.5);">4가지 케이스: 완료, 변경, 추가, 제거</p>
-        </div>
-        <div class="card purple-border">
-          <h3><span class="accent-purple">/pdca plan 직접 사용 시</span></h3>
-          <p style="font-weight:600; margin-bottom:0.5em;">간소화 처리:</p>
-          <ul>
-            <li>SpecKit 파일이 없으므로</li>
-            <li>SPEC_CONTEXT.md만 업데이트</li>
-            <li>태스크 현황 섹션 반영</li>
-          </ul>
-        </div>
+      <div class="card purple-border build slide-up" data-step="1" style="text-align:center; padding:1.5em;">
+        <h3 style="margin-bottom:0.6em;"><span class="accent-purple">/sb-sync</span></h3>
+        <p style="margin-bottom:0.8em;">명령어 하나로 모든 문서 자동 동기화</p>
+        <ul style="text-align:left; display:inline-block;">
+          <li>bkit plan/design 문서 동기화</li>
+          <li>tasks.md — <span class="cmd">[ ]</span> → <span class="cmd">[x]</span>, 새 태스크 추가</li>
+          <li>spec.md — FR 수정·추가·deprecated</li>
+          <li>SPEC_CONTEXT.md — 최종 상태 갱신</li>
+          <li>/speckit.analyze — 자동 실행</li>
+        </ul>
       </div>
 
       <div class="card build scale-in" data-step="2" style="text-align:center; background:rgba(156,39,176,0.1); border:1px solid rgba(156,39,176,0.3);">
@@ -742,9 +732,9 @@ body.show-notes .slide.active .speaker-notes {
           <p style="font-size:0.85em; color:rgba(255,255,255,0.5); margin-top:0.4em;">세션 재개 + 현재 상태 복원</p>
         </div>
         <div class="card purple-border" style="padding:1.5em;">
-          <h3 style="margin-bottom:0.6em;"><span class="accent-purple">/sb-bridge</span> <span style="font-size:0.75em; color:rgba(255,255,255,0.5);">[spec-dir]</span></h3>
-          <p>설계 완료 후 <strong>브릿지 문서</strong>만 생성</p>
-          <p style="font-size:0.85em; color:rgba(255,255,255,0.5); margin-top:0.4em;">SPEC_CONTEXT.md 자동 생성 (7.5단계)</p>
+          <h3 style="margin-bottom:0.6em;"><span class="accent-purple">/sb-sync</span></h3>
+          <p>수정 완료 후 <strong>문서 동기화</strong></p>
+          <p style="font-size:0.85em; color:rgba(255,255,255,0.5); margin-top:0.4em;">tasks.md, spec.md, SPEC_CONTEXT.md 자동 갱신 (17단계)</p>
         </div>
       </div>
 
@@ -767,7 +757,7 @@ body.show-notes .slide.active .speaker-notes {
           <span style="font-size:1.3em;">S</span>
           <div>
             <h3>소규모 &mdash; 단일 컴포넌트, 작은 로직 추가</h3>
-            <p><span class="cmd">npm run dev</span> + 대화형 &rarr; 완료 후 SPEC_CONTEXT.md 업데이트</p>
+            <p><span class="cmd">start.bat</span> (또는 <span class="cmd">npm run dev</span>) + 대화형 &rarr; 완료 후 SPEC_CONTEXT.md 업데이트</p>
           </div>
         </div>
       </div>
@@ -777,7 +767,7 @@ body.show-notes .slide.active .speaker-notes {
           <span style="font-size:1.3em;">M</span>
           <div>
             <h3>중규모 &mdash; 여러 파일, UI 흐름 변경</h3>
-            <p><span class="cmd">npm run dev</span> + 대화형 &rarr; 10.5단계 (bkit 문서 동기화) &rarr; SPEC_CONTEXT.md 업데이트</p>
+            <p><span class="cmd">start.bat</span> (또는 <span class="cmd">npm run dev</span>) + 대화형 &rarr; 10.5단계 (bkit 문서 동기화) &rarr; SPEC_CONTEXT.md 업데이트</p>
           </div>
         </div>
       </div>

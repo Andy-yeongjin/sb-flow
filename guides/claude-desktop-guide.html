@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Claude 데스크톱 앱 완벽 가이드 — 설치 방법, 주요 기능, 사용 팁" />
+  <title>Claude 데스크톱 앱 가이드</title>
+  <style>
+    /* ============================================================
+       디자인 토큰 (CSS 변수)
+    ============================================================ */
+    :root {
+      --color-primary: #D97757;
+      --color-primary-dark: #C4623D;
+      --color-primary-light: #F5DDD3;
+      --color-bg: #F9F7F5;
+      --color-bg-section: #FFFFFF;
+      --color-bg-alt: #F2EDE8;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #6B6B6B;
+      --color-border: #E5E0DA;
+
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --spacing-2xl: 3rem;
+      --spacing-3xl: 5rem;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      --font-size-sm: 0.875rem;
+      --font-size-base: 1rem;
+      --font-size-lg: 1.125rem;
+      --font-size-xl: 1.5rem;
+      --font-size-2xl: 2rem;
+      --font-size-3xl: 2.75rem;
+
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.07);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.13);
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --max-width: 1080px;
+      --header-height: 64px;
+    }
+
+    /* ============================================================
+       Reset & Base
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    ul { list-style: none; }
+
+    img, svg { display: block; }
+
+    /* ============================================================
+       Layout Utilities
+    ============================================================ */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--spacing-xl);
+    }
+
+    /* ============================================================
+       Header & Navigation
+    ============================================================ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-height);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      font-weight: 700;
+      font-size: var(--font-size-lg);
+      color: var(--color-text);
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--color-primary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: var(--spacing-xl);
+    }
+
+    nav a {
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    nav a:hover { color: var(--color-primary); }
+
+    /* ============================================================
+       Hero Section
+    ============================================================ */
+    #intro {
+      padding: var(--spacing-3xl) 0;
+      background: linear-gradient(135deg, #FDF6F2 0%, #F5EDE5 50%, #EDE0D4 100%);
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      background: var(--color-primary-light);
+      color: var(--color-primary-dark);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .hero-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--color-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--spacing-xl);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hero-title {
+      font-size: var(--font-size-3xl);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--spacing-md);
+      line-height: 1.2;
+      color: var(--color-text);
+    }
+
+    .hero-title span {
+      color: var(--color-primary);
+    }
+
+    .hero-desc {
+      font-size: var(--font-size-lg);
+      color: var(--color-text-secondary);
+      max-width: 560px;
+      margin: 0 auto var(--spacing-2xl);
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      background: var(--color-primary);
+      color: #fff;
+      font-weight: 600;
+      font-size: var(--font-size-base);
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius-full);
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      background: #fff;
+      color: var(--color-text);
+      font-weight: 600;
+      font-size: var(--font-size-base);
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--color-border);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       Section Common
+    ============================================================ */
+    section {
+      padding: var(--spacing-3xl) 0;
+    }
+
+    section:nth-child(even) {
+      background: var(--color-bg-alt);
+    }
+
+    section:nth-child(odd) {
+      background: var(--color-bg-section);
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .section-title {
+      font-size: var(--font-size-2xl);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--spacing-sm);
+      color: var(--color-text);
+    }
+
+    .section-desc {
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-2xl);
+      max-width: 600px;
+    }
+
+    /* ============================================================
+       Features Section
+    ============================================================ */
+    #features {
+      background: var(--color-bg-section);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-lg);
+    }
+
+    .feature-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-xl);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .feature-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--color-primary-light);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .feature-name {
+      font-size: var(--font-size-base);
+      font-weight: 700;
+      margin-bottom: var(--spacing-xs);
+      color: var(--color-text);
+    }
+
+    .feature-desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       Install Section
+    ============================================================ */
+    #install {
+      background: var(--color-bg-alt);
+    }
+
+    .tabs {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-xl);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md) var(--spacing-xl);
+      font-size: var(--font-size-base);
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .tab-btn.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .install-steps {
+      counter-reset: step;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .install-step {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-md);
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: var(--color-bg-section);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
+
+    .step-num {
+      counter-increment: step;
+      width: 32px;
+      height: 32px;
+      background: var(--color-primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: var(--font-size-sm);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      font-size: var(--font-size-base);
+      color: var(--color-text);
+      padding-top: 0.35rem;
+    }
+
+    .step-text strong { color: var(--color-primary-dark); }
+
+    .download-cta {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      border-radius: var(--radius-md);
+      padding: var(--spacing-xl) var(--spacing-2xl);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-lg);
+      flex-wrap: wrap;
+    }
+
+    .download-cta-text h3 {
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .download-cta-text p {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.8);
+    }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      background: #fff;
+      color: var(--color-primary-dark);
+      font-weight: 700;
+      font-size: var(--font-size-base);
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-white:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ============================================================
+       Tips Section
+    ============================================================ */
+    #tips {
+      background: var(--color-bg-section);
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-lg);
+    }
+
+    .tip-card {
+      display: flex;
+      gap: var(--spacing-lg);
+      align-items: flex-start;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-xl);
+      transition: box-shadow 0.2s;
+    }
+
+    .tip-card:hover { box-shadow: var(--shadow-md); }
+
+    .tip-num {
+      width: 40px;
+      height: 40px;
+      background: var(--color-primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: var(--font-size-lg);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tip-body h3 {
+      font-size: var(--font-size-base);
+      font-weight: 700;
+      margin-bottom: var(--spacing-xs);
+      color: var(--color-text);
+    }
+
+    .tip-body p {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: 1.65;
+    }
+
+    .tip-body code {
+      background: var(--color-primary-light);
+      color: var(--color-primary-dark);
+      font-family: 'Menlo', 'Consolas', monospace;
+      font-size: 0.8rem;
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       Footer
+    ============================================================ */
+    footer {
+      background: #1A1A1A;
+      color: rgba(255,255,255,0.6);
+      padding: var(--spacing-2xl) 0;
+      text-align: center;
+    }
+
+    footer .footer-logo {
+      font-weight: 700;
+      font-size: var(--font-size-lg);
+      color: #fff;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    footer p {
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    footer a {
+      color: var(--color-primary-light);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    footer a:hover { color: var(--color-primary); }
+
+    /* ============================================================
+       반응형 (모바일 768px 이하)
+    ============================================================ */
+    @media (max-width: 768px) {
+      :root {
+        --font-size-3xl: 1.9rem;
+        --font-size-2xl: 1.5rem;
+        --spacing-3xl: 3rem;
+      }
+
+      .container { padding: 0 var(--spacing-md); }
+
+      nav { display: none; }
+
+      .hero-icon { width: 64px; height: 64px; }
+
+      .features-grid { grid-template-columns: 1fr; }
+
+      .tips-grid { grid-template-columns: 1fr; }
+
+      .download-cta {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .tab-btn { padding: var(--spacing-sm) var(--spacing-md); font-size: var(--font-size-sm); }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header>
+    <div class="container header-inner">
+      <a href="#intro" class="logo" aria-label="Claude 데스크톱 앱 가이드 홈으로">
+        <div class="logo-icon" aria-hidden="true">
+          <!-- Claude 로고 아이콘 (SVG 인라인) -->
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="8" stroke="white" stroke-width="1.8"/>
+            <path d="M6 10 L9 13 L14 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        Claude 가이드
+      </a>
+      <nav role="navigation" aria-label="주요 섹션 바로가기">
+        <a href="#intro">소개</a>
+        <a href="#features">주요 기능</a>
+        <a href="#install">설치 방법</a>
+        <a href="#tips">사용 팁</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ==================== HERO ==================== -->
+    <section id="intro" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-badge" aria-label="공식 가이드">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M7 1L8.8 5.2L13.5 5.6L10 8.7L11.1 13.5L7 11L2.9 13.5L4 8.7L0.5 5.6L5.2 5.2L7 1Z" fill="#C4623D"/>
+          </svg>
+          공식 가이드
+        </div>
+
+        <div class="hero-icon" aria-hidden="true">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <rect x="4" y="4" width="36" height="36" rx="10" fill="rgba(255,255,255,0.25)"/>
+            <circle cx="22" cy="18" r="7" stroke="white" stroke-width="2.5"/>
+            <path d="M10 38 C10 30 34 30 34 38" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <h1 class="hero-title" id="hero-title">
+          Claude <span>데스크톱 앱</span><br>완벽 가이드
+        </h1>
+        <p class="hero-desc">
+          인터넷 없이도 Claude와 대화하고, 파일을 분석하고, 강력한 MCP 도구를 활용하세요.
+          데스크톱 앱만의 특별한 기능을 지금 경험해보세요.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#install" class="btn-primary" aria-label="설치 방법 섹션으로 이동">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 2v8M4 7l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 13h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            지금 설치하기
+          </a>
+          <a href="#features" class="btn-outline" aria-label="주요 기능 섹션으로 이동">
+            주요 기능 보기
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FEATURES ==================== -->
+    <section id="features" aria-labelledby="features-title">
+      <div class="container">
+        <span class="section-label">주요 기능</span>
+        <h2 class="section-title" id="features-title">왜 데스크톱 앱인가요?</h2>
+        <p class="section-desc">브라우저 버전과 달리, 데스크톱 앱은 더 깊은 시스템 통합과 강력한 도구를 제공합니다.</p>
+
+        <div class="features-grid" role="list">
+
+          <!-- 기능 1: 오프라인 접근 -->
+          <div class="feature-card" role="listitem">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#D97757" stroke-width="2"/>
+                <path d="M4.5 4.5 L19.5 19.5" stroke="#D97757" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 12 C8 9 16 9 16 12" stroke="#D97757" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-name">오프라인 접근</h3>
+            <p class="feature-desc">인터넷이 없어도 Claude와 대화할 수 있습니다. 네트워크 환경에 관계없이 언제든 사용 가능합니다.</p>
+          </div>
+
+          <!-- 기능 2: MCP 지원 -->
+          <div class="feature-card" role="listitem">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="3" fill="#D97757"/>
+                <circle cx="4" cy="6" r="2" stroke="#D97757" stroke-width="1.8"/>
+                <circle cx="20" cy="6" r="2" stroke="#D97757" stroke-width="1.8"/>
+                <circle cx="4" cy="18" r="2" stroke="#D97757" stroke-width="1.8"/>
+                <circle cx="20" cy="18" r="2" stroke="#D97757" stroke-width="1.8"/>
+                <path d="M6 6.5 L10 10" stroke="#D97757" stroke-width="1.5"/>
+                <path d="M18 6.5 L14 10" stroke="#D97757" stroke-width="1.5"/>
+                <path d="M6 17.5 L10 14" stroke="#D97757" stroke-width="1.5"/>
+                <path d="M18 17.5 L14 14" stroke="#D97757" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <h3 class="feature-name">MCP 지원</h3>
+            <p class="feature-desc">Model Context Protocol로 데이터베이스, 파일 시스템, 외부 앱을 Claude와 직접 연동할 수 있습니다.</p>
+          </div>
+
+          <!-- 기능 3: 파일 첨부 -->
+          <div class="feature-card" role="listitem">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#D97757" stroke-width="2"/>
+                <polyline points="14 2 14 8 20 8" stroke="#D97757" stroke-width="2"/>
+                <line x1="12" y1="18" x2="12" y2="12" stroke="#D97757" stroke-width="2" stroke-linecap="round"/>
+                <line x1="9" y1="15" x2="12" y2="12" stroke="#D97757" stroke-width="2" stroke-linecap="round"/>
+                <line x1="15" y1="15" x2="12" y2="12" stroke="#D97757" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-name">파일 첨부 분석</h3>
+            <p class="feature-desc">PDF, 이미지, 텍스트 파일을 드래그앤드롭으로 첨부하면 Claude가 즉시 내용을 분석합니다.</p>
+          </div>
+
+          <!-- 기능 4: 단축키 -->
+          <div class="feature-card" role="listitem">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="6" width="20" height="12" rx="2" stroke="#D97757" stroke-width="2"/>
+                <rect x="5" y="9" width="3" height="3" rx="1" fill="#D97757"/>
+                <rect x="10.5" y="9" width="3" height="3" rx="1" fill="#D97757"/>
+                <rect x="16" y="9" width="3" height="3" rx="1" fill="#D97757"/>
+                <rect x="7" y="14" width="10" height="2" rx="1" fill="#D97757"/>
+              </svg>
+            </div>
+            <h3 class="feature-name">빠른 단축키</h3>
+            <p class="feature-desc"><code>⌘+N</code>(Mac) / <code>Ctrl+N</code>(Win)으로 즉시 새 대화를 시작합니다. 작업 흐름을 끊지 않고 바로 질문할 수 있습니다.</p>
+          </div>
+
+          <!-- 기능 5: 다중 대화 -->
+          <div class="feature-card" role="listitem">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="7" width="16" height="12" rx="2" stroke="#D97757" stroke-width="2"/>
+                <rect x="5" y="5" width="16" height="12" rx="2" stroke="#D97757" stroke-width="1.5" stroke-dasharray="2 2"/>
+                <path d="M7 11 h8 M7 14 h5" stroke="#D97757" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-name">다중 대화 관리</h3>
+            <p class="feature-desc">여러 대화를 동시에 열고 주제별로 관리할 수 있습니다. 업무와 개인 대화를 깔끔하게 구분하세요.</p>
+          </div>
+
+          <!-- 기능 6: 빠른 실행 -->
+          <div class="feature-card" role="listitem">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2 L8 10 L2 10 L7 15 L5 22 L12 18 L19 22 L17 15 L22 10 L16 10 Z" stroke="#D97757" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-name">트레이 빠른 실행</h3>
+            <p class="feature-desc">메뉴바(Mac) 또는 작업표시줄(Win) 트레이 아이콘으로 어디서든 즉시 Claude를 실행할 수 있습니다.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== INSTALL ==================== -->
+    <section id="install" aria-labelledby="install-title">
+      <div class="container">
+        <span class="section-label">설치 방법</span>
+        <h2 class="section-title" id="install-title">3분이면 설치 완료</h2>
+        <p class="section-desc">운영체제를 선택하면 맞춤 설치 안내를 확인할 수 있습니다.</p>
+
+        <!-- OS 탭 -->
+        <div class="tabs" role="tablist" aria-label="운영체제 선택">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-windows" id="btn-windows" onclick="switchTab('windows')">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <rect x="1" y="1" width="7.5" height="7.5" rx="1" fill="#D97757"/>
+              <rect x="9.5" y="1" width="7.5" height="7.5" rx="1" fill="#D97757"/>
+              <rect x="1" y="9.5" width="7.5" height="7.5" rx="1" fill="#D97757"/>
+              <rect x="9.5" y="9.5" width="7.5" height="7.5" rx="1" fill="#D97757"/>
+            </svg>
+            Windows
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-mac" id="btn-mac" onclick="switchTab('mac')">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M14 9.5c0-2.5 2-3 2-3s-1.5-2-4-1.5c-1 .3-2 .3-3 0C7 4.5 5 5 5 7c0 1.5.5 3 1.5 4.5S8.5 15 9 15c.5 0 1-.3 2-.3s1.5.3 2 .3c.5 0 1.5-1.5 2-3-1.5-.6-1-3.5-1-3.5z" stroke="#D97757" stroke-width="1.5"/>
+              <path d="M11 4c0-1.5 1-2.5 1-2.5S10.5 1 9.5 2.5" stroke="#D97757" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            macOS
+          </button>
+        </div>
+
+        <!-- Windows 설치 -->
+        <div id="tab-windows" class="tab-content active" role="tabpanel" aria-labelledby="btn-windows">
+          <div class="install-steps" aria-label="Windows 설치 단계">
+            <div class="install-step">
+              <div class="step-num" aria-label="1단계">1</div>
+              <p class="step-text"><strong>공식 다운로드 페이지 접속</strong> — 브라우저에서 <code>claude.ai/download</code>로 이동합니다.</p>
+            </div>
+            <div class="install-step">
+              <div class="step-num" aria-label="2단계">2</div>
+              <p class="step-text"><strong>"Windows용 다운로드" 버튼 클릭</strong> — 설치 파일(<code>.exe</code>)이 자동으로 다운로드됩니다.</p>
+            </div>
+            <div class="install-step">
+              <div class="step-num" aria-label="3단계">3</div>
+              <p class="step-text"><strong>설치 파일 실행</strong> — 다운로드한 <code>.exe</code> 파일을 더블클릭하여 실행합니다.</p>
+            </div>
+            <div class="install-step">
+              <div class="step-num" aria-label="4단계">4</div>
+              <p class="step-text"><strong>설치 마법사 진행</strong> — 화면 안내에 따라 설치를 완료합니다. (기본 설정 권장)</p>
+            </div>
+            <div class="install-step">
+              <div class="step-num" aria-label="5단계">5</div>
+              <p class="step-text"><strong>Claude 앱 실행 후 로그인</strong> — Anthropic 계정으로 로그인하거나 새 계정을 만들어 시작합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- macOS 설치 -->
+        <div id="tab-mac" class="tab-content" role="tabpanel" aria-labelledby="btn-mac">
+          <div class="install-steps" aria-label="macOS 설치 단계">
+            <div class="install-step">
+              <div class="step-num" aria-label="1단계">1</div>
+              <p class="step-text"><strong>공식 다운로드 페이지 접속</strong> — 브라우저에서 <code>claude.ai/download</code>로 이동합니다.</p>
+            </div>
+            <div class="install-step">
+              <div class="step-num" aria-label="2단계">2</div>
+              <p class="step-text"><strong>"Mac용 다운로드" 버튼 클릭</strong> — 디스크 이미지 파일(<code>.dmg</code>)이 다운로드됩니다.</p>
+            </div>
+            <div class="install-step">
+              <div class="step-num" aria-label="3단계">3</div>
+              <p class="step-text"><strong>.dmg 파일 열기</strong> — Finder에서 다운로드한 <code>.dmg</code> 파일을 더블클릭합니다.</p>
+            </div>
+            <div class="install-step">
+              <div class="step-num" aria-label="4단계">4</div>
+              <p class="step-text"><strong>Applications 폴더로 드래그</strong> — Claude 아이콘을 Applications 폴더로 드래그앤드롭합니다.</p>
+            </div>
+            <div class="install-step">
+              <div class="step-num" aria-label="5단계">5</div>
+              <p class="step-text"><strong>Claude 앱 실행 후 로그인</strong> — Launchpad 또는 Applications에서 Claude를 열고 Anthropic 계정으로 로그인합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 다운로드 CTA -->
+        <div class="download-cta" role="complementary" aria-label="다운로드 안내">
+          <div class="download-cta-text">
+            <h3>지금 바로 시작해보세요</h3>
+            <p>공식 다운로드 주소: <strong>claude.ai/download</strong></p>
+          </div>
+          <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer" class="btn-white" aria-label="Claude 공식 다운로드 페이지로 이동 (새 탭에서 열림)">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 2v8M4 7l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 13h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            무료 다운로드
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TIPS ==================== -->
+    <section id="tips" aria-labelledby="tips-title">
+      <div class="container">
+        <span class="section-label">사용 팁</span>
+        <h2 class="section-title" id="tips-title">더 스마트하게 활용하기</h2>
+        <p class="section-desc">Claude 데스크톱 앱을 처음 설치했다면 이 팁들을 먼저 확인해보세요.</p>
+
+        <div class="tips-grid" role="list">
+
+          <div class="tip-card" role="listitem">
+            <div class="tip-num" aria-hidden="true">1</div>
+            <div class="tip-body">
+              <h3>새 대화 단축키</h3>
+              <p>Mac에서는 <code>⌘+N</code>, Windows에서는 <code>Ctrl+N</code>으로 즉시 새 대화를 시작할 수 있습니다. 작업 중 빠른 질문에 유용합니다.</p>
+            </div>
+          </div>
+
+          <div class="tip-card" role="listitem">
+            <div class="tip-num" aria-hidden="true">2</div>
+            <div class="tip-body">
+              <h3>파일 드래그앤드롭</h3>
+              <p>PDF, Word 문서, 이미지 파일을 대화창에 직접 드래그하세요. Claude가 내용을 분석하고 질문에 답변합니다.</p>
+            </div>
+          </div>
+
+          <div class="tip-card" role="listitem">
+            <div class="tip-num" aria-hidden="true">3</div>
+            <div class="tip-body">
+              <h3>MCP 서버 연동</h3>
+              <p><strong>설정 → 개발자 → MCP 서버 추가</strong>를 통해 데이터베이스, 파일 시스템, GitHub 등 외부 도구를 Claude와 연결할 수 있습니다.</p>
+            </div>
+          </div>
+
+          <div class="tip-card" role="listitem">
+            <div class="tip-num" aria-hidden="true">4</div>
+            <div class="tip-body">
+              <h3>트레이 빠른 접근</h3>
+              <p>Mac 메뉴바 또는 Windows 작업표시줄의 트레이 아이콘을 클릭하면 앱 전환 없이 즉시 Claude 창을 열 수 있습니다.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-logo">Claude 데스크톱 앱 가이드</div>
+      <p>이 가이드는 Claude 데스크톱 앱을 쉽게 시작할 수 있도록 제작된 비공식 참고 문서입니다.</p>
+      <p>공식 다운로드: <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer">claude.ai/download</a></p>
+      <p style="margin-top: var(--spacing-md); font-size: 0.8rem;">© 2026 참고용 가이드. Claude™는 Anthropic의 제품입니다.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== OS 탭 전환 JS ==================== -->
+  <script>
+    function switchTab(os) {
+      // 모든 탭 비활성화
+      document.querySelectorAll('.tab-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-content').forEach(function(content) {
+        content.classList.remove('active');
+      });
+
+      // 선택한 탭 활성화
+      document.getElementById('btn-' + os).classList.add('active');
+      document.getElementById('btn-' + os).setAttribute('aria-selected', 'true');
+      document.getElementById('tab-' + os).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
