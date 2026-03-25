@@ -73,6 +73,7 @@ Claude 대화창에 입력하면 SpecKit, bkit 등 필요한 도구가 자동으
 | `/sb-guide` | 현재 단계 파악 + 다음 단계 안내 |
 | `/sb-setup` | 기존 프로젝트 세션 재개 |
 | `/sb-bridge [spec-dir]` | SPEC_CONTEXT.md 브릿지 문서 생성 |
+| `/sb-design-system` | .pen 분석 → design.md + design-tokens.css + 프리뷰 HTML 생성 |
 
 ---
 
@@ -97,12 +98,12 @@ Claude 대화창에 입력하면 SpecKit, bkit 등 필요한 도구가 자동으
 | 파일 | 용도 |
 |------|------|
 | `CLAUDE.md` | Claude Code 세션 시작 시 자동으로 읽히는 컨텍스트 |
-| `design.md` | 디자인 시스템 명세 (불변) |
-| `design-tokens.css` | CSS 디자인 토큰 변수 (불변) |
+| `design.md` | 디자인 시스템 명세 (필수, 파이프라인 전 확정) |
+| `design-tokens.css` | CSS 디자인 토큰 변수 (필수, design.md와 세트) |
 | `sdd_guide.md` | AI 에이전트가 SDD 방법론을 학습하는 문서 |
 | `SPEC_CONTEXT.md` | SpecKit → bkit 브릿지 문서 템플릿 |
 | `.specify/memory/constitution.md` | 프로젝트 개발 헌법 (18개 조항) |
-| `.claude/commands/sb-*.md` | 커스텀 명령어 5종 |
+| `.claude/commands/sb-*.md` | 커스텀 명령어 6종 |
 
 ---
 
@@ -121,7 +122,7 @@ sb-flow는 18개 조항의 개발 헌법을 기반으로 합니다:
 | 제10조 | 최종 빌드 검증 — 프로덕션 빌드 성공 = 완료 |
 | 제15조 | 메인 화면 우선 개발 — 비인증 탐색 보장 |
 | 제16조 | 통합 디자인 시스템 — design.md + design-tokens.css 필수 |
-| 제17조 | Pencil.dev 디자인 원본 준수 — .pen 파일 우선 |
+| 제17조 | Pencil.dev 디자인 원본 준수 — .pen은 구조/배치 원본, 시각적 수치는 design.md 토큰으로 교정 |
 
 전체 원문: [`constitution.md`](constitution.md)
 

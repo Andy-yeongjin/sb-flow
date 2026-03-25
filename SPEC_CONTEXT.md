@@ -7,7 +7,7 @@
 
 ## 🚨 bkit 개발 기준 (필수 준수)
 
-**이 문서를 참조하는 모든 `/pdca` 명령어는 아래 네 가지 기준을 반드시 지켜야 합니다.**
+**이 문서를 참조하는 모든 `/pdca` 명령어는 아래 다섯 가지 기준을 반드시 지켜야 합니다.**
 
 | # | 기준 | 원본 파일 | 내용 |
 |---|------|----------|------|
@@ -15,8 +15,9 @@
 | 2 | **명세 이행** | `specs/NNN-기능명/spec.md` | 모든 기능 요구사항(FR)과 수락 기준을 빠짐없이 구현할 것 |
 | 3 | **태스크 완료** | `specs/NNN-기능명/tasks.md` | tasks.md의 모든 태스크를 완료 기준으로 삼을 것 |
 | 4 | **프론트엔드 품질** | `@vercel-react-best-practices` | `/pdca design`·`/pdca do` 진입 전 스킬 로드 후 가이드라인을 준수하여 구현할 것 |
+| 5 | **디자인 시스템** | `design.md` + `design-tokens.css` | 모든 UI 시각적 수치는 design-tokens.css 변수로 구현. 하드코딩 금지. .pen 수치와 충돌 시 design.md 토큰이 우선 |
 
-> 개발 계획, 구현, 갭 분석, 보고 등 모든 단계에서 위 네 가지 기준을 기반으로 판단합니다.
+> 개발 계획, 구현, 갭 분석, 보고 등 모든 단계에서 위 다섯 가지 기준을 기반으로 판단합니다.
 
 ---
 
@@ -105,6 +106,59 @@
 | Styling | <!-- 예: CSS Modules (Vanilla CSS) --> |
 | Auth | <!-- 예: Auth.js v5 (세션 쿠키) --> |
 | Testing | <!-- 예: Jest + Playwright --> |
+
+---
+
+## 2.5 디자인 시스템 기준
+
+> 출처: `design.md`, `design-tokens.css`
+> **모든 UI 구현 시 아래 토큰을 반드시 사용합니다. 하드코딩 금지 (헌법 제16조).**
+> **.pen 파일의 레이아웃/배치는 따르되, 시각적 수치는 아래 토큰으로 교정합니다 (헌법 제17조).**
+
+### 핵심 레이아웃 토큰
+
+| 토큰 | 값 | 용도 |
+|------|----|------|
+| `--navbar-height` | `64px` | 상단 네비게이션 높이 |
+| `--sidebar-width` | `260px` | 사이드바 너비 |
+| `--container-xl` | `1280px` | 와이드 레이아웃 |
+| `--container-lg` | `1024px` | 일반 콘텐츠 |
+| `--container-sm` | `640px` | 로그인/회원가입 폼 |
+
+### 핵심 타이포그래피 토큰
+
+| 토큰 | 값 | 용도 |
+|------|----|------|
+| `--text-xs` | `12px` | 캡션, 뱃지 |
+| `--text-sm` | `14px` | 보조 텍스트, 라벨 |
+| `--text-base` | `16px` | 본문 기본 |
+| `--text-lg` | `18px` | 서브 제목 |
+| `--text-xl` ~ `--text-4xl` | `20~36px` | 제목 계열 |
+| `--font-sans` | Pretendard, Inter, system | 본문·UI 전체 |
+
+### 핵심 색상 토큰
+
+| 토큰 | 값 | 용도 |
+|------|----|------|
+| `--color-primary-600` | `#2563EB` | 기본 CTA, 버튼 |
+| `--color-gray-700` | `#374151` | 본문 텍스트 |
+| `--color-gray-200` | `#E5E7EB` | 보더, 구분선 |
+| `--color-bg` | `#FFFFFF` | 메인 배경 |
+| `--color-danger` | `#DC2626` | 에러, 삭제 |
+| `--color-success` | `#16A34A` | 성공 상태 |
+
+### 토큰 매핑 규칙
+
+`.pen` 파일의 수치가 design.md 토큰과 다를 경우, **가장 가까운 토큰**으로 매핑합니다:
+
+| .pen 수치 | → 매핑 토큰 | 근거 |
+|-----------|-----------|------|
+| 72px navbar | `--navbar-height (64px)` | 레이아웃 토큰 기준 |
+| 15px font | `--text-sm (14px)` 또는 `--text-base (16px)` | 가까운 타이포 토큰 |
+| 13px padding | `--space-3 (12px)` 또는 `--space-4 (16px)` | 4px 간격 체계 |
+| 임의 색상 #abc | 가장 가까운 시맨틱/팔레트 토큰 | 색상 팔레트 기준 |
+
+> 전체 토큰 목록: `design.md` 참조 | CSS 변수 구현: `design-tokens.css` 참조
 
 ---
 
@@ -313,6 +367,7 @@ Food (NATIONAL_DB | CUSTOM)
 | 산출물 | 파일 경로 |
 |--------|----------|
 | 헌법 | `.specify/memory/constitution.md` |
+| 디자인 시스템 | `design.md` + `design-tokens.css` (프로젝트 루트) |
 | PRD (있으면) | `*prd*.md` (프로젝트 루트) |
 | 기능 명세 | `specs/NNN-기능명/spec.md` |
 | 기술 설계 | `specs/NNN-기능명/plan.md` |
