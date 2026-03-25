@@ -42,12 +42,13 @@ specs/ 폴더에서 정확한 경로를 확인해주세요.
 아래 순서로 파일을 읽습니다. 파일이 없으면 해당 섹션은 "해당 없음"으로 표시합니다:
 
 1. `.specify/memory/constitution.md` — 헌법 (필수)
-2. `$ARGUMENTS/spec.md` — 기능 명세서 (필수)
-3. `$ARGUMENTS/plan.md` — 기술 설계 (필수)
-4. `$ARGUMENTS/data-model.md` — 데이터 모델 (있으면)
-5. `$ARGUMENTS/contracts/api.md` — API 계약 (있으면)
-6. `$ARGUMENTS/tasks.md` — 태스크 목록 (필수)
-7. `$ARGUMENTS/research.md` — 기술 결정 기록 (있으면)
+2. `*prd*.md` / `*PRD*.md` (프로젝트 루트, 대소문자 무관, 파일명에 "prd" 포함) — PRD 원본 (있으면)
+3. `$ARGUMENTS/spec.md` — 기능 명세서 (필수)
+4. `$ARGUMENTS/plan.md` — 기술 설계 (필수)
+5. `$ARGUMENTS/data-model.md` — 데이터 모델 (있으면)
+6. `$ARGUMENTS/contracts/api.md` — API 계약 (있으면)
+7. `$ARGUMENTS/tasks.md` — 태스크 목록 (필수)
+8. `$ARGUMENTS/research.md` — 기술 결정 기록 (있으면)
 
 ### Step 3: SPEC_CONTEXT.md 섹션 채우기
 
@@ -64,7 +65,7 @@ specs/ 폴더에서 정확한 경로를 확인해주세요.
 |------|----------|----------|
 | 1. 기본 정보 | spec.md 헤더 | 기능명, 브랜치명, 날짜, 경로 |
 | 2. 헌법 (개발 원칙) | constitution.md | 조항별 한 줄 요약 테이블 + 기술 스택 |
-| 3. 기능 명세 요약 | spec.md | 유저 스토리 목록 + 핵심 Clarifications |
+| 3. 기능 명세 요약 | spec.md, **prd.md** | 유저 스토리 목록 + 핵심 Clarifications + **PRD 핵심 요구사항 대조** |
 | 4. 기술 설계 요약 | plan.md, research.md | 아키텍처 3~5줄 + 프로젝트 구조 + 성능 목표 |
 | 5. 데이터 모델 | data-model.md | 엔티티 관계도 (텍스트) + 핵심 엔티티 표 |
 | 6. API 계약 | contracts/api.md | 엔드포인트 목록 + 공통 에러 코드 |

@@ -110,7 +110,7 @@
 
 ## 3. 기능 명세 요약
 
-> 출처: `specs/NNN-기능명/spec.md`
+> 출처: `specs/NNN-기능명/spec.md`, `*prd*.md` (있으면)
 
 ### 개요
 
@@ -313,6 +313,7 @@ Food (NATIONAL_DB | CUSTOM)
 | 산출물 | 파일 경로 |
 |--------|----------|
 | 헌법 | `.specify/memory/constitution.md` |
+| PRD (있으면) | `*prd*.md` (프로젝트 루트) |
 | 기능 명세 | `specs/NNN-기능명/spec.md` |
 | 기술 설계 | `specs/NNN-기능명/plan.md` |
 | 리서치 | `specs/NNN-기능명/research.md` |
