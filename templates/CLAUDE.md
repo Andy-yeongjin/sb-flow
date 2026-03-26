@@ -67,7 +67,7 @@
 | `/sb-guide` | 현재 단계 파악 + 다음 단계 안내 | 어디서부터 해야 할지 모를 때 |
 | `/sb-oneshot [기능설명]` | 설계→브릿지→구현 자동 파이프라인 (PRD·.pen 자동 감지) | 새 기능을 한방에 설계하고 싶을 때 |
 | `/sb-bridge [spec-dir]` | SPEC_CONTEXT.md 자동 생성 | 7.5단계 (설계 완료 후) |
-| `/sb-design-system` | .pen 분석 → design.md + design-tokens.css 생성 | 디자인 시스템 확정할 때 |
+| `/sb-design` | .pen 분석 → design.md + design-tokens.css 생성 | 디자인 시스템 확정할 때 |
 
 ---
 
@@ -88,6 +88,7 @@
 | 제15조 | 메인 화면 우선 | 메인 화면 먼저 개발, 비인증 탐색 보장 |
 | 제16조 | 디자인 시스템 | design.md + design-tokens.css 필수, 하드코딩 금지 |
 | 제17조 | 디자인 원본 | .pen은 구조/배치 원본, 시각적 수치는 design.md 토큰으로 교정 |
+| 제19조 | 정부 디자인 헌법 | design-constitution.md가 불변 최저 기준 — 색상 대비 4.5:1, 터치 타깃 44px, 키보드 접근성 필수 |
 
 ---
 

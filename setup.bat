@@ -36,14 +36,14 @@ if exist "%SBFLOW_DIR%\templates\CLAUDE.md" (
 
 if not exist "%PROJECT_DIR%\.claude\commands\" mkdir "%PROJECT_DIR%\.claude\commands"
 
-for %%f in (sb-guide sb-oneshot sb-setup sb-bridge sb-sync sb-design-system) do (
+for %%f in (sb-guide sb-oneshot sb-setup sb-bridge sb-sync sb-design) do (
     if exist "%SBFLOW_DIR%\templates\.claude\commands\%%f.md" (
         copy /y "%SBFLOW_DIR%\templates\.claude\commands\%%f.md" "%PROJECT_DIR%\.claude\commands\%%f.md" > nul
         echo   [OK] %%f.md
     )
 )
 
-for %%f in (sdd_guide.md SPEC_CONTEXT.md design.md design-tokens.css constitution.md) do (
+for %%f in (sdd_guide.md SPEC_CONTEXT.md design.md design-tokens.css constitution.md design-constitution.md) do (
     if exist "%SBFLOW_DIR%\%%f" (
         copy /y "%SBFLOW_DIR%\%%f" "%PROJECT_DIR%\%%f" > nul
         echo   [OK] %%f

@@ -73,7 +73,7 @@ Claude 대화창에 입력하면 SpecKit, bkit 등 필요한 도구가 자동으
 | `/sb-guide` | 현재 단계 파악 + 다음 단계 안내 |
 | `/sb-setup` | 기존 프로젝트 세션 재개 |
 | `/sb-bridge [spec-dir]` | SPEC_CONTEXT.md 브릿지 문서 생성 |
-| `/sb-design-system` | .pen 분석 → design.md + design-tokens.css + 프리뷰 HTML 생성 |
+| `/sb-design` | .pen 분석 → design-constitution.md 검증 → design.md + design-tokens.css 생성 |
 
 ---
 
@@ -98,18 +98,19 @@ Claude 대화창에 입력하면 SpecKit, bkit 등 필요한 도구가 자동으
 | 파일 | 용도 |
 |------|------|
 | `CLAUDE.md` | Claude Code 세션 시작 시 자동으로 읽히는 컨텍스트 |
-| `design.md` | 디자인 시스템 명세 (필수, 파이프라인 전 확정) |
-| `design-tokens.css` | CSS 디자인 토큰 변수 (필수, design.md와 세트) |
+| `design-constitution.md` | 정부 UI/UX 가이드라인 — 모든 UI 구현의 불변 최저 기준 |
+| `design.md` | 프로젝트 디자인 시스템 명세 (헌법 준수 필수, .pen에서 생성) |
+| `design-tokens.css` | CSS 디자인 토큰 변수 (design.md와 세트) |
 | `sdd_guide.md` | AI 에이전트가 SDD 방법론을 학습하는 문서 |
 | `SPEC_CONTEXT.md` | SpecKit → bkit 브릿지 문서 템플릿 |
-| `.specify/memory/constitution.md` | 프로젝트 개발 헌법 (18개 조항) |
+| `constitution.md` | 프로젝트 개발 헌법 (19개 조항) |
 | `.claude/commands/sb-*.md` | 커스텀 명령어 6종 |
 
 ---
 
 ## 개발 헌법 핵심
 
-sb-flow는 18개 조항의 개발 헌법을 기반으로 합니다:
+sb-flow는 19개 조항의 개발 헌법을 기반으로 합니다:
 
 | 조항 | 원칙 |
 |------|------|
@@ -123,6 +124,7 @@ sb-flow는 18개 조항의 개발 헌법을 기반으로 합니다:
 | 제15조 | 메인 화면 우선 개발 — 비인증 탐색 보장 |
 | 제16조 | 통합 디자인 시스템 — design.md + design-tokens.css 필수 |
 | 제17조 | Pencil.dev 디자인 원본 준수 — .pen은 구조/배치 원본, 시각적 수치는 design.md 토큰으로 교정 |
+| 제19조 | 정부 디자인 헌법 — design-constitution.md가 불변 최저 기준 (색상 대비 4.5:1, 터치 타깃 44px, 키보드 접근성) |
 
 전체 원문: [`constitution.md`](constitution.md)
 
@@ -138,6 +140,7 @@ sb-flow는 18개 조항의 개발 헌법을 기반으로 합니다:
 | ORM | Prisma 또는 Drizzle |
 | Styling | CSS Modules (Vanilla CSS) + design-tokens.css |
 | Design | sb-flow Design System (Tailwind 스케일 기반) |
+| Design Standard | design-constitution.md (정부 KRDS 가이드라인) |
 | UI Design | Pencil.dev (선택) |
 | Auth | Auth.js (NextAuth) |
 

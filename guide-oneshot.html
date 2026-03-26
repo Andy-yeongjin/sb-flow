@@ -616,7 +616,7 @@ body {
   <div class="pipeline">
     <div class="pipeline-title">AI가 자동으로 실행하는 12단계</div>
     <div class="pipeline-steps">
-      <div class="pipeline-item"><div class="pipeline-dot green"></div><span class="num">0/12</span> 입력 자산 감지 (디자인 시스템·PRD·.pen)</div>
+      <div class="pipeline-item"><div class="pipeline-dot green"></div><span class="num">0/12</span> 입력 자산 감지 (디자인 헌법·시스템·PRD·.pen)</div>
       <div class="pipeline-item"><div class="pipeline-dot blue"></div><span class="num">1/12</span> 기능 명세서 작성</div>
       <div class="pipeline-item"><div class="pipeline-dot blue"></div><span class="num">2/12</span> 모호성 확인</div>
       <div class="pipeline-item"><div class="pipeline-dot blue"></div><span class="num">3/12</span> 기술 설계</div>
@@ -627,7 +627,7 @@ body {
       <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">8/12</span> 개발 계획</div>
       <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">9/12</span> 상세 설계</div>
       <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">10/12</span> 코드 작성</div>
-      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">11/12</span> 갭 분석</div>
+      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">11/12</span> 갭 분석 + 디자인 헌법 검증</div>
     </div>
   </div>
 
@@ -745,6 +745,14 @@ body {
             <strong>/sb-oneshot이 자동으로 실행합니다.</strong> 별도로 실행할 필요 없습니다.<br><br>
             결과가 <strong>90% 이상</strong>이면 → 코드 정리로 건너뛰세요<br>
             결과가 <strong>90% 미만</strong>이면 → 바로 아래 자동 개선을 실행하세요
+          </div>
+        </div>
+        <div class="tip info" style="margin-top:8px;">
+          <div class="tip-icon">🏛️</div>
+          <div class="tip-text">
+            <strong>디자인 헌법 검증도 함께 자동 실행됩니다.</strong><br>
+            정부 UIUX 가이드라인(색상 대비 4.5:1, 터치 타깃 44px, 키보드 접근성 등)을 기준으로 구현된 UI를 검사합니다.
+            위반 항목이 있으면 Claude가 안내하고 즉시 수정합니다.
           </div>
         </div>
       </div>
@@ -900,8 +908,8 @@ body {
     </div>
     <div class="after-card">
       <h4>🎨 디자인 시스템 만들기</h4>
-      <p>.pen 파일 기반으로 색상·폰트·간격 토큰 자동 생성</p>
-      <div class="after-entry">/sb-design-system</div>
+      <p>.pen 파일 기반으로 토큰 생성. 정부 가이드라인(design-constitution.md) 자동 검증 포함.</p>
+      <div class="after-entry">/sb-design</div>
     </div>
   </div>
 </section>

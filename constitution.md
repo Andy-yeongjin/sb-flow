@@ -1,11 +1,12 @@
 <!--
 Sync Impact Report
-- Version change: 1.10.0 → 1.14.0
+- Version change: 1.10.0 → 1.15.0
 - List of modified principles:
   - [ADDED] 제15조: 메인 화면 우선 개발 및 비인증 탐색 보장 (Main Screen First & Unauthenticated Browsing)
   - [ADDED] 제16조: 통합 디자인 시스템 준수 (Unified Design System)
   - [ADDED] 제17조: Pencil.dev 디자인 원본 준수 (Design Source Fidelity)
   - [ADDED] 제18조: 로컬 개발 DB 및 배포 전 DB 결정 원칙 (Local SQLite First & Pre-Deployment DB Decision)
+  - [ADDED] 제19조: 정부 UI/UX 디자인 헌법 준수 (Government Design Constitution Compliance)
 - Added sections: None
 - Removed sections: None
 - Templates requiring updates (✅ updated):
@@ -81,6 +82,30 @@ AI와 개발자는 코드 수정 시 반드시 관련된 명세서(`SPEC.md`)와
 | `.pen` 파일 | **구조 원본** — 무엇이 어디에 배치되는가 | 화면 구성, 컴포넌트 순서, 정보 계층, 인터랙션 흐름 |
 | `design.md` | **값 원본** — 시각적 수치가 얼마인가 | 높이, 색상, 폰트 크기, 간격, 그림자, 둥글기 |
 
+### 제19조: 정부 UI/UX 디자인 헌법 준수 (Government Design Constitution Compliance)
+프로젝트에 `design-constitution.md`가 존재하는 경우, 이 파일은 모든 UI 구현의 **불변 최저 기준**입니다. `design-constitution.md`는 대한민국 정부 디지털 서비스 UI/UX 가이드라인(KRDS)을 AI 개발에 적합하게 정리한 문서로, 어떠한 프로젝트 결정으로도 하위 기준으로 낮출 수 없습니다.
+
+**디자인 3계층 우선순위:**
+| 계층 | 파일 | 역할 | 변경 가능 여부 |
+|------|------|------|--------------|
+| 1계층 (불변) | `design-constitution.md` | 정부 가이드라인 — 절대 최저 기준 | ❌ 변경 불가 |
+| 2계층 (프로젝트) | `design.md` | 프로젝트 디자인 명세 — 1계층 준수 필수 | ✅ 변경 가능 |
+| 3계층 (구현) | `design-tokens.css` | CSS 변수 구현 — 2계층 반영 | ✅ 자동 생성 |
+
+**필수 준수 기준 (design-constitution.md 핵심 요약):**
+- **색상 대비**: 텍스트와 배경 간 대비율 4.5:1 이상 (WCAG 2.1 AA)
+- **터치 타깃**: 모든 인터랙티브 요소의 클릭/터치 영역 최소 44×44px
+- **키보드 접근성**: 모든 기능은 키보드만으로 사용 가능, 포커스 표시 명확히, `aria-*` 속성 적절히 사용
+- **시맨틱 마크업**: `<button>`, `<nav>`, `<main>`, `<heading>` 계층 등 의미론적 HTML 사용
+- **한국어 UI 문구**: 버튼·레이블·오류 메시지는 정부 표준 한국어 문구를 따름
+- **반응형**: 모바일 375px 이상에서 정상 표시 보장
+
+**적용 시점:**
+- `/sb-design` 실행 시: `.pen` → `design.md` 변환 과정에서 헌법 준수 여부 검증 후 자동 교정
+- `/sb-oneshot` [11/12] 갭 분석 시: 구현된 UI 전체를 헌법 기준으로 최종 검증
+
+`design.md`와 `design-constitution.md` 사이에 충돌이 발생하면 **항상 `design-constitution.md`가 우선**하며, 해당 항목은 즉시 수정합니다.
+
 ### 제18조: 로컬 개발 DB 및 배포 전 DB 결정 원칙 (Local SQLite First & Pre-Deployment DB Decision)
 로컬 개발 환경에서는 별도의 DB 서버 설치 없이 빠르게 개발할 수 있도록 **SQLite를 기본 데이터베이스로 사용**합니다. 이는 제4조(인프라스트럭처 교체 가능성)에 따라 ORM(Prisma 또는 Drizzle)을 통해 추상화된 구조로 구현하여, DB 종류에 무관하게 동일한 비즈니스 로직이 동작하도록 보장합니다. **프로덕션 배포 직전, 프로젝트의 트래픽 규모, 비용, 운영 환경을 고려하여 최종 DB(NeonDB 또는 Supabase)를 결정**하고, 이 결정은 제12조(ADR)에 따라 문서화합니다. 단, 배포 전 DB 마이그레이션이 원활히 수행될 수 있도록 스키마 설계 단계에서부터 특정 DB 벤더에 종속적인 기능(예: DB 전용 함수, 특수 타입)의 사용을 최소화합니다.
 
@@ -100,4 +125,4 @@ AI와 개발자는 코드 수정 시 반드시 관련된 명세서(`SPEC.md`)와
 - **버전 정책**: MAJOR(원칙 재정의), MINOR(원칙 추가/확장), PATCH(문구 수정).
 - **템플릿 준수**: 모든 명세서, 계획서, 작업 리스트 템플릿은 반드시 상단에 `지침: 모든 계획서 내용은 반드시 한글로 작성합니다.`를 포함해야 하며, 이를 통해 제0조를 산출물 수준에서 강제합니다.
 
-**Version**: 1.14.0 | **Ratified**: 2026-02-26 | **Last Amended**: 2026-03-19
+**Version**: 1.15.0 | **Ratified**: 2026-02-26 | **Last Amended**: 2026-03-26
