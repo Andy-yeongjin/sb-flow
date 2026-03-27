@@ -112,6 +112,50 @@
   --color-point:          #3563ff; /* 브랜드 및 메인 액션 포인트 (--color-primary-500) */
 }
 ```
+```html
+<!-- 주조색 (Primary) -->
+<div class="mb-4">
+  <p class="text-xs font-bold text-gray-500 mb-2">주조색 (Primary)</p>
+  <div class="flex gap-1">
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#ebf4ff;border:1px solid #e2e8f0"></div><span class="text-[10px] font-mono text-gray-500">50</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#d0e3ff"></div><span class="text-[10px] font-mono text-gray-500">100</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#a9c7ff"></div><span class="text-[10px] font-mono text-gray-500">200</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#7aa5ff"></div><span class="text-[10px] font-mono text-gray-500">300</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#5583ff"></div><span class="text-[10px] font-mono text-gray-500">400</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#3563ff"></div><span class="text-[10px] font-mono text-gray-500">500</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#1a42e5"></div><span class="text-[10px] font-mono text-gray-500">600</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#102eb8"></div><span class="text-[10px] font-mono text-gray-500">700</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#0d2794"></div><span class="text-[10px] font-mono text-gray-500">800</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#0a2176"></div><span class="text-[10px] font-mono text-gray-500">900</span></div>
+  </div>
+</div>
+<!-- 무채색 (Gray) -->
+<div class="mb-4">
+  <p class="text-xs font-bold text-gray-500 mb-2">무채색 (Gray)</p>
+  <div class="flex gap-1">
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#f9fafb;border:1px solid #e2e8f0"></div><span class="text-[10px] font-mono text-gray-500">50</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#f3f4f6;border:1px solid #e2e8f0"></div><span class="text-[10px] font-mono text-gray-500">100</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#e5e7eb"></div><span class="text-[10px] font-mono text-gray-500">200</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#d1d5db"></div><span class="text-[10px] font-mono text-gray-500">300</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#9ca3af"></div><span class="text-[10px] font-mono text-gray-500">400</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#6b7280"></div><span class="text-[10px] font-mono text-gray-500">500</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#4b5563"></div><span class="text-[10px] font-mono text-gray-500">600</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#374151"></div><span class="text-[10px] font-mono text-gray-500">700</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#1f2937"></div><span class="text-[10px] font-mono text-gray-500">800</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#111827"></div><span class="text-[10px] font-mono text-gray-500">900</span></div>
+  </div>
+</div>
+<!-- 의미색 (Semantic) -->
+<div>
+  <p class="text-xs font-bold text-gray-500 mb-2">의미색 (Semantic)</p>
+  <div class="flex gap-3">
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#16a34a"></div><span class="text-[10px] font-mono text-gray-500">성공</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#0ea5e9"></div><span class="text-[10px] font-mono text-gray-500">정보</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#d97706"></div><span class="text-[10px] font-mono text-gray-500">경고</span></div>
+    <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded" style="background:#dc2626"></div><span class="text-[10px] font-mono text-gray-500">위험</span></div>
+  </div>
+</div>
+```
 
 **02. 서체 (Typography)**
 - 본고딕(Noto Sans KR) 등 가독성이 높은 기본 산세리프 서체를 사용합니다. 폰트 크기는 모바일 환경을 고려하여 본문 기준 16px 이상을 권장합니다.
@@ -162,11 +206,31 @@ body {
 - 버튼, 입력창 등 요소를 둥근 모서리(border-radius)로 일관되게 처리하여 부드러운 인상을 부여하며, 터치 디바이스 기준 터치 영역은 최소 44x44px을 확보합니다.
 ```css
 /* 버튼 및 입력창 형태 공통 예시 */
-.btn-primary, .input-basic {
+.btn-base, .input-base {
   border-radius: 8px; /* 통일된 둥근 인상 */
   min-height: 44px; /* WCAG 2.1 모바일 최소 터치 영역 확보 */
   min-width: 44px;
 }
+.input-base {
+  display: block;
+  width: 100%;
+  padding: 0 0.75rem;
+  border: 1px solid var(--color-border-default);
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  background-color: #fff;
+}
+.input-base:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+  border-color: #000;
+}
+```
+```html
+<div class="flex flex-wrap items-center gap-6">
+  <button type="button" class="btn-base btn-primary">버튼 예시</button>
+  <input type="text" class="input-base max-w-xs" placeholder="입력창 예시">
+</div>
 ```
 
 **04. 배치 (Layout)**
@@ -189,6 +253,24 @@ body {
     grid-template-columns: repeat(4, minmax(0, 1fr)); /* 모바일 4컬럼 변환 */
   }
 }
+```
+```html
+<!-- 데스크톱: 12컬럼 -->
+<div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px;" class="mb-4">
+  <div style="grid-column:span 8" class="bg-blue-100 border border-blue-300 rounded px-2 py-3 text-xs text-center text-blue-700 font-mono">col-8 (본문)</div>
+  <div style="grid-column:span 4" class="bg-gray-100 border border-gray-300 rounded px-2 py-3 text-xs text-center text-gray-600 font-mono">col-4 (사이드)</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px;" class="mb-4">
+  <div style="grid-column:span 4" class="bg-blue-50 border border-blue-200 rounded px-2 py-3 text-xs text-center text-blue-600 font-mono">col-4</div>
+  <div style="grid-column:span 4" class="bg-blue-50 border border-blue-200 rounded px-2 py-3 text-xs text-center text-blue-600 font-mono">col-4</div>
+  <div style="grid-column:span 4" class="bg-blue-50 border border-blue-200 rounded px-2 py-3 text-xs text-center text-blue-600 font-mono">col-4</div>
+</div>
+<!-- 모바일: 4컬럼 -->
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:320px;">
+  <div style="grid-column:span 4" class="bg-orange-50 border border-orange-200 rounded px-2 py-3 text-xs text-center text-orange-600 font-mono">col-4 (전체)</div>
+  <div style="grid-column:span 2" class="bg-orange-50 border border-orange-200 rounded px-2 py-2 text-xs text-center text-orange-600 font-mono">col-2</div>
+  <div style="grid-column:span 2" class="bg-orange-50 border border-orange-200 rounded px-2 py-2 text-xs text-center text-orange-600 font-mono">col-2</div>
+</div>
 ```
 
 **05. 아이콘 (System icon)**
@@ -464,11 +546,24 @@ body {
 - Primary(배경 색상 채움), Secondary(테두리 위주), Text(글자만 렌더링) 버튼의 우선순위를 명확히 시각화하고 행동을 구체적으로 지시하는 단어를 씁니다(예: '제출').
 ```css
 /* 버튼 시스템 CSS 예시 */
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
 .btn-primary {
   background-color: var(--color-primary);
   color: #ffffff;
-  border: transparent;
+  border: 1px solid transparent;
 }
+.btn-primary:hover { background-color: var(--color-primary-700); }
 .btn-primary:focus { outline: 2px solid #000; outline-offset: 2px; }
 
 .btn-secondary {
@@ -476,19 +571,23 @@ body {
   color: var(--color-secondary);
   border: 1px solid var(--color-secondary);
 }
+.btn-secondary:hover { background-color: var(--color-secondary-100); }
 
 .btn-text {
   background-color: transparent;
   color: var(--color-primary);
   text-decoration: underline;
-  border: transparent;
+  border: 1px solid transparent;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
+.btn-text:hover { color: var(--color-primary-700); }
 ```
 ```html
 <div class="flex justify-end gap-3 mt-6">
-  <button type="button" class="btn-text">취소</button>
-  <button type="button" class="btn-secondary">이전 단계로</button>
-  <button type="submit" class="btn-primary flex items-center gap-2">
+  <button type="button" class="btn-base btn-text">취소</button>
+  <button type="button" class="btn-base btn-secondary">이전 단계로</button>
+  <button type="submit" class="btn-base btn-primary flex items-center gap-2">
     <span>신청서 최종 제출하기</span>
     <svg aria-hidden="true" class="w-4 h-4"><!-- 제출 아이콘 --></svg>
   </button>
