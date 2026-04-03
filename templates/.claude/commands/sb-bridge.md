@@ -42,7 +42,7 @@ specs/ 폴더에서 정확한 경로를 확인해주세요.
 아래 순서로 파일을 읽습니다. 파일이 없으면 해당 섹션은 "해당 없음"으로 표시합니다:
 
 1. `.specify/memory/constitution.md` — 헌법 (필수)
-2. `*prd*.md` / `*PRD*.md` (프로젝트 루트, 대소문자 무관, 파일명에 "prd" 포함) — PRD 원본 (있으면)
+2. `prd/*.md` (prd/ 폴더 안의 모든 .md 파일) — PRD 원본 (있으면)
 3. `$ARGUMENTS/spec.md` — 기능 명세서 (필수)
 4. `$ARGUMENTS/plan.md` — 기술 설계 (필수)
 5. `$ARGUMENTS/data-model.md` — 데이터 모델 (있으면)

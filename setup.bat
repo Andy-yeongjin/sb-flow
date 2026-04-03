@@ -29,27 +29,53 @@ echo   Target: %PROJECT_DIR%
 echo.
 echo   Copying files...
 
+:: CLAUDE.md
 if exist "%SBFLOW_DIR%\templates\CLAUDE.md" (
     copy /y "%SBFLOW_DIR%\templates\CLAUDE.md" "%PROJECT_DIR%\CLAUDE.md" > nul
     echo   [OK] CLAUDE.md
 ) else echo   [SKIP] CLAUDE.md not found
 
+:: .claude/commands/
 if not exist "%PROJECT_DIR%\.claude\commands\" mkdir "%PROJECT_DIR%\.claude\commands"
 
 for %%f in (sb-guide sb-oneshot sb-setup sb-bridge sb-sync sb-design) do (
     if exist "%SBFLOW_DIR%\templates\.claude\commands\%%f.md" (
         copy /y "%SBFLOW_DIR%\templates\.claude\commands\%%f.md" "%PROJECT_DIR%\.claude\commands\%%f.md" > nul
-        echo   [OK] %%f.md
+        echo   [OK] .claude/commands/%%f.md
     )
 )
 
-for %%f in (sdd_guide.md SPEC_CONTEXT.md design.md design-tokens.css constitution.md design-constitution.md) do (
+:: 루트 파일
+for %%f in (constitution.md SPEC_CONTEXT.md) do (
     if exist "%SBFLOW_DIR%\%%f" (
         copy /y "%SBFLOW_DIR%\%%f" "%PROJECT_DIR%\%%f" > nul
         echo   [OK] %%f
     )
 )
 
+:: guides/ → 프로젝트 루트 복사
+for %%f in (sdd_guide.md) do (
+    if exist "%SBFLOW_DIR%\guides\%%f" (
+        copy /y "%SBFLOW_DIR%\guides\%%f" "%PROJECT_DIR%\%%f" > nul
+        echo   [OK] %%f
+    )
+)
+
+:: designs/ 폴더 생성 및 디자인 파일 복사
+if not exist "%PROJECT_DIR%\designs\" mkdir "%PROJECT_DIR%\designs"
+
+for %%f in (design.md design-tokens.css design-constitution.md) do (
+    if exist "%SBFLOW_DIR%\designs\%%f" (
+        copy /y "%SBFLOW_DIR%\designs\%%f" "%PROJECT_DIR%\designs\%%f" > nul
+        echo   [OK] designs/%%f
+    )
+)
+
+:: prd/ 폴더 생성
+if not exist "%PROJECT_DIR%\prd\" mkdir "%PROJECT_DIR%\prd"
+echo   [OK] prd/ (folder)
+
+:: start.bat, end.bat
 for %%f in (start.bat end.bat) do (
     if exist "%SBFLOW_DIR%\%%f" (
         copy /y "%SBFLOW_DIR%\%%f" "%PROJECT_DIR%\%%f" > nul

@@ -20,7 +20,7 @@
 |-----------|------|
 | 마이너 UI (색상, 여백, 텍스트) | 건너뜀 |
 | 로직·UX 변경 | `docs/02-design/features/기능명.design.md` 업데이트 |
-| 신규 기능 추가 | `docs/01-plan/features/기능명.plan.md` + `design.md` 업데이트 |
+| 신규 기능 추가 | `docs/01-plan/features/기능명.plan.md` + `docs/02-design/features/기능명.design.md` 업데이트 |
 
 ---
 
