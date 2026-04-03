@@ -53,11 +53,13 @@ for %%f in (constitution.md SPEC_CONTEXT.md) do (
     )
 )
 
-:: guides/ → 프로젝트 루트 복사
+:: guides/ 폴더 생성 및 가이드 파일 복사
+if not exist "%PROJECT_DIR%\guides\" mkdir "%PROJECT_DIR%\guides"
+
 for %%f in (sdd_guide.md) do (
     if exist "%SBFLOW_DIR%\guides\%%f" (
-        copy /y "%SBFLOW_DIR%\guides\%%f" "%PROJECT_DIR%\%%f" > nul
-        echo   [OK] %%f
+        copy /y "%SBFLOW_DIR%\guides\%%f" "%PROJECT_DIR%\guides\%%f" > nul
+        echo   [OK] guides/%%f
     )
 )
 
