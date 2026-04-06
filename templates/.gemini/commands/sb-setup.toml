@@ -23,7 +23,17 @@ ls .specify
 
 아래 단계를 Bash 도구로 순서대로 직접 실행한다. 설명만 하지 말고 반드시 실행할 것.
 
-**1단계 — uv 설치 확인 및 설치:**
+**1단계 — Node.js 설치 확인 및 설치:**
+```bash
+node --version
+```
+명령어가 없으면 winget으로 자동 설치:
+```bash
+winget install OpenJS.NodeJS.LTS --accept-package-agreements --accept-source-agreements
+```
+설치 후 터미널을 재시작하거나 PATH를 새로 불러와야 할 수 있다. 설치 완료 후 `node --version`으로 확인.
+
+**2단계 — uv 설치 확인 및 설치:**
 ```bash
 uvx --version
 ```
@@ -32,23 +42,23 @@ uvx --version
 powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-**2단계 — spec-kit 초기화 (직접 실행):**
+**3단계 — spec-kit 초기화 (직접 실행):**
 ```bash
 uvx --from "git+https://github.com/github/spec-kit.git" specify init . --ai gemini --script ps --force
 ```
 
-**3단계 — constitution.md 이동 (직접 실행):**
+**4단계 — constitution.md 이동 (직접 실행):**
 루트에 `constitution.md`가 있으면:
 ```bash
 mv constitution.md .specify/memory/constitution.md
 ```
 
-**4단계 — bkit 익스텐션 설치 (직접 실행):**
+**5단계 — bkit 익스텐션 설치 (직접 실행):**
 ```bash
 gemini extensions install https://github.com/popup-studio-ai/bkit-gemini.git
 ```
 
-**5단계 — Vercel 스킬 설치 (직접 실행):**
+**6단계 — Vercel 스킬 설치 (직접 실행):**
 ```bash
 npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
 ```
