@@ -10,20 +10,39 @@ echo   sb-flow Project Setup
 echo =============================================
 echo.
 
-:: Windows folder picker dialog
-for /f "delims=" %%i in ('powershell -noprofile -command "Add-Type -AssemblyName System.Windows.Forms; $f = New-Object System.Windows.Forms.FolderBrowserDialog; $f.Description = 'Select or create your project folder'; $f.ShowNewFolderButton = $true; $f.RootFolder = 'Desktop'; if ($f.ShowDialog() -eq 'OK') { $f.SelectedPath } else { '' }"') do set "PROJECT_DIR=%%i"
+:: Windows folder picker dialog (VBScript)
+set "TMPVBS=%TEMP%\sb_picker.vbs"
+echo Set oShell = CreateObject("Shell.Application") > "%TMPVBS%"
+echo Set oFolder = oShell.BrowseForFolder(0, "Select your project folder", 0) >> "%TMPVBS%"
+echo If Not oFolder Is Nothing Then >> "%TMPVBS%"
+echo     WScript.Echo oFolder.Self.Path >> "%TMPVBS%"
+echo End If >> "%TMPVBS%"
+for /f "delims=" %%i in ('cscript //nologo "%TMPVBS%"') do set "PROJECT_DIR=%%i"
+del "%TMPVBS%" 2>nul
+
+if not defined PROJECT_DIR goto :manual
+if "%PROJECT_DIR%"=="" goto :manual
+goto :proceed
+
+:manual
+echo.
+echo   [!] Folder picker failed. Please type the project folder path.
+echo   [!] Example: C:\Users\YourName\Desktop\my-project
+echo.
+set /p PROJECT_DIR="  Folder path: "
 
 if not defined PROJECT_DIR (
     echo Cancelled.
     pause
     exit /b 0
 )
-
 if "%PROJECT_DIR%"=="" (
     echo Cancelled.
     pause
     exit /b 0
 )
+
+:proceed
 
 echo   Target: %PROJECT_DIR%
 echo.
@@ -45,7 +64,7 @@ for %%f in (sb-guide sb-oneshot sb-setup sb-bridge sb-sync sb-design) do (
     )
 )
 
-:: 루트 파일
+:: root files
 for %%f in (constitution.md SPEC_CONTEXT.md) do (
     if exist "%SBFLOW_DIR%\%%f" (
         copy /y "%SBFLOW_DIR%\%%f" "%PROJECT_DIR%\%%f" > nul
@@ -53,7 +72,7 @@ for %%f in (constitution.md SPEC_CONTEXT.md) do (
     )
 )
 
-:: guides/ 폴더 생성 및 가이드 파일 복사
+:: guides/
 if not exist "%PROJECT_DIR%\guides\" mkdir "%PROJECT_DIR%\guides"
 
 for %%f in (sdd_guide.md) do (
@@ -63,7 +82,7 @@ for %%f in (sdd_guide.md) do (
     )
 )
 
-:: designs/ 폴더 생성 및 디자인 파일 복사
+:: designs/
 if not exist "%PROJECT_DIR%\designs\" mkdir "%PROJECT_DIR%\designs"
 
 for %%f in (design.md design-tokens.css design-constitution.md) do (
@@ -73,11 +92,11 @@ for %%f in (design.md design-tokens.css design-constitution.md) do (
     )
 )
 
-:: prd/ 폴더 생성
+:: prd/
 if not exist "%PROJECT_DIR%\prd\" mkdir "%PROJECT_DIR%\prd"
 echo   [OK] prd/ (folder)
 
-:: start.bat, end.bat
+:: start.bat end.bat
 for %%f in (start.bat end.bat) do (
     if exist "%SBFLOW_DIR%\%%f" (
         copy /y "%SBFLOW_DIR%\%%f" "%PROJECT_DIR%\%%f" > nul

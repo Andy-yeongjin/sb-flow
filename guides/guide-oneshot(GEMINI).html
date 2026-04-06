@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>sb-oneshot 가이드 — 명령어 하나로 끝내는 개발</title>
+<title>sb-oneshot 가이드 — 명령어 하나로 끝내는 개발 (Gemini)</title>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 
@@ -462,7 +462,7 @@ body {
 
 <!-- ══════════ Hero ══════════ -->
 <section class="hero">
-  <div class="hero-badge">sb-oneshot Quick Guide</div>
+  <div class="hero-badge">sb-oneshot Quick Guide · Gemini</div>
   <h1>명령어 하나로<br>설계부터 구현까지</h1>
   <p>만들고 싶은 걸 한국어로 설명하세요.<br>AI가 설계하고, 코드까지 짜줍니다.</p>
   <div class="hero-highlight">
@@ -483,16 +483,82 @@ body {
     </div>
   </div>
 
+  <!-- Step 0-0: Git 설치 -->
+  <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion-header">
+      0. Git 설치 <span class="acc-toggle">▼</span>
+    </div>
+    <div class="accordion-body">
+      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">Antigravity는 PowerShell 환경에서 버그가 있습니다. Git을 설치하면 Git Bash를 기본 터미널로 설정할 수 있어 버그를 줄일 수 있습니다.</p>
+      <div class="tip info">
+        <div class="tip-icon">📥</div>
+        <div class="tip-text">
+          <a href="https://git-scm.com/install/windows" target="_blank" style="color:var(--cyan); font-weight:600;">https://git-scm.com/install/windows →</a><br>
+          설치가 이미 완료됐다면 다음 단계로 넘어가세요.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Step 0-1 -->
   <div class="accordion" onclick="this.classList.toggle('open')">
     <div class="accordion-header">
-      1. Claude 데스크톱 앱 설치 <span class="acc-toggle">▼</span>
+      1. Antigravity 설치 <span class="acc-toggle">▼</span>
     </div>
     <div class="accordion-body">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">Claude 데스크톱 앱을 아직 설치하지 않았다면 먼저 설치해야 합니다.</p>
+      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">Antigravity를 아직 설치하지 않았다면 먼저 설치해야 합니다. Antigravity는 Gemini 기반의 AI 코딩 도구입니다.</p>
       <div class="tip info">
-        <div class="tip-icon">📖</div>
-        <div class="tip-text"><a href="guides/claude-desktop-guide.html" target="_blank" style="color:var(--cyan); font-weight:600;">Claude 데스크톱 앱 설치 가이드 →</a><br>설치가 이미 완료됐다면 다음 단계로 넘어가세요.</div>
+        <div class="tip-icon">📥</div>
+        <div class="tip-text">
+          <a href="https://antigravity.google/download" target="_blank" style="color:var(--cyan); font-weight:600;">https://antigravity.google/download →</a><br>
+          위 링크에서 설치 파일을 다운로드한 뒤 실행하면 자동으로 설치됩니다.<br>
+          설치가 이미 완료됐다면 다음 단계로 넘어가세요.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 0-1-A: Git Bash 설정 -->
+  <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion-header">
+      1-1. 기본 터미널을 Git Bash로 변경 (권장) <span class="acc-toggle">▼</span>
+    </div>
+    <div class="accordion-body">
+      <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">Antigravity는 PowerShell 환경에서 버그가 있습니다. Git Bash로 변경하면 버그를 줄일 수 있습니다. 아래 순서대로 변경하세요.</p>
+
+      <p style="font-size:14px; font-weight:600; margin-bottom:8px;">① 오른쪽 상단의 톱니바퀴(Settings) 클릭</p>
+      <img src="images/g1.png" alt="Settings 버튼 클릭" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-bottom:16px;">
+
+      <p style="font-size:14px; font-weight:600; margin-bottom:8px;">② Editor Settings 클릭</p>
+      <img src="images/g2.png" alt="Editor Settings 클릭" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-bottom:16px;">
+
+      <p style="font-size:14px; font-weight:600; margin-bottom:8px;">③ 검색창에 <code style="color:var(--cyan)">shell windows</code> 검색 → Terminal › Integrated › Default Profile: Windows 드롭박스에서 <strong>Git Bash</strong> 선택</p>
+      <img src="images/g3.png" alt="Git Bash 기본 터미널 설정" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-bottom:8px;">
+
+      <div class="tip success" style="margin-top:8px;">
+        <div class="tip-icon">✅</div>
+        <div class="tip-text">이제 Antigravity에서 터미널을 열면 Git Bash가 기본으로 실행됩니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 0-1-B: 권한 자동 허락 설정 -->
+  <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion-header">
+      1-2. 권한 요청 자동 허락 설정 <span class="acc-toggle">▼</span>
+    </div>
+    <div class="accordion-body">
+      <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">매번 권한 확인 팝업이 뜨지 않도록 자동 허락으로 설정합니다.</p>
+
+      <p style="font-size:14px; font-weight:600; margin-bottom:8px;">① 오른쪽 하단의 <strong>Antigravity Settings</strong> 클릭</p>
+      <img src="images/g4.png" alt="Antigravity Settings 클릭" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-bottom:16px;">
+
+      <p style="font-size:14px; font-weight:600; margin-bottom:8px;">② Auto Execution, Review Policy → <strong>Always Proceed</strong> 로 변경</p>
+      <img src="images/g5.png" alt="Always Proceed 설정" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-bottom:8px;">
+
+      <div class="tip warn" style="margin-top:8px;">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text"><strong>Always Proceed</strong>를 설정하면 Antigravity가 확인 없이 파일을 수정합니다. 신뢰할 수 있는 프로젝트 폴더에서만 사용하세요.</div>
       </div>
     </div>
   </div>
@@ -514,10 +580,10 @@ body {
   <!-- Step 0-3 -->
   <div class="accordion" onclick="this.classList.toggle('open')">
     <div class="accordion-header">
-      3. setup.bat 실행 — 프로젝트 폴더 자동 설정 <span class="acc-toggle">▼</span>
+      3. setup_gemini.bat 실행 — 프로젝트 폴더 자동 설정 <span class="acc-toggle">▼</span>
     </div>
     <div class="accordion-body">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">sb-flow 폴더 안의 <strong>setup.bat</strong>을 더블클릭하면 폴더 선택 창이 뜹니다. 내 프로젝트를 만들 폴더를 선택하면 필요한 파일이 자동으로 복사됩니다.</p>
+      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">sb-flow 폴더 안의 <strong>setup_gemini.bat</strong>을 더블클릭하면 폴더 선택 창이 뜹니다. 내 프로젝트를 만들 폴더를 선택하면 필요한 파일이 자동으로 복사됩니다.</p>
       <div class="tip info">
         <div class="tip-icon">💡</div>
         <div class="tip-text">새 폴더를 만들어서 선택해도 됩니다. 빈 폴더여야 합니다.</div>
@@ -528,37 +594,14 @@ body {
   <!-- Step 0-4 -->
   <div class="accordion" onclick="this.classList.toggle('open')">
     <div class="accordion-header">
-      4. Claude 데스크톱 앱에서 "코드" 탭 클릭 <span class="acc-toggle">▼</span>
+      4. 프로젝트 폴더 지정 <span class="acc-toggle">▼</span>
     </div>
     <div class="accordion-body">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">Claude 데스크톱 앱을 열고 상단 메뉴에서 <strong>"코드"</strong> 탭을 클릭합니다.</p>
-      <img src="images/p1.png" alt="Claude 데스크톱 앱 코드 탭" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px;">
-    </div>
-  </div>
+      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">앱을 열고 <strong>Ctrl+E</strong>를 눌러서 <strong>Agent Manager View</strong> 창을 열고, <strong>Open Local 폴더</strong> 버튼을 눌러 개발을 시작할 로컬 폴더를 지정합니다.</p>
+      <img src="images/g6.png" alt="Agent Manager View - Open Local 폴더 지정" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px;">
 
-  <!-- Step 0-5 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="accordion-header">
-      5. 프로젝트 폴더 열기 <span class="acc-toggle">▼</span>
-    </div>
-    <div class="accordion-body">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">하단의 폴더 이름 옆 <strong>"지점 선택"</strong> 버튼을 클릭한 뒤, setup.bat으로 설정한 프로젝트 폴더를 선택합니다.</p>
-      <img src="images/p2.png" alt="프로젝트 폴더 지점 선택" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px;">
-    </div>
-  </div>
-
-  <!-- Step 0-6 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="accordion-header">
-      6. 권한 건너뛰기 설정 <span class="acc-toggle">▼</span>
-    </div>
-    <div class="accordion-body">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">왼쪽 아래의 <strong>설정 버튼(⚙️)</strong>을 클릭합니다.</p>
-      <img src="images/p3.png" alt="설정 버튼 위치" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px;">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px; margin-top:12px;">설정에서 <strong>"권한 우회 모드 허용"</strong> 토글을 켭니다.</p>
-      <img src="images/p4.png" alt="권한 우회 모드 허용 토글" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px;">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px; margin-top:12px;">입력창 왼쪽 아래의 권한 버튼을 클릭하고 <strong>"권한 건너뛰기"</strong>를 선택합니다. Claude가 매번 확인 없이 파일을 자유롭게 수정할 수 있게 됩니다.</p>
-      <img src="images/p5.png" alt="권한 건너뛰기 설정" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px;">
+      <p style="font-size:14px; font-weight:600; margin-top:16px; margin-bottom:8px;">② Trust 폴더 지정 → <strong>Trust Folder & Continue</strong> 클릭</p>
+      <img src="images/g7.png" alt="Trust Folder & Continue 클릭" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px;">
     </div>
   </div>
 
@@ -568,14 +611,15 @@ body {
       7. /sb-setup 입력 — 도구 자동 설치 <span class="acc-toggle">▼</span>
     </div>
     <div class="accordion-body">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">대화창에 아래를 입력하면 Claude가 SpecKit, bkit 등 필요한 도구를 자동으로 설치합니다.</p>
+      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">대화창에 아래를 입력하면 Antigravity가 SpecKit, bkit 등 필요한 도구를 자동으로 설치합니다.</p>
       <div class="cmd-block">
         <div class="cmd-header">
-          <span class="cmd-label">Claude 대화창에 입력</span>
+          <span class="cmd-label">Antigravity 대화창에 입력</span>
           <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
         </div>
         <div class="cmd-code">/sb-setup</div>
       </div>
+      <img src="images/g8.png" alt="/sb-setup 실행 화면" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:12px; margin-bottom:4px;">
       <div class="tip success">
         <div class="tip-icon">✅</div>
         <div class="tip-text"><strong>설치 완료!</strong> 이제 아래 1단계로 넘어가서 <code style="color:var(--cyan)">/sb-oneshot</code>을 실행하면 됩니다.</div>
@@ -597,6 +641,11 @@ body {
   </div>
 
   <div class="tip info">
+    <div class="tip-icon">⌨️</div>
+    <div class="tip-text"><strong>모든 명령어는 <code style="color:var(--cyan)">Ctrl+E</code> → Agent Manager View 에서 입력합니다.</strong></div>
+  </div>
+
+  <div class="tip info" style="margin-top:8px;">
     <div class="tip-icon">📁</div>
     <div class="tip-text">
       <strong>파일 위치 안내</strong><br>
@@ -611,7 +660,7 @@ body {
     <div class="tip-text">
       <strong>.pen 디자인 파일이 있다면 먼저 실행하세요 (최초 1회)</strong><br>
       <code style="color:var(--cyan)">designs/</code> 폴더에 .pen 파일을 넣고 실행하면 색상·폰트·간격을 자동 추출해 <code style="color:var(--cyan)">designs/design.md</code>·<code style="color:var(--cyan)">designs/design-tokens.css</code>를 만들어줍니다. 이 과정에서 <code style="color:var(--cyan)">designs/design-constitution.md</code>(정부 UIUX 가이드라인)를 기준으로 색상 대비·터치 타깃 등을 자동 검증·교정합니다.<br>
-      <span style="color:var(--text2); font-size:13px;">※ design-constitution.md는 setup.bat이 자동으로 설치합니다. &nbsp;|&nbsp; 팀 프로젝트라면 리드가 1회 실행 후 git push → 팀원은 pull만 하면 됩니다.</span>
+      <span style="color:var(--text2); font-size:13px;">※ design-constitution.md는 setup_gemini.bat이 자동으로 설치합니다. &nbsp;|&nbsp; 팀 프로젝트라면 리드가 1회 실행 후 git push → 팀원은 pull만 하면 됩니다.</span>
     </div>
   </div>
 
@@ -625,7 +674,7 @@ body {
 
   <div class="cmd-block">
     <div class="cmd-header">
-      <span class="cmd-label">Claude에 붙여넣기 — 만들고 싶은 것을 자유롭게 설명</span>
+      <span class="cmd-label">Antigravity에 붙여넣기 — 만들고 싶은 것을 자유롭게 설명</span>
       <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
     </div>
     <div class="cmd-code">/sb-oneshot 여기에 만들고 싶은 기능을 설명하세요</div>
@@ -664,12 +713,12 @@ body {
 
   <div class="tip warn">
     <div class="tip-icon">⏱️</div>
-    <div class="tip-text"><strong>시간이 좀 걸립니다.</strong> 14단계를 순서대로 실행하기 때문에 10~30분 정도 기다리세요. 중간에 Claude가 질문하면 한국어로 답해주세요.</div>
+    <div class="tip-text"><strong>시간이 좀 걸립니다.</strong> 14단계를 순서대로 실행하기 때문에 10~30분 정도 기다리세요. 중간에 Antigravity가 질문하면 한국어로 답해주세요.</div>
   </div>
 
   <div class="tip warn" style="margin-top:8px;">
     <div class="tip-icon">⚠️</div>
-    <div class="tip-text"><strong>중간에 멈추는 경우:</strong> 명세가 애매하거나 설계에 심각한 문제가 있으면 Claude가 멈추고 물어봅니다. 답변하거나, <code style="color:var(--cyan)">/sb-guide</code>를 실행해서 안내를 받으세요.</div>
+    <div class="tip-text"><strong>중간에 멈추는 경우:</strong> 명세가 애매하거나 설계에 심각한 문제가 있으면 Antigravity가 멈추고 물어봅니다. 답변하거나, <code style="color:var(--cyan)">/sb-guide</code>를 실행해서 안내를 받으세요.</div>
   </div>
   <div class="tip success" style="margin-top:8px;">
     <div class="tip-icon">▶️</div>
@@ -754,7 +803,7 @@ body {
       <div class="accordion-body">
         <div class="cmd-block">
           <div class="cmd-header">
-            <span class="cmd-label">Claude Code 대화창에 붙여넣기</span>
+            <span class="cmd-label">Antigravity 대화창에 붙여넣기</span>
             <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
           </div>
           <div class="cmd-code">/code-review</div>
@@ -783,7 +832,7 @@ body {
           <div class="tip-text">
             <strong>디자인 헌법 검증도 함께 자동 실행됩니다.</strong><br>
             정부 UIUX 가이드라인(색상 대비 4.5:1, 터치 타깃 44px, 키보드 접근성 등)을 기준으로 구현된 UI를 검사합니다.
-            위반 항목이 있으면 Claude가 안내하고 즉시 수정합니다.
+            위반 항목이 있으면 Antigravity가 안내하고 즉시 수정합니다.
           </div>
         </div>
       </div>
@@ -799,7 +848,7 @@ body {
       <div class="accordion-body">
         <div class="cmd-block">
           <div class="cmd-header">
-            <span class="cmd-label">Claude Code 대화창에 붙여넣기</span>
+            <span class="cmd-label">Antigravity 대화창에 붙여넣기</span>
             <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
           </div>
           <div class="cmd-code">/pdca iterate</div>
@@ -817,7 +866,7 @@ body {
       <div class="accordion-body">
         <div class="cmd-block">
           <div class="cmd-header">
-            <span class="cmd-label">Claude Code 대화창에 붙여넣기</span>
+            <span class="cmd-label">Antigravity 대화창에 붙여넣기</span>
             <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
           </div>
           <div class="cmd-code">/simplify</div>
@@ -835,7 +884,7 @@ body {
       <div class="accordion-body">
         <div class="cmd-block">
           <div class="cmd-header">
-            <span class="cmd-label">Claude Code 대화창에 붙여넣기</span>
+            <span class="cmd-label">Antigravity 대화창에 붙여넣기</span>
             <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
           </div>
           <div class="cmd-code">/pdca report</div>
@@ -853,7 +902,7 @@ body {
       <div class="accordion-body">
         <div class="cmd-block">
           <div class="cmd-header">
-            <span class="cmd-label">Claude Code 대화창에 붙여넣기</span>
+            <span class="cmd-label">Antigravity 대화창에 붙여넣기</span>
             <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
           </div>
           <div class="cmd-code">/pdca archive</div>
@@ -886,7 +935,7 @@ body {
 
   <div class="cmd-block">
     <div class="cmd-header">
-      <span class="cmd-label">Claude 대화창에 입력</span>
+      <span class="cmd-label">Antigravity 대화창에 입력</span>
       <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
     </div>
     <div class="cmd-code">/sb-sync</div>
@@ -914,13 +963,13 @@ body {
 <!-- ══════════ 다음 날 이어서 ══════════ -->
 <section style="margin-bottom:48px;">
   <h2 style="font-size:22px; font-weight:700; margin-bottom:8px;">다음 날 이어서 작업할 때</h2>
-  <p style="font-size:15px; color:var(--text2); margin-bottom:20px;">Claude Code를 껐다 켰을 때 상황별 대응법</p>
+  <p style="font-size:15px; color:var(--text2); margin-bottom:20px;">Antigravity를 껐다 켰을 때 상황별 대응법</p>
 
   <div class="after-grid">
     <div class="after-card">
       <h4>🐛 간단한 수정</h4>
       <p>버그 수정, UI 변경 등 작은 작업</p>
-      <div class="after-entry">그냥 Claude에게 말하기</div>
+      <div class="after-entry">그냥 Antigravity에게 말하기</div>
     </div>
     <div class="after-card">
       <h4>✨ 새 기능 추가</h4>
@@ -989,14 +1038,14 @@ body {
   <div class="accordion" onclick="this.classList.toggle('open')">
     <div class="accordion-header">NNN-기능명은 뭔가요? <span class="acc-toggle">▼</span></div>
     <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
-      sb-oneshot이 자동으로 만드는 폴더 이름입니다. 예: <code style="color:var(--cyan)">001-pomodoro-timer</code>. oneshot이 끝나면 Claude가 알려주니까 그때 확인하세요.
+      sb-oneshot이 자동으로 만드는 폴더 이름입니다. 예: <code style="color:var(--cyan)">001-pomodoro-timer</code>. oneshot이 끝나면 Antigravity가 알려주니까 그때 확인하세요.
     </div>
   </div>
 
   <div class="accordion" onclick="this.classList.toggle('open')">
     <div class="accordion-header">oneshot 중간에 에러가 나면? <span class="acc-toggle">▼</span></div>
     <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
-      Claude가 안내 메시지를 줍니다. 대부분 질문에 답하면 해결됩니다. 막히면 <code style="color:var(--cyan)">/sb-guide</code>를 실행해서 현재 상태를 확인하세요.
+      Antigravity가 안내 메시지를 줍니다. 대부분 질문에 답하면 해결됩니다. 막히면 <code style="color:var(--cyan)">/sb-guide</code>를 실행해서 현재 상태를 확인하세요.
     </div>
   </div>
 
@@ -1024,7 +1073,7 @@ body {
 
 <!-- ══════════ Footer ══════════ -->
 <div class="footer">
-  sb-flow · /sb-oneshot Quick Guide
+  sb-flow · /sb-oneshot Quick Guide · Gemini
 </div>
 
 </div>

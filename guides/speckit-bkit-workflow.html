@@ -356,10 +356,10 @@ body.show-notes .slide.active .speaker-notes {
         </div>
         <div class="card orange-border">
           <h3><span class="accent-orange">bkit PDCA</span> — 구현·검증 전담</h3>
-          <p style="margin-bottom:0.5em;">8 ~ 17단계</p>
+          <p style="margin-bottom:0.5em;">8 ~ 16.5단계</p>
           <ul>
             <li>개발 계획 &rarr; 구현 &rarr; 갭 분석</li>
-            <li>개선 &rarr; 보고 &rarr; 문서 동기화</li>
+            <li>개선 &rarr; 브라우저 검증 &rarr; 보고 &rarr; 문서 동기화</li>
           </ul>
           <p style="margin-top:0.6em; font-weight:600; color:#FFB74D;">"어떻게 만들고 제대로 됐는가?"</p>
         </div>
@@ -367,6 +367,7 @@ body.show-notes .slide.active .speaker-notes {
       <div class="card build scale-in" data-step="2" style="text-align:center; background:rgba(255,152,0,0.1); border:1px solid rgba(255,152,0,0.3);">
         <p><strong>역할 분리 원칙:</strong> 두 프레임워크는 <span class="cmd">SPEC_CONTEXT.md</span>를 경계로 완전히 분리</p>
         <p style="margin-top:0.3em; font-size:0.85em;">SpecKit이 설계를 완료하면 bkit이 이어받아 구현·검증·보고를 끝까지 담당</p>
+        <p style="margin-top:0.3em; font-size:0.85em; color:#FFB74D;"><strong>/sb-oneshot</strong> 하나로 설계 ~ 브라우저 검증 ~ 문서 동기화까지 14단계 자동 완주</p>
       </div>
     </div>
     <aside class="speaker-notes">핵심은 역할 분리입니다. SpecKit은 "무엇을 왜 만드는가"에 집중하고, bkit은 "어떻게 만들고 제대로 됐는가"에 집중합니다. SPEC_CONTEXT.md가 두 프레임워크 간의 유일한 연결점입니다.</aside>
@@ -378,6 +379,20 @@ body.show-notes .slide.active .speaker-notes {
       <h2 data-step="0">전체 플로우차트</h2>
 
       <div data-step="1">
+        <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
+          <span class="section-badge badge-blue">준비</span>
+          <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">디자인 시스템 (선택·최초 1회)</span>
+        </div>
+        <div class="flow-row">
+          <span class="flow-item blue">.pen 파일 → designs/</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item highlight">sb-design</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item blue">design.md + design-tokens.css</span>
+        </div>
+      </div>
+
+      <div class="build slide-up" data-step="2">
         <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
           <span class="section-badge badge-blue">A</span>
           <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">SpecKit 설계 구간 (1~7.5)</span>
@@ -395,7 +410,7 @@ body.show-notes .slide.active .speaker-notes {
         </div>
       </div>
 
-      <div class="build slide-up" data-step="2">
+      <div class="build slide-up" data-step="3">
         <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
           <span class="section-badge badge-orange">B</span>
           <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">bkit 구현 구간 (8~10.5)</span>
@@ -411,7 +426,7 @@ body.show-notes .slide.active .speaker-notes {
         </div>
       </div>
 
-      <div class="build slide-up" data-step="3">
+      <div class="build slide-up" data-step="4">
         <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
           <span class="section-badge badge-green">C</span>
           <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">bkit 검증·보고 구간 (12~16.5)</span>
@@ -421,6 +436,8 @@ body.show-notes .slide.active .speaker-notes {
           <span class="flow-arrow">&rarr;</span>
           <span class="flow-item green">iterate</span>
           <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item green">브라우저 검증</span>
+          <span class="flow-arrow">&rarr;</span>
           <span class="flow-item green">simplify</span>
           <span class="flow-arrow">&rarr;</span>
           <span class="flow-item green">report</span>
@@ -429,7 +446,7 @@ body.show-notes .slide.active .speaker-notes {
         </div>
       </div>
 
-      <div class="build slide-up" data-step="4">
+      <div class="build slide-up" data-step="5">
         <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
           <span class="section-badge badge-purple">D</span>
           <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">동기화 (17)</span>
@@ -544,7 +561,7 @@ body.show-notes .slide.active .speaker-notes {
         </div>
       </div>
 
-      <div class="card-row cols-3 build slide-up" data-step="2">
+      <div class="card-row cols-4 build slide-up" data-step="2">
         <div class="card blue-border" style="opacity:0.8;">
           <h3><span class="step-num blue">6</span> 품질 체크리스트 <span style="font-size:0.75em; color:rgba(255,255,255,0.5);">(선택)</span></h3>
           <p>요구사항 작성 품질 검증</p>
@@ -555,7 +572,11 @@ body.show-notes .slide.active .speaker-notes {
         </div>
         <div class="card orange-border" style="border: 1px solid rgba(255,152,0,0.5); background:rgba(255,152,0,0.08);">
           <h3 style="color:#FFB74D;">7.5 브릿지 문서</h3>
-          <p><span class="cmd">SPEC_CONTEXT.md</span> 작성<br>SpecKit &rarr; bkit 핸드오프</p>
+          <p><span class="cmd">SPEC_CONTEXT.md</span> 작성<br>SpecKit &rarr; bkit 핸드오프<br><span style="font-size:0.85em; color:rgba(255,255,255,0.5);">/sb-bridge 로 자동 생성</span></p>
+        </div>
+        <div class="card" style="border-left:3px solid #CE93D8; background:rgba(156,39,176,0.08); opacity:0.9;">
+          <h3 style="color:#CE93D8;">0단계 <span style="font-size:0.75em; color:rgba(255,255,255,0.5);">(선택·최초 1회)</span></h3>
+          <p><span class="cmd">/sb-design</span><br>.pen → design.md<br>+ design-tokens.css<br><span style="font-size:0.85em; color:rgba(255,255,255,0.5);">design-constitution 자동 검증</span></p>
         </div>
       </div>
 
@@ -635,7 +656,7 @@ body.show-notes .slide.active .speaker-notes {
           <ul>
             <li><span class="accent-green">gap-detector</span> 에이전트 실행</li>
             <li>설계 vs 구현 비교 &rarr; <strong>Match Rate</strong> 산출</li>
-            <li>&ge; 90% &rarr; 15단계 / &lt; 90% &rarr; 13단계</li>
+            <li>&ge; 90% &rarr; 14단계 / &lt; 90% &rarr; 13단계</li>
           </ul>
         </div>
         <div class="card green-border">
@@ -648,15 +669,20 @@ body.show-notes .slide.active .speaker-notes {
         </div>
       </div>
 
-      <div class="card-row cols-2 build slide-up" data-step="2">
+      <div class="card-row cols-3 build slide-up" data-step="2">
+        <div class="card green-border" style="border-color:#81C784; background:rgba(76,175,80,0.1);">
+          <h3><span class="step-num green">14</span> 브라우저 검증 <span style="font-size:0.75em; color:rgba(255,255,255,0.5);">(자동)</span></h3>
+          <p>Playwright / browser_subagent로 기능·디자인 검증</p>
+          <p style="font-size:0.85em; margin-top:0.3em; color:rgba(255,255,255,0.5);">design-constitution 준수 여부 자동 확인 + 자체 수정</p>
+        </div>
+        <div class="card green-border" style="opacity:0.8;">
+          <h3><span class="step-num green">15</span> 코드 정리 &mdash; <span class="cmd">/simplify</span> <span style="font-size:0.75em; color:rgba(255,255,255,0.5);">(선택)</span></h3>
+          <p>중복 제거, 불필요한 복잡성 제거, 패턴 일관성 확보</p>
+        </div>
         <div class="card green-border" style="opacity:0.8;">
           <h3><span class="step-num green">14</span> QA 검증 <span style="font-size:0.75em; color:rgba(255,255,255,0.5);">(선택)</span></h3>
-          <p><span class="cmd">/zero-script-qa</span> &mdash; 가이드 도구 (자동 실행 아님)</p>
+          <p><span class="cmd">/zero-script-qa</span> &mdash; 가이드 도구</p>
           <p style="font-size:0.85em;">Docker 환경에서 qa-monitor 자동 실행 가능</p>
-        </div>
-        <div class="card green-border">
-          <h3><span class="step-num green">15</span> 코드 정리 &mdash; <span class="cmd">/simplify</span></h3>
-          <p>중복 제거, 불필요한 복잡성 제거, 패턴 일관성 확보</p>
         </div>
       </div>
 
@@ -712,38 +738,48 @@ body.show-notes .slide.active .speaker-notes {
       <h2 data-step="0">sb-flow 명령어 요약</h2>
       <p data-step="0" style="color:rgba(255,255,255,0.6);">상황에 맞는 명령어 하나로 바로 시작</p>
 
-      <div class="card-row cols-2 build slide-up" data-step="1">
-        <div class="card orange-border" style="padding:1.5em;">
-          <h3 style="margin-bottom:0.6em;"><span class="accent-orange">/sb-oneshot</span> <span style="font-size:0.75em; color:rgba(255,255,255,0.5);">[기능 설명]</span></h3>
-          <p>새 기능을 한방에 <strong>설계 + 구현</strong></p>
-          <p style="font-size:0.85em; color:rgba(255,255,255,0.5); margin-top:0.4em;">SpecKit &rarr; 브릿지 &rarr; /pdca do 자동 완주</p>
+      <div class="card-row cols-3 build slide-up" data-step="1">
+        <div class="card orange-border" style="padding:1.2em;">
+          <h3 style="margin-bottom:0.4em;"><span class="accent-orange">/sb-oneshot</span> <span style="font-size:0.72em; color:rgba(255,255,255,0.5);">[기능 설명]</span></h3>
+          <p>설계~브라우저 검증~동기화</p>
+          <p style="font-size:0.82em; color:rgba(255,255,255,0.5); margin-top:0.3em;"><strong>14단계</strong> 자동 완주 (PRD·.pen 자동 감지)</p>
         </div>
-        <div class="card blue-border" style="padding:1.5em;">
-          <h3 style="margin-bottom:0.6em;"><span class="accent-blue">/sb-guide</span></h3>
+        <div class="card blue-border" style="padding:1.2em;">
+          <h3 style="margin-bottom:0.4em;"><span class="accent-blue">/sb-guide</span></h3>
           <p>어디서부터 해야 할지 <strong>모를 때</strong></p>
-          <p style="font-size:0.85em; color:rgba(255,255,255,0.5); margin-top:0.4em;">현재 단계 파악 + 다음 단계 안내</p>
+          <p style="font-size:0.82em; color:rgba(255,255,255,0.5); margin-top:0.3em;">현재 단계 파악 + 다음 단계 안내</p>
+        </div>
+        <div class="card green-border" style="padding:1.2em;">
+          <h3 style="margin-bottom:0.4em;"><span class="accent-green">/sb-setup</span></h3>
+          <p>초기 설치 또는 <strong>세션 재개</strong></p>
+          <p style="font-size:0.82em; color:rgba(255,255,255,0.5); margin-top:0.3em;">SpecKit·bkit 설치 + 현재 상태 복원</p>
         </div>
       </div>
 
-      <div class="card-row cols-2 build slide-up" data-step="2">
-        <div class="card green-border" style="padding:1.5em;">
-          <h3 style="margin-bottom:0.6em;"><span class="accent-green">/sb-setup</span></h3>
-          <p>어제 하던 작업 <strong>재개</strong>할 때</p>
-          <p style="font-size:0.85em; color:rgba(255,255,255,0.5); margin-top:0.4em;">세션 재개 + 현재 상태 복원</p>
+      <div class="card-row cols-3 build slide-up" data-step="2">
+        <div class="card purple-border" style="padding:1.2em;">
+          <h3 style="margin-bottom:0.4em;"><span class="accent-purple">/sb-sync</span></h3>
+          <p>구현 완료 후 <strong>문서 동기화</strong></p>
+          <p style="font-size:0.82em; color:rgba(255,255,255,0.5); margin-top:0.3em;">spec.md, tasks.md, SPEC_CONTEXT.md 자동 갱신</p>
         </div>
-        <div class="card purple-border" style="padding:1.5em;">
-          <h3 style="margin-bottom:0.6em;"><span class="accent-purple">/sb-sync</span></h3>
-          <p>수정 완료 후 <strong>문서 동기화</strong></p>
-          <p style="font-size:0.85em; color:rgba(255,255,255,0.5); margin-top:0.4em;">tasks.md, spec.md, SPEC_CONTEXT.md 자동 갱신 (17단계)</p>
+        <div class="card" style="padding:1.2em; border:1px solid rgba(255,183,77,0.4);">
+          <h3 style="margin-bottom:0.4em;"><span style="color:#FFB74D;">/sb-design</span> <span style="font-size:0.72em; color:rgba(255,255,255,0.5);">(선택)</span></h3>
+          <p>.pen → <strong>design.md</strong> + design-tokens.css</p>
+          <p style="font-size:0.82em; color:rgba(255,255,255,0.5); margin-top:0.3em;">design-constitution 자동 검증·교정</p>
+        </div>
+        <div class="card" style="padding:1.2em; border:1px solid rgba(100,181,246,0.4);">
+          <h3 style="margin-bottom:0.4em;"><span style="color:#64B5F6;">/sb-bridge</span> <span style="font-size:0.72em; color:rgba(255,255,255,0.5);">[spec-dir]</span></h3>
+          <p><strong>SPEC_CONTEXT.md</strong> 자동 생성</p>
+          <p style="font-size:0.82em; color:rgba(255,255,255,0.5); margin-top:0.3em;">SpecKit → bkit 핸드오프 브릿지 (7.5단계)</p>
         </div>
       </div>
 
       <div class="card build scale-in" data-step="3" style="text-align:center; background:rgba(255,152,0,0.1); border:1px solid rgba(255,152,0,0.3);">
         <p style="font-size:clamp(0.8rem,1.3vw,1rem);"><strong>처음 시작한다면?</strong> &rarr; <span class="cmd">/sb-oneshot</span> 하나로 충분합니다</p>
-        <p style="font-size:clamp(0.75rem,1.1vw,0.85rem); color:rgba(255,255,255,0.5); margin-top:0.3em;">내부적으로 @vercel-react-best-practices 가이드라인 자동 적용</p>
+        <p style="font-size:clamp(0.75rem,1.1vw,0.85rem); color:rgba(255,255,255,0.5); margin-top:0.3em;">디자인 파일(.pen)이 있다면 먼저 <span class="cmd">/sb-design</span> 실행 후 진행</p>
       </div>
     </div>
-    <aside class="speaker-notes">sb-flow의 4가지 커스텀 명령어입니다. 가장 자주 쓰는 것은 /sb-oneshot으로, 설계부터 구현까지 한번에 자동 완주합니다.</aside>
+    <aside class="speaker-notes">sb-flow의 6가지 커스텀 명령어입니다. 가장 자주 쓰는 것은 /sb-oneshot으로, 설계부터 브라우저 검증·동기화까지 14단계를 자동 완주합니다. /sb-design은 .pen 파일이 있을 때만 사용합니다.</aside>
   </section>
 
   <!-- Slide 11: Scale-based Approach -->
@@ -805,7 +841,7 @@ body.show-notes .slide.active .speaker-notes {
       <h2 data-step="0">빠른 참조 &mdash; 최소 실행 경로</h2>
 
       <div class="card build slide-up" data-step="1" style="background:rgba(33,150,243,0.06); border:1px solid rgba(33,150,243,0.2);">
-        <p style="font-weight:600; margin-bottom:0.6em; font-size:clamp(0.8rem,1.3vw,1rem);">필수 단계만 (10단계로 축소)</p>
+        <p style="font-weight:600; margin-bottom:0.6em; font-size:clamp(0.8rem,1.3vw,1rem);">필수 단계만 — <span class="cmd">/sb-oneshot</span> 이 아래를 자동 완주</p>
         <div class="flow-row">
           <span class="flow-item blue">constitution</span>
           <span class="flow-arrow">&rarr;</span>
@@ -830,9 +866,11 @@ body.show-notes .slide.active .speaker-notes {
           <span class="flow-arrow">&rarr;</span>
           <span class="flow-item green">analyze</span>
           <span class="flow-arrow">&rarr;</span>
-          <span class="flow-item green">report</span>
+          <span class="flow-item green">iterate</span>
           <span class="flow-arrow">&rarr;</span>
-          <span class="flow-item purple">동기화</span>
+          <span class="flow-item" style="background:rgba(76,175,80,0.25); border:1px solid #81C784; color:#A5D6A7;">브라우저 검증</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item purple">sb-sync</span>
         </div>
       </div>
 
@@ -861,7 +899,7 @@ body.show-notes .slide.active .speaker-notes {
         단순 버그 수정이나 1~2파일 변경은 직접 수정 &mdash; 이 워크플로우는 <strong>새 기능 개발</strong>에 적합
       </p>
     </div>
-    <aside class="speaker-notes">가장 자주 묻는 질문은 비슷한 이름의 명령어 차이입니다. 핵심은 speckit은 "설계 시점", bkit은 "구현 시점"이라는 것입니다.</aside>
+    <aside class="speaker-notes">최소 실행 경로: /sb-oneshot 하나로 설계~브라우저 검증~동기화까지 14단계 자동 완주. iterate 후 브라우저 검증(Playwright/browser_subagent)이 추가된 것이 최신 변경점입니다. 핵심은 speckit은 "설계 시점", bkit은 "구현 시점"이라는 것입니다.</aside>
   </section>
 
   <!-- Slide 13: Closing -->
