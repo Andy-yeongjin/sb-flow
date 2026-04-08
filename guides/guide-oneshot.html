@@ -484,7 +484,7 @@ body {
   </div>
 
   <!-- Step 0-1 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">
       1. Claude 데스크톱 앱 설치 <span class="acc-toggle">▼</span>
     </div>
@@ -498,7 +498,7 @@ body {
   </div>
 
   <!-- Step 0-2 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">
       2. sb-flow 다운로드 <span class="acc-toggle">▼</span>
     </div>
@@ -512,7 +512,7 @@ body {
   </div>
 
   <!-- Step 0-3 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">
       3. setup.bat 실행 — 프로젝트 폴더 자동 설정 <span class="acc-toggle">▼</span>
     </div>
@@ -526,7 +526,7 @@ body {
   </div>
 
   <!-- Step 0-4 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">
       4. Claude 데스크톱 앱에서 "코드" 탭 클릭 <span class="acc-toggle">▼</span>
     </div>
@@ -537,7 +537,7 @@ body {
   </div>
 
   <!-- Step 0-5 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">
       5. 프로젝트 폴더 열기 <span class="acc-toggle">▼</span>
     </div>
@@ -548,7 +548,7 @@ body {
   </div>
 
   <!-- Step 0-6 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">
       6. 권한 건너뛰기 설정 <span class="acc-toggle">▼</span>
     </div>
@@ -563,7 +563,7 @@ body {
   </div>
 
   <!-- Step 0-7 -->
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">
       7. /sb-setup 입력 — 도구 자동 설치 <span class="acc-toggle">▼</span>
     </div>
@@ -738,7 +738,7 @@ body {
   <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">위에서 아래로 순서대로 실행하세요. 선택 단계는 건너뛰어도 됩니다.</p>
 
   <div class="check-flow">
-    <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion" onclick="toggleAccordion(event, this)">
       <div class="accordion-header" style="gap:12px;">
         <span style="font-size:18px;">🔍</span>
         <span style="flex:1;">코드 리뷰 <small style="color:var(--text2); display:block; font-size:12px; font-weight:400;">코드 품질과 보안을 검토합니다</small></span>
@@ -756,7 +756,7 @@ body {
       </div>
     </div>
 
-    <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion" onclick="toggleAccordion(event, this)">
       <div class="accordion-header" style="gap:12px;">
         <span style="font-size:18px;">📊</span>
         <span style="flex:1;">설계 vs 코드 비교 (Gap 분석) <small style="color:var(--text2); display:block; font-size:12px; font-weight:400;">설계대로 만들어졌는지 검사, Match Rate 계산</small></span>
@@ -783,7 +783,7 @@ body {
       </div>
     </div>
 
-    <div class="accordion" onclick="this.classList.toggle('open')" style="border-color:rgba(245,158,11,0.3);">
+    <div class="accordion" onclick="toggleAccordion(event, this)" style="border-color:rgba(245,158,11,0.3);">
       <div class="accordion-header" style="gap:12px;">
         <span style="font-size:18px;">🔄</span>
         <span style="flex:1;">자동 개선 <small style="color:var(--text2); display:block; font-size:12px; font-weight:400;">Match Rate가 90% 미만이면 실행 (자동으로 고쳐줌)</small></span>
@@ -801,7 +801,7 @@ body {
       </div>
     </div>
 
-    <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion" onclick="toggleAccordion(event, this)">
       <div class="accordion-header" style="gap:12px;">
         <span style="font-size:18px;">🧹</span>
         <span style="flex:1;">코드 정리 <small style="color:var(--text2); display:block; font-size:12px; font-weight:400;">중복 제거, 불필요한 코드 정리</small></span>
@@ -819,7 +819,7 @@ body {
       </div>
     </div>
 
-    <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion" onclick="toggleAccordion(event, this)">
       <div class="accordion-header" style="gap:12px;">
         <span style="font-size:18px;">📝</span>
         <span style="flex:1;">완료 보고서 <small style="color:var(--text2); display:block; font-size:12px; font-weight:400;">전체 개발 사이클 요약 보고서 생성</small></span>
@@ -837,7 +837,7 @@ body {
       </div>
     </div>
 
-    <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion" onclick="toggleAccordion(event, this)">
       <div class="accordion-header" style="gap:12px;">
         <span style="font-size:18px;">📦</span>
         <span style="flex:1;">세션 아카이브 <small style="color:var(--text2); display:block; font-size:12px; font-weight:400;">완료된 문서를 archive 폴더로 정리</small></span>
@@ -930,28 +930,28 @@ body {
 <section style="margin-bottom:48px;">
   <h2 style="font-size:22px; font-weight:700; margin-bottom:20px;">자주 묻는 질문</h2>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">{기능명}에 뭘 적어야 하나요? <span class="acc-toggle">▼</span></div>
     <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
       만들고 있는 기능의 짧은 이름을 적으세요. 예: <code style="color:var(--cyan)">포모도로-타이머</code>, <code style="color:var(--cyan)">회원가입</code>, <code style="color:var(--cyan)">가계부</code>. 한국어도 됩니다.
     </div>
   </div>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">oneshot 중간에 에러가 나면? <span class="acc-toggle">▼</span></div>
     <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
       Claude가 안내 메시지를 줍니다. 대부분 질문에 답하면 해결됩니다. 막히면 <code style="color:var(--cyan)">/sb-guide</code>를 실행해서 현재 상태를 확인하세요.
     </div>
   </div>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">검증(3단계)을 꼭 해야 하나요? <span class="acc-toggle">▼</span></div>
     <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
       최소한 <code style="color:var(--cyan)">/pdca analyze</code>와 <code style="color:var(--cyan)">/pdca report</code>는 하는 게 좋습니다. 설계대로 만들어졌는지 확인하고, 기록을 남기는 거예요. 나머지는 건너뛰어도 됩니다.
     </div>
   </div>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
+  <div class="accordion" onclick="toggleAccordion(event, this)">
     <div class="accordion-header">전체 워크플로우 가이드는 없나요? <span class="acc-toggle">▼</span></div>
     <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
       <code style="color:var(--cyan)">sb-flow-workflow.html</code>에 전체 6단계 워크플로우 가이드가 있습니다. /pdca 명령어를 단계별로 직접 제어하고 싶을 때 참고하세요.
@@ -969,6 +969,17 @@ body {
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
+function toggleAccordion(event, el) {
+  if (event.target.closest('.accordion-body')) return;
+  const wasOpen = el.classList.contains('open');
+  el.classList.toggle('open');
+  if (!wasOpen) {
+    setTimeout(() => {
+      el.querySelector('.accordion-body').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
+  }
+}
+
 function copyCmd(btn) {
   const code = btn.closest('.cmd-block').querySelector('.cmd-code');
   navigator.clipboard.writeText(code.textContent.trim()).then(() => {
