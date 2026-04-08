@@ -394,7 +394,7 @@ body.show-notes .slide.active .speaker-notes {
       </div>
       <div class="card build scale-in" data-step="2" style="text-align:center; background:rgba(255,152,0,0.1); border:1px solid rgba(255,152,0,0.3);">
         <p><strong>핵심 원칙:</strong> <span class="cmd">/pdca plan/design/do</span> 실행 시 <strong>반드시</strong> constitution.md + design.md + design-tokens.css를 함께 참조</p>
-        <p style="margin-top:0.3em; font-size:0.85em; color:#FFB74D;"><strong>/sb-oneshot [기능 설명]</strong> 하나로 6단계 자동 완주 — PRD와 .pen 파일 자동 감지</p>
+        <p style="margin-top:0.3em; font-size:0.85em; color:#FFB74D;"><strong>/sb-oneshot [기능 설명]</strong> 하나로 6단계 자동 완주 — PRD·.pen·Stitch 자동 감지</p>
       </div>
     </div>
     <aside class="speaker-notes">sb-flow의 세 축은 헌법(constitution.md), 디자인 시스템(design.md+tokens.css), bkit PDCA입니다. 모든 개발 작업은 이 세 가지를 동시에 참조해야 합니다.</aside>
@@ -411,7 +411,7 @@ body.show-notes .slide.active .speaker-notes {
           <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">디자인 시스템 구축 (선택·최초 1회)</span>
         </div>
         <div class="flow-row">
-          <span class="flow-item purple">.pen 파일 → designs/</span>
+          <span class="flow-item purple">.pen 또는 Stitch → designs/</span>
           <span class="flow-arrow">&rarr;</span>
           <span class="flow-item highlight">/sb-design</span>
           <span class="flow-arrow">&rarr;</span>
@@ -489,9 +489,10 @@ body.show-notes .slide.active .speaker-notes {
             <li><span class="accent-green">designs/design.md</span> — 디자인 시스템</li>
             <li><span class="accent-green">designs/design-tokens.css</span> — CSS 변수</li>
             <li><span class="accent-orange">designs/*.pen</span> — (선택) Pencil 디자인 파일</li>
+            <li><span class="accent-orange">designs/stitch/</span> — (선택) Stitch ZIP 압축 해제 폴더</li>
             <li><span class="accent-orange">prd/</span> — (선택) PRD 문서</li>
           </ul>
-          <p style="margin-top:0.8em; font-size:0.85em; color:#FFB74D;">.pen 파일은 반드시 designs/ 폴더에!</p>
+          <p style="margin-top:0.8em; font-size:0.85em; color:#FFB74D;">.pen 또는 stitch/ 폴더는 designs/ 안에!</p>
         </div>
       </div>
       <div class="card build scale-in" data-step="2" style="text-align:center; background:rgba(33,150,243,0.08);">
@@ -507,17 +508,28 @@ body.show-notes .slide.active .speaker-notes {
       <h2 data-step="0">디자인 시스템 구축 — /sb-design</h2>
       <p class="build" data-step="1" style="font-size:clamp(0.8rem,1.5vw,1.1rem); color:rgba(255,255,255,0.6);">최초 1회 실행 또는 디자인이 변경된 경우</p>
 
-      <div class="build slide-up" data-step="2">
-        <div class="flow-row" style="justify-content:center; margin: 0.3em 0;">
-          <span class="flow-item purple">designs/*.pen (Pencil 파일)</span>
-          <span class="flow-arrow">&rarr;</span>
-          <span class="flow-item highlight">/sb-design</span>
-          <span class="flow-arrow">&rarr;</span>
-          <span class="flow-item green">design.md + design-tokens.css 생성</span>
+      <div class="card-row cols-2 build slide-up" data-step="2">
+        <div class="card purple-border">
+          <h3>🔵 Pencil.dev</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);"><code>designs/*.pen</code> 파일을 넣으면 자동 감지</p>
+        </div>
+        <div class="card orange-border">
+          <h3>🟠 Stitch</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">ZIP 압축 해제 후 <code>designs/stitch/</code> 폴더에 넣기<br><span style="color:#FFB74D; font-size:0.9em;">code.html + DESIGN.md 포함</span></p>
         </div>
       </div>
 
-      <div class="card-row cols-2 build slide-up" data-step="3">
+      <div class="build slide-up" data-step="3">
+        <div class="flow-row" style="justify-content:center; margin: 0.3em 0;">
+          <span class="flow-item purple">디자인 소스 자동 감지</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item highlight">/sb-design</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item green">design.md + design-tokens.css</span>
+        </div>
+      </div>
+
+      <div class="card-row cols-2 build slide-up" data-step="4">
         <div class="card purple-border">
           <h3>design.md — 디자인 명세</h3>
           <ul>
@@ -537,14 +549,14 @@ body.show-notes .slide.active .speaker-notes {
           </ul>
         </div>
       </div>
-      <div class="card build" data-step="4" style="background:rgba(156,39,176,0.1); border:1px solid rgba(156,39,176,0.3);">
+      <div class="card build" data-step="5" style="background:rgba(156,39,176,0.1); border:1px solid rgba(156,39,176,0.3);">
         <p style="font-size:clamp(0.7rem,1.2vw,0.9rem);">
-          <strong>.pen 없을 때:</strong> design-constitution.md(정부 UIUX 가이드라인) 기반으로 기본 디자인 시스템 생성<br>
+          <strong>자동 교정:</strong> design-constitution.md(정부 UIUX 가이드라인) 기준으로 색상 대비·터치 타깃 등 위반 항목 즉시 교정<br>
           <strong>갭 분석 시:</strong> design.md + design-tokens.css 기준으로 하드코딩 위반 감지
         </p>
       </div>
     </div>
-    <aside class="speaker-notes">/sb-design은 Pencil .pen 파일을 분석하여 design.md와 design-tokens.css를 생성합니다. .pen 파일이 없으면 design-constitution.md(정부 UIUX 가이드라인)를 기반으로 생성합니다. design-constitution.md는 sb-design 에서만 사용됩니다.</aside>
+    <aside class="speaker-notes">/sb-design은 designs/stitch/ 폴더가 있으면 Stitch 모드, designs/*.pen이 있으면 Pencil 모드로 자동 분기합니다. 두 경우 모두 design-constitution.md 기준으로 자동 교정 후 design.md와 design-tokens.css를 생성합니다.</aside>
   </section>
 
   <!-- Slide 6: 6-Step Pipeline -->
@@ -633,7 +645,7 @@ body.show-notes .slide.active .speaker-notes {
             <div class="flow-row">
               <span class="flow-item" style="background:rgba(255,255,255,0.06);">Step 0</span>
               <span class="flow-arrow">&rarr;</span>
-              <span style="font-size:clamp(0.65rem,1.1vw,0.85rem);">자산 감지: constitution.md <span style="color:#81C784;">(필수)</span>, design.md + tokens.css <span style="color:#81C784;">(필수)</span>, PRD <span style="color:#FFB74D;">(선택)</span>, .pen <span style="color:#FFB74D;">(선택)</span></span>
+              <span style="font-size:clamp(0.65rem,1.1vw,0.85rem);">자산 감지: constitution.md <span style="color:#81C784;">(필수)</span>, design.md + tokens.css <span style="color:#81C784;">(필수)</span>, PRD <span style="color:#FFB74D;">(선택)</span>, .pen/Stitch <span style="color:#FFB74D;">(선택)</span></span>
             </div>
             <div class="flow-row">
               <span class="flow-item blue">Step 1~3</span>
@@ -663,8 +675,8 @@ body.show-notes .slide.active .speaker-notes {
             <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">prd/ 폴더의 .md 파일을 자동 탐색하여 개발 계획에 반영</p>
           </div>
           <div class="card purple-border" style="margin-bottom:0.8em;">
-            <h3>.pen 자동 감지</h3>
-            <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">designs/*.pen 파일 존재 시 UI 레이아웃 참조 (없어도 무방)</p>
+            <h3>.pen / Stitch 자동 감지</h3>
+            <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">designs/*.pen 또는 designs/stitch/ 존재 시 UI 레이아웃 참조 (없어도 무방)</p>
           </div>
           <div class="card green-border">
             <h3>오류 처리</h3>
@@ -702,7 +714,7 @@ body.show-notes .slide.active .speaker-notes {
           </tr>
           <tr>
             <td><span class="cmd accent-purple">/sb-design</span></td>
-            <td>.pen → design.md + tokens.css 생성</td>
+            <td>.pen 또는 Stitch → design.md + tokens.css 생성</td>
             <td>디자인 시스템 최초 구축 / 디자인 변경 시</td>
           </tr>
         </tbody>
@@ -734,7 +746,8 @@ body.show-notes .slide.active .speaker-notes {
 │   ├── <span class="required">design.md</span>           <span class="comment"># 디자인 명세 (필수)</span>
 │   ├── <span class="required">design-tokens.css</span>   <span class="comment"># CSS 변수 (필수)</span>
 │   ├── design-constitution.md  <span class="comment"># 정부 UIUX 기준</span>
-│   └── <span class="optional">*.pen</span>               <span class="comment"># Pencil 파일 (선택)</span>
+│   ├── <span class="optional">*.pen</span>               <span class="comment"># Pencil 파일 (선택)</span>
+│   └── <span class="optional">stitch/</span>             <span class="comment"># Stitch ZIP 압축 해제 폴더 (선택)</span>
 ├── <span class="dir">prd/</span>                        <span class="comment"># PRD 문서 (선택)</span>
 │   └── <span class="optional">feature.md</span>
 ├── <span class="dir">docs/</span>                       <span class="comment"># bkit 생성 문서</span>
@@ -754,7 +767,8 @@ body.show-notes .slide.active .speaker-notes {
           <div class="card orange-border">
             <h3>선택 파일 (자동 감지)</h3>
             <ul>
-              <li><span class="accent-orange">designs/*.pen</span> — UI 레이아웃 원본</li>
+              <li><span class="accent-orange">designs/*.pen</span> — UI 레이아웃 원본 (Pencil)</li>
+              <li><span class="accent-orange">designs/stitch/</span> — UI 레이아웃 원본 (Stitch)</li>
               <li><span class="accent-orange">prd/*.md</span> — 기능 요구사항</li>
               <li><span class="accent-purple">design-constitution.md</span> — sb-design에서만 사용</li>
             </ul>
@@ -775,8 +789,8 @@ body.show-notes .slide.active .speaker-notes {
           <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">프로젝트 루트에 위치합니다. sb-flow setup.bat 실행 시 자동으로 복사됩니다. 세션 시작마다 CLAUDE.md 지시에 따라 AI가 자동으로 읽습니다.</p>
         </div>
         <div class="card orange-border">
-          <h3>Q. .pen 파일 없이도 되나요?</h3>
-          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">네. .pen이 없으면 /sb-design이 design-constitution.md 기반으로 기본 디자인 시스템을 생성합니다. 있으면 designs/ 폴더에 넣으면 자동 감지됩니다.</p>
+          <h3>Q. 디자인 파일이 없어도 되나요?</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">네. 없으면 /sb-design이 design-constitution.md 기반으로 기본 디자인 시스템을 생성합니다. Pencil.dev라면 designs/ 폴더에 .pen 파일을, Stitch라면 designs/stitch/ 폴더에 ZIP 압축 해제 후 넣으면 자동 감지됩니다.</p>
         </div>
         <div class="card green-border">
           <h3>Q. Match Rate가 90% 미만이면?</h3>

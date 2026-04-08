@@ -1,9 +1,9 @@
 prompt = """
-# sb-design — .pen 파일 기반 디자인 시스템 생성
+# sb-design — 디자인 소스 기반 디자인 시스템 생성
 
 **사용법**: `/sb-design`
 
-**목적**: 프로젝트의 `.pen` 디자인 파일들을 분석하여 `designs/design.md`(디자인 명세)와 `designs/design-tokens.css`(CSS 변수)를 생성합니다.
+**목적**: 프로젝트의 디자인 소스(`.pen` 또는 Stitch)를 분석하여 `designs/design.md`(디자인 명세)와 `designs/design-tokens.css`(CSS 변수)를 생성합니다.
 `designs/design-constitution.md`(정부 UI/UX 가이드라인)를 기준으로 생성된 토큰의 준수 여부를 자동 검증합니다.
 
 > ⚠️ 이 커맨드는 **프로젝트 리드가 디자인 시스템을 확정할 때** 사용합니다.
@@ -13,39 +13,61 @@ prompt = """
 
 ## 실행 전 체크
 
-1. **`.pen` 파일 존재 확인**: `designs/` 폴더에서 `*.pen` 파일을 탐색합니다.
-   - 없으면 → **즉시 중단** 후 안내:
-     ```
-     ⚠️  designs/ 폴더에 .pen 파일이 없습니다.
-     Pencil.dev에서 디자인 파일을 만들고 designs/ 폴더에 넣어주세요.
-     ```
+### Step 0: 디자인 소스 감지 (자동 분기)
 
-2. **기존 designs/design.md 확인**:
-   - 이미 존재하면 → 안내:
-     ```
-     ℹ️  기존 designs/design.md가 있습니다. 덮어쓰시겠습니까?
-     A) 덮어쓰기 — .pen 기준으로 새로 생성
-     B) 취소
-     ```
+아래 순서대로 확인하여 **소스 타입**을 결정합니다:
+
+| 우선순위 | 조건 | 소스 타입 | 분기 |
+|---------|------|----------|------|
+| 1 | `designs/stitch/` 폴더 존재 | **Stitch** | → Stitch 모드 |
+| 2 | `designs/*.pen` 파일 존재 | **Pencil** | → Pencil 모드 |
+| 3 | 둘 다 없음 | — | → 즉시 중단 |
+
+둘 다 없으면 안내:
+```
+⚠️  디자인 소스가 없습니다.
+
+  Pencil.dev 사용 시:
+    designs/ 폴더에 .pen 파일을 넣어주세요.
+
+  Stitch 사용 시:
+    Stitch에서 ZIP으로 내보낸 후 압축을 풀어
+    designs/stitch/ 폴더에 파일을 넣어주세요.
+    (code.html + DESIGN.md 파일이 있어야 합니다)
+```
+
+감지 완료 후 출력:
+```
+[0/6] 디자인 소스 감지 완료
+  소스: [Stitch | Pencil]
+  경로: [designs/stitch/ | designs/*.pen]
+```
+
+### Step 1: 기존 designs/design.md 확인
+
+이미 존재하면 → 안내:
+```
+ℹ️  기존 designs/design.md가 있습니다. 덮어쓰시겠습니까?
+A) 덮어쓰기 — 새로 생성
+B) 취소
+```
 
 ---
 
 ## 실행 순서 (6단계)
 
-### [1/6] .pen 파일 전체 스캔
+### [1/6] 디자인 소스 스캔
 
-`designs/` 폴더의 모든 `.pen` 파일을 Pencil MCP 도구로 읽습니다.
+#### 🔵 Pencil 모드
 
-1. 각 `.pen` 파일을 `open_document`로 열고
-2. `batch_get`으로 전체 노드 구조를 파악하고
-3. `search_all_unique_properties`로 아래 속성을 전수 추출합니다:
+`designs/` 폴더의 모든 `.pen` 파일을 Pencil MCP 도구 대신 `run_shell_command`로 파일 목록을 확인하고, `read_file`로 파일 내용을 읽습니다. (Gemini는 Pencil MCP 대신 파일 직접 읽기 사용)
 
+추출 속성:
 | 추출 속성 | designs/design.md 매핑 |
 |-----------|----------------------|
 | `fillColor` | 색상 팔레트 (Primary, Neutral, Semantic) |
 | `textColor` | 텍스트 색상 |
 | `strokeColor` | 보더 색상 |
-| `strokeThickness` | 보더 두께 |
 | `fontSize` | 타이포그래피 스케일 |
 | `fontFamily` | 폰트 패밀리 |
 | `fontWeight` | 폰트 굵기 |
@@ -56,63 +78,95 @@ prompt = """
 추출 완료 후 보고:
 ```
 [1/6] .pen 스캔 완료
-  파일: 10개 스캔
-  색상: 23개 고유값 발견
-  폰트 크기: 8개 고유값 발견
-  간격: 12개 고유값 발견
-  둥글기: 5개 고유값 발견
+  파일: [N]개 스캔
+  색상: [N]개 고유값 발견
+  폰트 크기: [N]개 고유값 발견
+  간격: [N]개 고유값 발견
+  둥글기: [N]개 고유값 발견
+```
+
+#### 🟠 Stitch 모드
+
+`designs/stitch/` 폴더에서 아래 파일을 읽습니다:
+
+1. **`code.html`** — `tailwind.config` 스크립트 블록에서 아래를 추출합니다:
+   - `theme.extend.colors` → 전체 색상 토큰 (이름 + hex 값)
+   - `theme.extend.borderRadius` → 둥글기 토큰
+   - `theme.extend.fontFamily` → 폰트 패밀리
+
+2. **`DESIGN.md`** — 아래를 추출합니다:
+   - 디자인 원칙 (Creative North Star, 컴포넌트 규칙)
+   - 타이포그래피 스케일 (역할, 토큰명, 폰트, 크기)
+   - 간격·그림자 규칙
+   - Do/Don't 규칙
+
+3. **`screen.png`** (선택) — 시각적 레이아웃 참고용으로 분석합니다.
+
+추출 완료 후 보고:
+```
+[1/6] Stitch 스캔 완료
+  색상 토큰: [N]개 (tailwind.config)
+  타이포그래피: [N]개 역할 (DESIGN.md)
+  둥글기: [N]개
+  폰트 패밀리: [N]개
+  디자인 원칙: [N]개 규칙
 ```
 
 ---
 
 ### [2/6] 토큰 정규화 (Normalization)
 
+#### 🔵 Pencil 모드
+
 추출된 원시값을 Tailwind CSS 디자인 스케일 기반으로 정규화합니다.
 
-#### 정규화 규칙:
+**색상**: 유사한 색상을 그룹핑하여 팔레트로 구성 (50~900 스케일). Primary/Neutral/Semantic으로 분류. 가장 많이 쓰인 브랜드 색상 → Primary 기준.
 
-**색상**:
-- 유사한 색상을 그룹핑하여 팔레트로 구성 (50~900 스케일)
-- Primary(메인 브랜드), Neutral(Gray 계열), Semantic(Success/Warning/Danger/Info)으로 분류
-- .pen에서 가장 많이 쓰인 브랜드 색상 → Primary 팔레트의 기준으로 삼음
+**타이포그래피**: 추출된 폰트 크기를 가까운 4px 배수 또는 Tailwind 스케일(12/14/16/18/20/24/30/36px)에 매핑.
 
-**타이포그래피**:
-- 추출된 폰트 크기를 가까운 4px 배수 또는 Tailwind 스케일(12/14/16/18/20/24/30/36px)에 매핑
-- .pen에서 쓰인 폰트 패밀리를 sans/mono로 분류
+**간격**: 추출된 padding/gap 값을 4px 기반 스케일(0/2/4/6/8/12/16/20/24/32/40/48/64/80px)에 매핑.
 
-**간격**:
-- 추출된 padding/gap 값을 4px 기반 스케일(0/2/4/6/8/12/16/20/24/32/40/48/64/80px)에 매핑
+**둥글기**: 추출된 cornerRadius를 표준 스케일(0/4/8/12/16/24/9999px)에 매핑.
 
-**둥글기**:
-- 추출된 cornerRadius를 표준 스케일(0/4/8/12/16/24/9999px)에 매핑
+**레이아웃**: navbar, sidebar 등 반복 레이아웃 요소의 크기를 감지하여 레이아웃 토큰으로 등록.
 
-**레이아웃**:
-- navbar, sidebar 등 반복 레이아웃 요소의 크기를 감지하여 레이아웃 토큰으로 등록
+#### 🟠 Stitch 모드
 
-정규화 완료 후 매핑 테이블 보고:
+Stitch의 tailwind.config 값은 이미 구조화되어 있어 직접 CSS 변수명으로 매핑합니다.
+
+**색상**: `theme.extend.colors`의 키-값을 `--color-{키명}` 형태로 변환합니다.
+- 예: `"primary": "#81ecff"` → `--color-primary: #81ecff`
+- 예: `"surface-container": "#171924"` → `--color-surface-container: #171924`
+
+**둥글기**: `theme.extend.borderRadius`의 rem 값을 px로 변환합니다.
+- 예: `"xl": "0.5rem"` → `--radius-xl: 8px`
+
+**폰트**: `theme.extend.fontFamily`에서 역할별 폰트 패밀리를 추출합니다.
+
+**타이포그래피 스케일**: `DESIGN.md`의 타이포그래피 테이블을 기준으로 역할별 크기·굵기 토큰을 정의합니다.
+
+**간격**: Stitch는 간격 토큰을 직접 제공하지 않으므로 `DESIGN.md`의 컴포넌트 명세(padding, gap 언급)에서 추론하여 4px 기반 스케일로 생성합니다.
+
+정규화 완료 후 보고:
 ```
 [2/6] 토큰 정규화 완료
 
-  색상 매핑:
-    #2563EB (12회 사용) → --color-primary-600
-    #3B82F6 (8회 사용)  → --color-primary-500
-    #1F2937 (15회 사용) → --color-gray-800
+  색상 매핑: [N]개
+    primary: #81ecff → --color-primary
+    surface: #0c0e17 → --color-surface
     ...
 
-  폰트 크기 매핑:
-    15px (8회) → --text-sm (14px)
-    17px (3회) → --text-base (16px)
+  둥글기 매핑: [N]개
+    xl (0.5rem) → --radius-xl: 8px
     ...
 
-  간격 매핑:
-    13px (5회) → --space-3 (12px)
-    22px (7회) → --space-6 (24px)
-    ...
+  타이포 매핑: [N]개
+  간격 스케일: [N]개 (추론 생성)
 ```
 
 ---
 
-### [3/6] design-constitution.md 준수 검증 (Compliance Check)
+### [3/6] design-constitution.md 준수 검증·자동 교정 (Compliance Auto-Fix)
 
 `designs/design-constitution.md`를 읽고, [2/6]에서 정규화된 토큰이 정부 가이드라인을 준수하는지 검증합니다.
 
@@ -120,43 +174,39 @@ prompt = """
 
 **색상 대비 (명도 대비)**:
 - 텍스트 색상과 배경 색상 간 명도 대비가 **4.5:1 이상**인지 확인
-- 위반 시 → `designs/design-constitution.md`의 기준 색상으로 교정 제안
+- 위반 시 → `designs/design-constitution.md`의 기준 색상으로 **즉시 자동 교정**
 
 **Primary 팔레트**:
 - 주조색이 `designs/design-constitution.md`의 Blue 계열 범위(`#3563ff` ~ `#0a2176`)에 속하는지 확인
-- 벗어날 경우 → 가장 가까운 기준 토큰으로 교정 제안
+- 벗어날 경우 → 가장 가까운 기준 토큰으로 **즉시 자동 교정**
 
 **폰트 크기**:
 - 본문 기준 최소 **16px(Body Medium 17px)** 이상인지 확인
-- 모바일 기준 미달 시 → 기준값으로 상향 교정 제안
+- 미달 시 → 기준값으로 **즉시 자동 교정**
 
 **터치 타겟**:
 - 버튼/폼 요소 최소 높이가 **44px** 이상인지 확인
+- 미달 시 → **44px로 즉시 자동 교정**
 
 **Border Radius**:
 - 버튼·입력창 기본 둥글기가 **8px**인지 확인
+- 미달 시 → **8px로 즉시 자동 교정**
 
-검증 완료 후 보고:
+검증 및 교정 완료 후 보고:
 ```
-[3/6] design-constitution.md 준수 검증 완료
+[3/6] design-constitution.md 준수 검증·교정 완료
 
   ✅ 통과 항목:
     - 명도 대비: 모든 텍스트/배경 조합 4.5:1 이상
     - 터치 타겟: 버튼 min-height 44px 확인
     - Border Radius: 8px 일치
 
-  ⚠️ 교정 필요 항목:
-    - Primary 색상: #e63946 (빨간 계열) → 정부 표준 Blue 계열과 불일치
-      → 제안: --color-primary-600: #1a42e5 로 교정하시겠습니까? (Y/N)
-    - 본문 폰트: 14px → 기준 최소값(17px) 미달
-      → 제안: --text-body: 17px 로 교정하시겠습니까? (Y/N)
+  🔧 자동 교정된 항목:
+    - Primary 색상: #e63946 → #1a42e5 (정부 표준 Blue 계열 교정)
+    - 본문 폰트: 14px → 17px (기준 최소값 적용)
 ```
 
-교정이 필요한 항목이 있을 경우:
-- **Y**: `designs/design-constitution.md` 기준값으로 자동 교정 후 다음 단계 진행
-- **N**: 현재 값 유지하되 `designs/design.md`에 "⚠️ 정부 가이드라인 비준수" 주석 표기 후 진행
-
-교정 항목이 없을 경우 자동으로 다음 단계 진행.
+모든 교정은 사용자 확인 없이 자동 적용됩니다. 교정 항목이 없으면 바로 다음 단계로 진행합니다.
 
 ---
 
@@ -190,8 +240,9 @@ prompt = """
 
 **작성 규칙**:
 - 각 토큰은 `--토큰명` | `값` | `용도` 형식의 테이블로 정리
-- .pen에서 실제로 사용된 컴포넌트만 상세 명세를 작성하고, 사용되지 않은 컴포넌트는 기본값으로 채움
-- 문서 상단에 "이 문서는 .pen 파일 기반으로 자동 생성되었습니다" 명시
+- 디자인 소스에서 실제로 사용된 컴포넌트만 상세 명세를 작성하고, 사용되지 않은 컴포넌트는 기본값으로 채움
+- 문서 상단에 소스 타입 명시: "이 문서는 [Stitch | .pen 파일] 기반으로 자동 생성되었습니다"
+- Stitch 모드: `DESIGN.md`의 디자인 원칙(Creative North Star, Do/Don't)을 design.md의 Rules 섹션에 그대로 포함
 
 ---
 
@@ -315,7 +366,7 @@ prompt = """
 ✅ 디자인 시스템 생성 완료
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📁 분석한 .pen 파일: [N]개
+📁 디자인 소스: [Stitch (designs/stitch/) | Pencil (.pen [N]개)]
 📊 생성된 토큰 수:
   색상: [N]개
   타이포: [N]개

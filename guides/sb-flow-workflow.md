@@ -12,7 +12,7 @@ sb-flow는 **헌법(constitution.md)과 디자인 시스템(design.md + design-t
 | **디자인 시스템** | `designs/design.md` + `designs/design-tokens.css` | 프로젝트 고유 색상·폰트·간격 토큰 — 모든 UI 구현의 시각적 기준 |
 | **디자인 헌법** | `designs/design-constitution.md` | 정부 UIUX 가이드라인 — `/sb-design` 실행 시 토큰 검증에만 사용 |
 | **PRD** | `prd/*.md` | 기능 요구사항 원본 (선택) — `/sb-oneshot`이 자동 감지 |
-| **디자인 화면** | `designs/*.pen` | Pencil.dev UI 화면 (선택) — `/sb-oneshot`이 자동 감지 |
+| **디자인 화면** | `designs/*.pen` 또는 `designs/stitch/` | Pencil.dev 또는 Stitch UI 화면 (선택) — `/sb-oneshot`이 자동 감지 |
 
 > **`/sb-oneshot [기능 설명]`** — 아래 6단계 전체를 명령어 하나로 자동 완주합니다.
 
@@ -196,15 +196,35 @@ Match Rate < 90% 시 자동 실행됩니다.
 
 ## 디자인 시스템 생성 — `/sb-design`
 
-`.pen` 파일이 있을 때 `design.md` + `design-tokens.css`를 생성합니다.
+디자인 소스(`.pen` 또는 Stitch)를 분석해 `design.md` + `design-tokens.css`를 생성합니다.
+`designs/stitch/` 폴더가 있으면 Stitch 모드, `designs/*.pen`이 있으면 Pencil 모드로 자동 분기합니다.
 
 ```
 /sb-design
 ```
 
-실행 순서:
-1. `designs/*.pen` 스캔 — 색상·폰트·간격·둥글기 전수 추출
-2. Tailwind CSS 스케일 기반 토큰 정규화
+### 디자인 소스 준비
+
+**Pencil.dev 사용 시:**
+- `designs/` 폴더에 `.pen` 파일을 넣어주세요.
+
+**Stitch 사용 시:**
+1. Stitch에서 디자인 완성 후 **내보내기 → ZIP** 클릭
+2. 다운로드된 ZIP 파일 압축 해제
+3. 압축 해제된 파일들을 `designs/stitch/` 폴더에 넣기
+   ```
+   designs/
+   └── stitch/
+       ├── code.html    ← Tailwind 색상·폰트·둥글기 토큰 포함
+       ├── DESIGN.md    ← 디자인 원칙·타이포그래피·컴포넌트 규칙
+       └── screen.png   ← 스크린샷 (선택)
+   ```
+4. `/sb-design` 실행
+
+### 실행 순서
+
+1. `designs/stitch/` 또는 `designs/*.pen` 자동 감지 (Stitch 우선)
+2. 소스 파싱 — 색상·폰트·간격·둥글기 추출
 3. `designs/design-constitution.md` 기준 검증·교정 (색상 대비, 터치 타깃 등)
 4. `designs/design.md` 생성
 5. `designs/design-tokens.css` 생성
@@ -221,7 +241,7 @@ Match Rate < 90% 시 자동 실행됩니다.
 | `/sb-setup` | 초기 설치 + 세션 재개 | 처음 시작 또는 기존 프로젝트로 돌아올 때 |
 | `/sb-oneshot [기능설명]` | 6단계 자동 완주 | 새 기능을 한 번에 개발하고 싶을 때 |
 | `/sb-guide` | 현재 단계 파악 + 다음 단계 안내 | 어디서부터 해야 할지 모를 때 |
-| `/sb-design` | .pen → design.md + design-tokens.css 생성 | 디자인 시스템 확정할 때 |
+| `/sb-design` | .pen 또는 Stitch → design.md + design-tokens.css 생성 | 디자인 시스템 확정할 때 |
 | `/pdca plan {기능명}` | 개발 계획 수립 | 1단계 |
 | `/pdca design {기능명}` | 상세 설계 | 2단계 |
 | `/pdca do {기능명}` | 코드 구현 | 3단계 |
@@ -241,7 +261,11 @@ Match Rate < 90% 시 자동 실행됩니다.
 │   ├── design.md                # 디자인 시스템 명세 (본체)
 │   ├── design-tokens.css        # CSS 변수 (본체)
 │   ├── design-constitution.md   # 정부 가이드라인 (sb-design 전용)
-│   └── 화면.pen                 # Pencil.dev 디자인 파일 (선택)
+│   ├── 화면.pen                 # Pencil.dev 디자인 파일 (선택)
+│   └── stitch/                  # Stitch ZIP 압축 해제 폴더 (선택)
+│       ├── code.html            #   Tailwind 토큰 포함 HTML
+│       ├── DESIGN.md            #   디자인 원칙 문서
+│       └── screen.png           #   스크린샷
 ├── prd/
 │   └── 요구사항.md              # PRD 파일 (선택)
 ├── docs/
