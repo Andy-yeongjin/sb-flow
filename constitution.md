@@ -1,24 +1,3 @@
-<!--
-Sync Impact Report
-- Version change: 1.10.0 → 1.15.0
-- List of modified principles:
-  - [ADDED] 제15조: 메인 화면 우선 개발 및 비인증 탐색 보장 (Main Screen First & Unauthenticated Browsing)
-  - [ADDED] 제16조: 통합 디자인 시스템 준수 (Unified Design System)
-  - [ADDED] 제17조: Pencil.dev 디자인 원본 준수 (Design Source Fidelity)
-  - [ADDED] 제18조: 로컬 개발 DB 및 배포 전 DB 결정 원칙 (Local SQLite First & Pre-Deployment DB Decision)
-  - [ADDED] 제19조: 정부 UI/UX 디자인 헌법 준수 (Government Design Constitution Compliance)
-- Added sections: None
-- Removed sections: None
-- Templates requiring updates (✅ updated):
-  - .specify/memory/constitution.md (✅)
-  - .specify/templates/plan-template.md (✅)
-  - .specify/templates/spec-template.md (✅)
-  - .specify/templates/tasks-template.md (✅)
-  - .specify/templates/checklist-template.md (✅)
-  - .specify/templates/agent-file-template.md (✅)
-- Follow-up TODOs: None
--->
-
 **제0조 (표준 문서의 한글 작성 원칙): 본 프로젝트의 모든 명세서, 계획서, 작업 리스트 및 표준 문서는 반드시 한글로 작성합니다. 이는 AI와 개발자 간의 보편 언어(DDD) 준수 및 정확한 의사소통을 위한 절대 원칙입니다. 모든 템플릿 파일은 반드시 상단에 `지침: 모든 계획서 내용은 반드시 한글로 작성합니다.`를 포함해야 합니다.**
 
 **제0조의2 (표준 시간대 및 날짜 형식 원칙): 본 프로젝트의 모든 개발, 로그, 타임스탬프, 날짜 처리는 대한민국 표준시(Asia/Seoul, UTC+9)를 기준으로 합니다. 서버 환경변수, DB 설정, 코드 내 시간 처리 로직 모두 Asia/Seoul 시간대를 명시적으로 지정하며, UTC로 저장 시에도 표시는 KST로 변환하여 출력합니다. 날짜 표기 형식은 반드시 `YYYY-MM-DD`(년-월-일) 순서를 따르며, 문서·UI·로그 모든 곳에서 일관되게 적용합니다.**

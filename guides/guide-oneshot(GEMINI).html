@@ -662,7 +662,7 @@ body {
       7. /sb-setup 입력 — 도구 자동 설치 <span class="acc-toggle">▼</span>
     </div>
     <div class="accordion-body">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">대화창에 아래를 입력하면 Antigravity가 <strong>Node.js 설치 확인</strong>부터 SpecKit, bkit 등 필요한 도구를 자동으로 설치합니다.</p>
+      <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">대화창에 아래를 입력하면 Antigravity가 <strong>Node.js 설치 확인</strong>부터 bkit, Vercel 스킬 등 필요한 도구를 자동으로 설치합니다.</p>
       <div class="cmd-block">
         <div class="cmd-header">
           <span class="cmd-label">Antigravity 대화창에 입력</span>
@@ -742,34 +742,26 @@ body {
   </div>
 
   <div class="pipeline">
-    <div class="pipeline-title">AI가 자동으로 실행하는 14단계</div>
+    <div class="pipeline-title">AI가 자동으로 실행하는 6단계</div>
     <div class="pipeline-steps">
-      <div class="pipeline-item"><div class="pipeline-dot green"></div><span class="num">0/14</span> 입력 자산 감지 (디자인 헌법·시스템·PRD·.pen)</div>
-      <div class="pipeline-item"><div class="pipeline-dot blue"></div><span class="num">1/14</span> 기능 명세서 작성</div>
-      <div class="pipeline-item"><div class="pipeline-dot blue"></div><span class="num">2/14</span> 모호성 확인</div>
-      <div class="pipeline-item"><div class="pipeline-dot blue"></div><span class="num">3/14</span> 기술 설계</div>
-      <div class="pipeline-item"><div class="pipeline-dot blue"></div><span class="num">4/14</span> 태스크 분해</div>
-      <div class="pipeline-item"><div class="pipeline-dot blue"></div><span class="num">5/14</span> 설계 검증</div>
-      <div class="pipeline-item"><div class="pipeline-dot purple"></div><span class="num">6/14</span> 브릿지 문서 생성</div>
-      <div class="pipeline-item"><div class="pipeline-dot purple"></div><span class="num">7/14</span> 참조 경로 등록</div>
-      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">8/14</span> 개발 계획</div>
-      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">9/14</span> 상세 설계</div>
-      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">10/14</span> 코드 구현</div>
-      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">11/14</span> 갭 분석 + 디자인 헌법 검증</div>
-      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">12/14</span> 자동 개선 (Match Rate &lt; 90% 시)</div>
-      <div class="pipeline-item"><div class="pipeline-dot pink"></div><span class="num">13/14</span> 브라우저 기능·디자인 검증 + 자체 수정</div>
-      <div class="pipeline-item"><div class="pipeline-dot green"></div><span class="num">14/14</span> 문서 동기화</div>
+      <div class="pipeline-item"><div class="pipeline-dot green"></div><span class="num">0/6</span> 입력 자산 감지 (헌법·디자인 시스템·PRD·.pen)</div>
+      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">1/6</span> 개발 계획 (/pdca plan)</div>
+      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">2/6</span> 상세 설계 (/pdca design)</div>
+      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">3/6</span> 코드 구현 (/pdca do)</div>
+      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">4/6</span> 갭 분석 + 디자인 토큰 검증</div>
+      <div class="pipeline-item"><div class="pipeline-dot orange"></div><span class="num">5/6</span> 자동 개선 (Match Rate &lt; 90% 시)</div>
+      <div class="pipeline-item"><div class="pipeline-dot pink"></div><span class="num">6/6</span> 브라우저 기능·디자인 검증 + 자체 수정</div>
     </div>
   </div>
 
   <div class="tip warn">
     <div class="tip-icon">⏱️</div>
-    <div class="tip-text"><strong>시간이 좀 걸립니다.</strong> 14단계를 순서대로 실행하기 때문에 10~30분 정도 기다리세요. 중간에 Antigravity가 질문하면 한국어로 답해주세요.</div>
+    <div class="tip-text"><strong>시간이 좀 걸립니다.</strong> 6단계를 순서대로 실행하기 때문에 10~30분 정도 기다리세요. 중간에 Antigravity가 질문하면 한국어로 답해주세요.</div>
   </div>
 
   <div class="tip warn" style="margin-top:8px;">
     <div class="tip-icon">⚠️</div>
-    <div class="tip-text"><strong>중간에 멈추는 경우:</strong> 명세가 애매하거나 설계에 심각한 문제가 있으면 Antigravity가 멈추고 물어봅니다. 답변하거나, <code style="color:var(--cyan)">/sb-guide</code>를 실행해서 안내를 받으세요.</div>
+    <div class="tip-text"><strong>중간에 멈추는 경우:</strong> 개발 서버가 실행 중이 아니면 Antigravity가 멈추고 서버를 켜달라고 안내합니다. <code style="color:var(--cyan)">start.bat</code>으로 서버를 켠 후 "계속"을 입력하세요.</div>
   </div>
   <div class="tip success" style="margin-top:8px;">
     <div class="tip-icon">▶️</div>
@@ -879,11 +871,11 @@ body {
           </div>
         </div>
         <div class="tip info" style="margin-top:8px;">
-          <div class="tip-icon">🏛️</div>
+          <div class="tip-icon">🎨</div>
           <div class="tip-text">
-            <strong>디자인 헌법 검증도 함께 자동 실행됩니다.</strong><br>
-            정부 UIUX 가이드라인(색상 대비 4.5:1, 터치 타깃 44px, 키보드 접근성 등)을 기준으로 구현된 UI를 검사합니다.
-            위반 항목이 있으면 Antigravity가 안내하고 즉시 수정합니다.
+            <strong>디자인 토큰 검증도 함께 자동 실행됩니다.</strong><br>
+            색상·크기·간격 등이 <code style="color:var(--cyan)">design-tokens.css</code> 변수로 구현됐는지 검사합니다.
+            하드코딩(#hex, px 고정값)이 있으면 Antigravity가 안내하고 즉시 수정합니다.
           </div>
         </div>
       </div>
@@ -971,44 +963,6 @@ body {
   </div>
 </div>
 
-<!-- ══════════ Step 4: 문서 동기화 ══════════ -->
-<div class="big-step">
-  <div class="big-step-header">
-    <div class="big-num sync">4</div>
-    <div class="big-step-text">
-      <h2>문서 동기화하기</h2>
-      <p>코드를 수정하면서 바뀐 내용을 설계 문서에 반영합니다.</p>
-      <span class="when">모든 작업 끝난 후 1번</span>
-    </div>
-  </div>
-
-  <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">명령어 하나로 모든 문서를 자동으로 동기화합니다.</p>
-
-  <div class="cmd-block">
-    <div class="cmd-header">
-      <span class="cmd-label">Antigravity 대화창에 입력</span>
-      <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
-    </div>
-    <div class="cmd-code">/sb-sync</div>
-  </div>
-
-  <div class="tip info" style="margin-top:12px;">
-    <div class="tip-icon">📄</div>
-    <div class="tip-text">
-      자동으로 처리되는 항목:<br>
-      • tasks.md — 완료 체크박스 업데이트<br>
-      • spec.md — 변경된 기능 반영<br>
-      • SPEC_CONTEXT.md — 최종 상태 갱신<br>
-      • /speckit.analyze — 문서 간 일관성 검증
-    </div>
-  </div>
-
-  <div class="tip success" style="margin-top: 12px;">
-    <div class="tip-icon">🎉</div>
-    <div class="tip-text"><strong>완료!</strong> 다음에 새 기능을 추가하려면 <strong>1번(sb-oneshot)</strong>만 다시 실행하면 됩니다.</div>
-  </div>
-</div>
-
 </div><!-- /big-steps -->
 
 <!-- ══════════ 다음 날 이어서 ══════════ -->
@@ -1047,14 +1001,14 @@ body {
 
 <!-- ══════════ 전체 요약 ══════════ -->
 <section style="margin-bottom:48px;">
-  <h2 style="font-size:22px; font-weight:700; margin-bottom:20px;">전체 요약 — 4단계로 끝</h2>
+  <h2 style="font-size:22px; font-weight:700; margin-bottom:20px;">전체 요약 — 3단계로 끝</h2>
 
   <div style="background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:32px;">
-    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; text-align:center;">
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; text-align:center;">
       <div>
         <div style="font-size:32px; margin-bottom:8px;">🚀</div>
         <div style="font-size:14px; font-weight:700; margin-bottom:4px;">1. 원샷</div>
-        <div style="font-size:12px; color:var(--text2);">sb-oneshot으로<br>자동 설계+구현</div>
+        <div style="font-size:12px; color:var(--text2);">sb-oneshot으로<br>계획+구현+검증 자동 완주</div>
       </div>
       <div>
         <div style="font-size:32px; margin-bottom:8px;">💬</div>
@@ -1063,13 +1017,8 @@ body {
       </div>
       <div>
         <div style="font-size:32px; margin-bottom:8px;">✅</div>
-        <div style="font-size:14px; font-weight:700; margin-bottom:4px;">3. 검증</div>
+        <div style="font-size:14px; font-weight:700; margin-bottom:4px;">3. 마무리</div>
         <div style="font-size:12px; color:var(--text2);">analyze → report<br>설계대로 됐는지 확인</div>
-      </div>
-      <div>
-        <div style="font-size:32px; margin-bottom:8px;">📄</div>
-        <div style="font-size:14px; font-weight:700; margin-bottom:4px;">4. 동기화</div>
-        <div style="font-size:12px; color:var(--text2);">변경사항을<br>문서에 반영</div>
       </div>
     </div>
   </div>
@@ -1083,13 +1032,6 @@ body {
     <div class="accordion-header">{기능명}에 뭘 적어야 하나요? <span class="acc-toggle">▼</span></div>
     <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
       만들고 있는 기능의 짧은 이름을 적으세요. 예: <code style="color:var(--cyan)">포모도로-타이머</code>, <code style="color:var(--cyan)">회원가입</code>, <code style="color:var(--cyan)">가계부</code>. 한국어도 됩니다.
-    </div>
-  </div>
-
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="accordion-header">NNN-기능명은 뭔가요? <span class="acc-toggle">▼</span></div>
-    <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
-      sb-oneshot이 자동으로 만드는 폴더 이름입니다. 예: <code style="color:var(--cyan)">001-pomodoro-timer</code>. oneshot이 끝나면 Antigravity가 알려주니까 그때 확인하세요.
     </div>
   </div>
 
@@ -1108,16 +1050,9 @@ body {
   </div>
 
   <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="accordion-header">문서 동기화(4단계)를 안 하면? <span class="acc-toggle">▼</span></div>
+    <div class="accordion-header">전체 워크플로우 가이드는 없나요? <span class="acc-toggle">▼</span></div>
     <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
-      다음에 기능을 추가할 때 AI가 이전 상태를 정확히 파악하지 못할 수 있습니다. 가능하면 해주세요. 5분이면 끝납니다.
-    </div>
-  </div>
-
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="accordion-header">전체 단계 가이드는 없나요? <span class="acc-toggle">▼</span></div>
-    <div class="accordion-body" style="font-size:14px; color:var(--text2); line-height:1.8;">
-      <code style="color:var(--cyan)">guide.html</code>에 17단계 전체 가이드가 있습니다. 단계별로 직접 제어하고 싶을 때 참고하세요.
+      <code style="color:var(--cyan)">sb-flow-workflow.html</code>에 전체 6단계 워크플로우 가이드가 있습니다. /pdca 명령어를 단계별로 직접 제어하고 싶을 때 참고하세요.
     </div>
   </div>
 </section>

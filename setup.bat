@@ -57,29 +57,17 @@ if exist "%SBFLOW_DIR%\templates\CLAUDE.md" (
 :: .claude/commands/
 if not exist "%PROJECT_DIR%\.claude\commands\" mkdir "%PROJECT_DIR%\.claude\commands"
 
-for %%f in (sb-guide sb-oneshot sb-setup sb-bridge sb-sync sb-design) do (
+for %%f in (sb-guide sb-oneshot sb-setup sb-design) do (
     if exist "%SBFLOW_DIR%\templates\.claude\commands\%%f.md" (
         copy /y "%SBFLOW_DIR%\templates\.claude\commands\%%f.md" "%PROJECT_DIR%\.claude\commands\%%f.md" > nul
         echo   [OK] .claude/commands/%%f.md
     )
 )
 
-:: root files
-for %%f in (constitution.md SPEC_CONTEXT.md) do (
-    if exist "%SBFLOW_DIR%\%%f" (
-        copy /y "%SBFLOW_DIR%\%%f" "%PROJECT_DIR%\%%f" > nul
-        echo   [OK] %%f
-    )
-)
-
-:: guides/
-if not exist "%PROJECT_DIR%\guides\" mkdir "%PROJECT_DIR%\guides"
-
-for %%f in (sdd_guide.md) do (
-    if exist "%SBFLOW_DIR%\guides\%%f" (
-        copy /y "%SBFLOW_DIR%\guides\%%f" "%PROJECT_DIR%\guides\%%f" > nul
-        echo   [OK] guides/%%f
-    )
+:: constitution.md
+if exist "%SBFLOW_DIR%\constitution.md" (
+    copy /y "%SBFLOW_DIR%\constitution.md" "%PROJECT_DIR%\constitution.md" > nul
+    echo   [OK] constitution.md
 )
 
 :: designs/

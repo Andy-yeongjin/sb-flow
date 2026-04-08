@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sb-flow 워크플로우 가이드</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #000;
+  overflow: hidden;
+  font-family: 'Pretendard Variable', 'Pretendard', system-ui, -apple-system, sans-serif;
+  color: #fff;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.presentation {
+  --slide-width: min(100vw, calc(100vh * 16 / 9));
+  --slide-height: min(100vh, calc(100vw * 9 / 16));
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--slide-width);
+  height: var(--slide-height);
+  display: grid;
+  grid-template-areas: "slide";
+  overflow: hidden;
+}
+
+.slide {
+  grid-area: slide;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 5%;
+  visibility: hidden; pointer-events: none; z-index: 0;
+  contain: layout style paint;
+  user-select: none; -webkit-user-select: none; touch-action: none;
+  background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 40%, #162447 100%);
+}
+.slide.active { visibility: visible; pointer-events: auto; z-index: 1; }
+.slide.transitioning-out { visibility: visible; z-index: 1; }
+.slide.transitioning-in  { visibility: visible; z-index: 2; }
+
+.slide-content {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.slide-content h1 {
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.slide-content h2 {
+  font-size: clamp(1.4rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.slide-content h3 {
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+}
+.slide-content p {
+  font-size: clamp(0.9rem, 1.8vw, 1.35rem);
+  line-height: 1.6;
+  color: rgba(255,255,255,0.8);
+}
+.slide-content ul {
+  font-size: clamp(0.85rem, 1.6vw, 1.2rem);
+  line-height: 1.8;
+  list-style: none;
+  padding-left: 0;
+}
+.slide-content ul li {
+  padding-left: 1.5em;
+  position: relative;
+  margin-bottom: 0.3em;
+}
+.slide-content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: #2196F3;
+}
+
+/* Accent colors */
+.accent-blue { color: #64B5F6; }
+.accent-orange { color: #FFB74D; }
+.accent-green { color: #81C784; }
+.accent-purple { color: #CE93D8; }
+.accent-red { color: #EF9A9A; }
+
+/* Title slide styling */
+.title-slide .slide-content {
+  text-align: center;
+  align-items: center;
+}
+.title-slide h1 {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  background: linear-gradient(135deg, #64B5F6, #FFB74D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.title-slide .subtitle {
+  font-size: clamp(1rem, 2.2vw, 1.6rem);
+  color: rgba(255,255,255,0.6);
+  margin-top: 0.5em;
+}
+.title-slide .divider {
+  width: 120px;
+  height: 3px;
+  background: linear-gradient(90deg, #2196F3, #FF9800);
+  border-radius: 2px;
+  margin: 1em 0;
+}
+
+/* Section badge */
+.section-badge {
+  display: inline-block;
+  padding: 0.3em 1em;
+  border-radius: 20px;
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5em;
+}
+.badge-blue { background: rgba(33,150,243,0.2); border: 1px solid rgba(33,150,243,0.4); color: #64B5F6; }
+.badge-orange { background: rgba(255,152,0,0.2); border: 1px solid rgba(255,152,0,0.4); color: #FFB74D; }
+.badge-green { background: rgba(76,175,80,0.2); border: 1px solid rgba(76,175,80,0.4); color: #81C784; }
+.badge-purple { background: rgba(156,39,176,0.2); border: 1px solid rgba(156,39,176,0.4); color: #CE93D8; }
+
+/* Cards */
+.card-row {
+  display: grid;
+  gap: 1em;
+  width: 100%;
+}
+.card-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.card-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.card-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 1.2em;
+}
+.card h3 {
+  font-size: clamp(0.85rem, 1.5vw, 1.15rem);
+  margin-bottom: 0.5em;
+}
+.card p, .card ul {
+  font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+  color: rgba(255,255,255,0.7);
+}
+.card ul li::before {
+  width: 6px; height: 6px; top: 0.5em;
+}
+.card.blue-border { border-left: 3px solid #2196F3; }
+.card.orange-border { border-left: 3px solid #FF9800; }
+.card.green-border { border-left: 3px solid #4CAF50; }
+.card.purple-border { border-left: 3px solid #9C27B0; }
+.card.red-border { border-left: 3px solid #F44336; }
+
+/* Flow diagram */
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  margin-bottom: 0.6em;
+}
+.flow-item {
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 0.4em 0.8em;
+  font-size: clamp(0.65rem, 1.1vw, 0.85rem);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.flow-item.blue { background: rgba(33,150,243,0.2); border: 1px solid rgba(33,150,243,0.3); }
+.flow-item.orange { background: rgba(255,152,0,0.2); border: 1px solid rgba(255,152,0,0.3); }
+.flow-item.green { background: rgba(76,175,80,0.2); border: 1px solid rgba(76,175,80,0.3); }
+.flow-item.purple { background: rgba(156,39,176,0.2); border: 1px solid rgba(156,39,176,0.3); }
+.flow-item.highlight { background: rgba(255,152,0,0.35); border: 1px solid rgba(255,152,0,0.6); }
+.flow-arrow {
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  color: rgba(255,255,255,0.4);
+}
+
+/* Compact table */
+.compact-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(0.65rem, 1.1vw, 0.9rem);
+}
+.compact-table th {
+  text-align: left;
+  padding: 0.5em 0.8em;
+  background: rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+}
+.compact-table td {
+  padding: 0.5em 0.8em;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.75);
+}
+.compact-table tr:last-child td { border-bottom: none; }
+
+/* Command code */
+.cmd {
+  font-family: 'Fira Code', monospace;
+  background: rgba(255,255,255,0.1);
+  padding: 0.15em 0.5em;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+/* Code block */
+.code-block {
+  font-family: 'Fira Code', monospace;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 0.8em 1em;
+  font-size: clamp(0.6rem, 1vw, 0.8rem);
+  line-height: 1.7;
+  color: #a8d8a8;
+  white-space: pre;
+  overflow-x: auto;
+}
+.code-block .comment { color: rgba(255,255,255,0.35); }
+.code-block .keyword { color: #64B5F6; }
+.code-block .string { color: #FFB74D; }
+
+/* Closing slide */
+.closing-slide .slide-content {
+  text-align: center;
+  align-items: center;
+}
+.closing-slide h1 {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  background: linear-gradient(135deg, #64B5F6, #FFB74D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Step number */
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  font-size: 0.8em;
+  font-weight: 700;
+  margin-right: 0.4em;
+  flex-shrink: 0;
+}
+.step-num.blue { background: rgba(33,150,243,0.3); color: #64B5F6; }
+.step-num.orange { background: rgba(255,152,0,0.3); color: #FFB74D; }
+.step-num.green { background: rgba(76,175,80,0.3); color: #81C784; }
+.step-num.purple { background: rgba(156,39,176,0.3); color: #CE93D8; }
+
+/* Build effects */
+[data-step] {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+[data-step].visible {
+  opacity: 1; transform: translateY(0); pointer-events: auto;
+}
+.build.slide-up         { transform: translateY(40px); }
+.build.slide-up.visible { transform: translateY(0); }
+.build.scale-in         { transform: scale(0.8); }
+.build.scale-in.visible { transform: scale(1); }
+.build.slide-right         { transform: translateX(40px); }
+.build.slide-right.visible { transform: translateX(0); }
+
+/* Controls */
+.presentation-controls { position: fixed; bottom: 0; left: 0; right: 0; z-index: 500; }
+.progress-bar { height: 4px; background: rgba(255,255,255,0.15); cursor: pointer; }
+.progress-bar:hover { height: 8px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #2196F3, #FF9800); transition: width 0.3s ease; width: 0%; }
+.slide-counter {
+  position: fixed; bottom: 12px; right: 16px;
+  color: rgba(255,255,255,0.5); font-size: 14px;
+  font-variant-numeric: tabular-nums; pointer-events: none;
+}
+.transition-label {
+  position: fixed; bottom: 12px; left: 16px;
+  color: rgba(255,255,255,0.3); font-size: 12px;
+  font-family: 'Fira Code', monospace;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+/* Speaker notes */
+.speaker-notes { display: none; }
+body.show-notes .slide.active .speaker-notes {
+  display: block; position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.92); color: #eee;
+  padding: 1em 2em; font-size: 0.9em;
+  max-height: 25vh; overflow-y: auto;
+  z-index: 1000; border-top: 2px solid #FFB74D;
+}
+
+/* File tree */
+.file-tree {
+  font-family: 'Fira Code', monospace;
+  font-size: clamp(0.6rem, 1vw, 0.82rem);
+  line-height: 1.8;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 0.8em 1em;
+}
+.file-tree .dir { color: #64B5F6; font-weight: 600; }
+.file-tree .required { color: #81C784; }
+.file-tree .optional { color: #FFB74D; }
+.file-tree .comment { color: rgba(255,255,255,0.35); }
+</style>
+</head>
+<body>
+
+<div class="presentation" id="presentation">
+
+  <!-- Slide 1: Title -->
+  <section class="slide active title-slide" id="slide-1" aria-roledescription="slide">
+    <div class="slide-content">
+      <h1 data-step="0">sb-flow<br>워크플로우 가이드</h1>
+      <div class="divider" data-step="0"></div>
+      <p class="subtitle build slide-up" data-step="1">bkit PDCA 기반 SDD(Spec-Driven Development)</p>
+      <p class="subtitle build slide-up" data-step="2" style="font-size:clamp(0.8rem,1.5vw,1.1rem); color:rgba(255,255,255,0.4); margin-top:1.5em;">헌법 + 디자인 시스템 강제 참조 → 계획 → 구현 → 검증 → 보고</p>
+    </div>
+    <aside class="speaker-notes">sb-flow는 bkit PDCA를 중심으로 constitution.md 헌법과 디자인 시스템을 모든 단계에서 강제 참조하는 SDD 워크플로우입니다. 6단계로 단순화되어 빠르게 품질 높은 개발을 완주할 수 있습니다.</aside>
+  </section>
+
+  <!-- Slide 2: Core Concept -->
+  <section class="slide" id="slide-2" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">핵심 개념</h2>
+      <div class="card-row cols-3 build slide-up" data-step="1">
+        <div class="card blue-border">
+          <h3><span class="accent-blue">constitution.md</span></h3>
+          <p style="margin-bottom:0.5em;">개발 헌법 (19개 조항)</p>
+          <ul>
+            <li>세션 시작 시 즉시 읽기</li>
+            <li>모든 /pdca 명령에 적용</li>
+            <li>SDD · DDD · 보안 · UX 원칙</li>
+          </ul>
+          <p style="margin-top:0.6em; font-weight:600; color:#64B5F6;">Single Source of Truth</p>
+        </div>
+        <div class="card orange-border">
+          <h3><span class="accent-orange">design.md + tokens.css</span></h3>
+          <p style="margin-bottom:0.5em;">디자인 시스템 본체</p>
+          <ul>
+            <li>모든 색상·크기·간격 CSS 변수화</li>
+            <li>하드코딩 절대 금지</li>
+            <li>구현·검증·갭분석의 기준</li>
+          </ul>
+          <p style="margin-top:0.6em; font-weight:600; color:#FFB74D;">var(--토큰명) 형태로만 참조</p>
+        </div>
+        <div class="card green-border">
+          <h3><span class="accent-green">bkit PDCA</span></h3>
+          <p style="margin-bottom:0.5em;">6단계 개발 사이클</p>
+          <ul>
+            <li>plan → design → do</li>
+            <li>analyze → iterate → 브라우저 검증</li>
+            <li>Match Rate ≥ 90% 품질 보장</li>
+          </ul>
+          <p style="margin-top:0.6em; font-weight:600; color:#81C784;">/sb-oneshot으로 자동 완주</p>
+        </div>
+      </div>
+      <div class="card build scale-in" data-step="2" style="text-align:center; background:rgba(255,152,0,0.1); border:1px solid rgba(255,152,0,0.3);">
+        <p><strong>핵심 원칙:</strong> <span class="cmd">/pdca plan/design/do</span> 실행 시 <strong>반드시</strong> constitution.md + design.md + design-tokens.css를 함께 참조</p>
+        <p style="margin-top:0.3em; font-size:0.85em; color:#FFB74D;"><strong>/sb-oneshot [기능 설명]</strong> 하나로 6단계 자동 완주 — PRD와 .pen 파일 자동 감지</p>
+      </div>
+    </div>
+    <aside class="speaker-notes">sb-flow의 세 축은 헌법(constitution.md), 디자인 시스템(design.md+tokens.css), bkit PDCA입니다. 모든 개발 작업은 이 세 가지를 동시에 참조해야 합니다.</aside>
+  </section>
+
+  <!-- Slide 3: Full Flow Chart -->
+  <section class="slide" id="slide-3" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">전체 플로우차트</h2>
+
+      <div data-step="1">
+        <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
+          <span class="section-badge badge-purple">준비</span>
+          <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">디자인 시스템 구축 (선택·최초 1회)</span>
+        </div>
+        <div class="flow-row">
+          <span class="flow-item purple">.pen 파일 → designs/</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item highlight">/sb-design</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item purple">design.md + design-tokens.css</span>
+        </div>
+      </div>
+
+      <div class="build slide-up" data-step="2">
+        <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
+          <span class="section-badge badge-blue">1~3단계</span>
+          <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">설계 + 구현 (bkit PDCA)</span>
+        </div>
+        <div class="flow-row">
+          <span class="flow-item blue">/pdca plan</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item blue">/pdca design</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item blue">/pdca do</span>
+          <span class="flow-arrow" style="margin:0 0.3em;">←</span>
+          <span class="flow-item" style="font-size:clamp(0.55rem,0.95vw,0.75rem);">constitution.md<br>design.md + tokens.css</span>
+        </div>
+      </div>
+
+      <div class="build slide-up" data-step="3">
+        <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
+          <span class="section-badge badge-orange">4~5단계</span>
+          <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">검증 + 개선 (Gap Analysis)</span>
+        </div>
+        <div class="flow-row">
+          <span class="flow-item orange">/pdca analyze</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item orange">Match Rate?</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item green">&ge;90% ✅ 완료</span>
+          <span class="flow-arrow">&nbsp;/&nbsp;</span>
+          <span class="flow-item highlight">&lt;90% → /pdca iterate</span>
+        </div>
+      </div>
+
+      <div class="build slide-up" data-step="4">
+        <div style="display:flex; align-items:center; gap:0.5em; margin-bottom:0.4em;">
+          <span class="section-badge badge-green">6단계</span>
+          <span style="font-weight:600; font-size:clamp(0.8rem,1.3vw,1rem);">브라우저 검증</span>
+        </div>
+        <div class="flow-row">
+          <span class="flow-item green">Playwright 검증</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item highlight">🎉 완료</span>
+        </div>
+      </div>
+    </div>
+    <aside class="speaker-notes">전체 6단계 플로우입니다. 준비 단계는 최초 1회만 실행합니다. 1~3단계에서는 항상 constitution.md와 디자인 시스템을 참조합니다. 4~5단계는 갭 분석으로 Match Rate 90% 달성을 보장합니다.</aside>
+  </section>
+
+  <!-- Slide 4: Prerequisites -->
+  <section class="slide" id="slide-4" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">사전 설치 (/sb-setup 자동 실행)</h2>
+      <div class="card-row cols-2 build slide-up" data-step="1">
+        <div>
+          <table class="compact-table">
+            <thead><tr><th>항목</th><th>설치 방법</th><th>용도</th></tr></thead>
+            <tbody>
+              <tr><td><span class="accent-blue">Node.js LTS</span></td><td><span class="cmd">winget install OpenJS.NodeJS.LTS</span></td><td>npx 실행 환경</td></tr>
+              <tr><td><span class="accent-orange">bkit 플러그인</span></td><td><span class="cmd">/plugin marketplace add popup-studio-ai/bkit-claude-code</span></td><td>PDCA 명령어</td></tr>
+              <tr><td><span class="accent-green">Vercel 스킬</span></td><td><span class="cmd">npx skills add ... vercel-react-best-practices</span></td><td>React 모범 사례</td></tr>
+              <tr><td><span class="accent-purple">Antigravity</span></td><td>Antigravity 앱 설치</td><td>Gemini CLI 에이전트</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card blue-border">
+          <h3>설치 후 필수 파일</h3>
+          <ul>
+            <li><span class="accent-green">constitution.md</span> — 프로젝트 루트</li>
+            <li><span class="accent-green">designs/design.md</span> — 디자인 시스템</li>
+            <li><span class="accent-green">designs/design-tokens.css</span> — CSS 변수</li>
+            <li><span class="accent-orange">designs/*.pen</span> — (선택) Pencil 디자인 파일</li>
+            <li><span class="accent-orange">prd/</span> — (선택) PRD 문서</li>
+          </ul>
+          <p style="margin-top:0.8em; font-size:0.85em; color:#FFB74D;">.pen 파일은 반드시 designs/ 폴더에!</p>
+        </div>
+      </div>
+      <div class="card build scale-in" data-step="2" style="text-align:center; background:rgba(33,150,243,0.08);">
+        <p>처음 프로젝트라면: <span class="cmd">/sb-setup</span> → 자동으로 Node.js 설치 여부 확인 + bkit + Vercel 스킬 설치</p>
+      </div>
+    </div>
+    <aside class="speaker-notes">/sb-setup이 자동으로 설치 환경을 구성합니다. docs/ 폴더가 없으면 초기 설치 모드, 있으면 세션 복원 모드로 동작합니다.</aside>
+  </section>
+
+  <!-- Slide 5: sb-design -->
+  <section class="slide" id="slide-5" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">디자인 시스템 구축 — /sb-design</h2>
+      <p class="build" data-step="1" style="font-size:clamp(0.8rem,1.5vw,1.1rem); color:rgba(255,255,255,0.6);">최초 1회 실행 또는 디자인이 변경된 경우</p>
+
+      <div class="build slide-up" data-step="2">
+        <div class="flow-row" style="justify-content:center; margin: 0.3em 0;">
+          <span class="flow-item purple">designs/*.pen (Pencil 파일)</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item highlight">/sb-design</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-item green">design.md + design-tokens.css 생성</span>
+        </div>
+      </div>
+
+      <div class="card-row cols-2 build slide-up" data-step="3">
+        <div class="card purple-border">
+          <h3>design.md — 디자인 명세</h3>
+          <ul>
+            <li>색상 팔레트 정의</li>
+            <li>타이포그래피 스케일</li>
+            <li>컴포넌트 규칙</li>
+            <li>레이아웃 그리드</li>
+          </ul>
+        </div>
+        <div class="card blue-border">
+          <h3>design-tokens.css — CSS 변수</h3>
+          <ul>
+            <li>모든 값을 <span class="cmd">--변수명</span> 형태로</li>
+            <li>구현 시 <span class="cmd">var(--토큰명)</span>으로만 참조</li>
+            <li>하드코딩(#hex, px값) 금지</li>
+            <li>갭 분석 시 위반 감지</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card build" data-step="4" style="background:rgba(156,39,176,0.1); border:1px solid rgba(156,39,176,0.3);">
+        <p style="font-size:clamp(0.7rem,1.2vw,0.9rem);">
+          <strong>.pen 없을 때:</strong> design-constitution.md(정부 UIUX 가이드라인) 기반으로 기본 디자인 시스템 생성<br>
+          <strong>갭 분석 시:</strong> design.md + design-tokens.css 기준으로 하드코딩 위반 감지
+        </p>
+      </div>
+    </div>
+    <aside class="speaker-notes">/sb-design은 Pencil .pen 파일을 분석하여 design.md와 design-tokens.css를 생성합니다. .pen 파일이 없으면 design-constitution.md(정부 UIUX 가이드라인)를 기반으로 생성합니다. design-constitution.md는 sb-design 에서만 사용됩니다.</aside>
+  </section>
+
+  <!-- Slide 6: 6-Step Pipeline -->
+  <section class="slide" id="slide-6" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">6단계 워크플로우</h2>
+      <div class="card-row cols-4 build slide-up" data-step="1">
+        <div class="card blue-border">
+          <h3><span class="step-num blue">1</span>/pdca plan</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">개발 계획 수립<br><span style="color:#64B5F6;">docs/01-plan/ 생성</span></p>
+        </div>
+        <div class="card blue-border">
+          <h3><span class="step-num blue">2</span>/pdca design</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">상세 설계<br><span style="color:#64B5F6;">docs/02-design/ 생성</span></p>
+        </div>
+        <div class="card blue-border">
+          <h3><span class="step-num blue">3</span>/pdca do</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">코드 구현<br><span style="color:#64B5F6;">src/ 작성</span></p>
+        </div>
+        <div class="card orange-border">
+          <h3><span class="step-num orange">4</span>/pdca analyze</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">Gap 분석<br><span style="color:#FFB74D;">Match Rate 측정</span></p>
+        </div>
+      </div>
+      <div class="card-row cols-2 build slide-up" data-step="2">
+        <div class="card orange-border">
+          <h3><span class="step-num orange">5</span>/pdca iterate</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">자동 개선<br><span style="color:#FFB74D;">Match Rate &lt; 90% 시</span></p>
+        </div>
+        <div class="card green-border">
+          <h3><span class="step-num green">6</span>Playwright 검증</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">브라우저 검증<br><span style="color:#81C784;">실제 UI 확인</span></p>
+        </div>
+      </div>
+      <div class="card build scale-in" data-step="3" style="text-align:center; background:rgba(255,152,0,0.1); border:1px solid rgba(255,152,0,0.4); padding:0.7em;">
+        <p><span class="cmd">/sb-oneshot [기능 설명]</span> — 위 6단계를 한 번에 자동 완주 (PRD·.pen 자동 감지)</p>
+      </div>
+    </div>
+    <aside class="speaker-notes">6단계 워크플로우입니다. 1~3단계는 계획-설계-구현, 4~5단계는 검증-개선, 6단계는 브라우저 검증입니다. /sb-oneshot으로 전체를 자동화할 수 있습니다.</aside>
+  </section>
+
+  <!-- Slide 7: bkit Commands with Constitution -->
+  <section class="slide" id="slide-7" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">헌법 강제 참조 — 핵심 규칙</h2>
+      <p class="build" data-step="1" style="font-size:clamp(0.8rem,1.4vw,1rem); color:rgba(255,255,255,0.6);">
+        <strong style="color:#EF9A9A;">절대 금지:</strong> <span class="cmd">/pdca do {기능명}</span> 한 줄만 실행 — 헌법·디자인 참조 누락
+      </p>
+      <div class="build slide-up" data-step="2">
+        <p style="font-size:clamp(0.7rem,1.2vw,0.9rem); margin-bottom:0.4em; color:rgba(255,255,255,0.6);">✅ 올바른 실행 형태 (3단계 코드 구현 예시):</p>
+        <div class="code-block">/pdca do {기능명}
+<span class="string">constitution.md 파일을 읽고 모든 원칙을 반드시 준수해서 구현해줘.</span>
+<span class="string">designs/design.md와 designs/design-tokens.css를 읽고,</span>
+<span class="string">모든 CSS 스타일링에서 var(--토큰명) 형태로 참조해줘. 하드코딩 금지.</span>
+<span class="keyword">@vercel-react-best-practices</span> 가이드라인을 읽고 이 기준에 맞춰 구현해줘.</div>
+      </div>
+      <div class="card-row cols-2 build slide-up" data-step="3">
+        <div class="card red-border">
+          <h3 style="color:#EF9A9A;">❌ 하드코딩 금지</h3>
+          <ul>
+            <li><span class="cmd" style="color:#EF9A9A;">color: #2563EB</span> → <span class="cmd" style="color:#81C784;">color: var(--color-primary-600)</span></li>
+            <li><span class="cmd" style="color:#EF9A9A;">height: 64px</span> → <span class="cmd" style="color:#81C784;">height: var(--navbar-height)</span></li>
+            <li><span class="cmd" style="color:#EF9A9A;">padding: 16px</span> → <span class="cmd" style="color:#81C784;">padding: var(--spacing-4)</span></li>
+          </ul>
+        </div>
+        <div class="card green-border">
+          <h3 style="color:#81C784;">✅ 토큰 참조 필수</h3>
+          <ul>
+            <li>design-tokens.css 정의 변수만 사용</li>
+            <li>갭 분석에서 위반 자동 감지</li>
+            <li>Match Rate 90% 미달 시 /pdca iterate</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <aside class="speaker-notes">가장 중요한 규칙입니다. /pdca 명령어 실행 시 반드시 constitution.md와 디자인 시스템을 함께 지시해야 합니다. /sb-oneshot이 이를 자동으로 처리합니다.</aside>
+  </section>
+
+  <!-- Slide 8: sb-oneshot Detail -->
+  <section class="slide" id="slide-8" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">/sb-oneshot — 자동 파이프라인</h2>
+      <div class="card-row cols-2 build slide-up" data-step="1">
+        <div>
+          <div style="margin-bottom:0.5em;">
+            <div class="flow-row">
+              <span class="flow-item" style="background:rgba(255,255,255,0.06);">Step 0</span>
+              <span class="flow-arrow">&rarr;</span>
+              <span style="font-size:clamp(0.65rem,1.1vw,0.85rem);">자산 감지: constitution.md <span style="color:#81C784;">(필수)</span>, design.md + tokens.css <span style="color:#81C784;">(필수)</span>, PRD <span style="color:#FFB74D;">(선택)</span>, .pen <span style="color:#FFB74D;">(선택)</span></span>
+            </div>
+            <div class="flow-row">
+              <span class="flow-item blue">Step 1~3</span>
+              <span class="flow-arrow">&rarr;</span>
+              <span style="font-size:clamp(0.65rem,1.1vw,0.85rem);">/pdca plan → design → do <span style="color:#64B5F6;">(헌법+디자인 참조 포함)</span></span>
+            </div>
+            <div class="flow-row">
+              <span class="flow-item orange">Step 4</span>
+              <span class="flow-arrow">&rarr;</span>
+              <span style="font-size:clamp(0.65rem,1.1vw,0.85rem);">/pdca analyze — Match Rate 측정</span>
+            </div>
+            <div class="flow-row">
+              <span class="flow-item orange">Step 5</span>
+              <span class="flow-arrow">&rarr;</span>
+              <span style="font-size:clamp(0.65rem,1.1vw,0.85rem);">Match Rate &lt; 90% → /pdca iterate (최대 5회)</span>
+            </div>
+            <div class="flow-row">
+              <span class="flow-item green">Step 6</span>
+              <span class="flow-arrow">&rarr;</span>
+              <span style="font-size:clamp(0.65rem,1.1vw,0.85rem);">Playwright 브라우저 검증</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card orange-border" style="margin-bottom:0.8em;">
+            <h3>PRD 자동 감지</h3>
+            <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">prd/ 폴더의 .md 파일을 자동 탐색하여 개발 계획에 반영</p>
+          </div>
+          <div class="card purple-border" style="margin-bottom:0.8em;">
+            <h3>.pen 자동 감지</h3>
+            <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">designs/*.pen 파일 존재 시 UI 레이아웃 참조 (없어도 무방)</p>
+          </div>
+          <div class="card green-border">
+            <h3>오류 처리</h3>
+            <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">constitution.md 없으면 즉시 중단 및 안내 / design.md 없으면 /sb-design 먼저 실행 안내</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="speaker-notes">/sb-oneshot은 6단계를 완전 자동화합니다. 핵심은 Step 0에서 자산을 감지하고, Step 1~3에서 헌법과 디자인 시스템을 강제 참조하는 것입니다. constitution.md가 없으면 실행을 중단합니다.</aside>
+  </section>
+
+  <!-- Slide 9: Commands Reference -->
+  <section class="slide" id="slide-9" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">명령어 레퍼런스</h2>
+      <table class="compact-table build slide-up" data-step="1">
+        <thead>
+          <tr><th>명령어</th><th>설명</th><th>언제 사용?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cmd accent-orange">/sb-setup</span></td>
+            <td>초기 설치 + 세션 재개</td>
+            <td>처음 시작 / 기존 프로젝트로 돌아올 때</td>
+          </tr>
+          <tr>
+            <td><span class="cmd accent-blue">/sb-guide</span></td>
+            <td>현재 단계 파악 + 안내</td>
+            <td>어디서부터 해야 할지 모를 때</td>
+          </tr>
+          <tr>
+            <td><span class="cmd accent-green">/sb-oneshot [기능설명]</span></td>
+            <td>6단계 자동 파이프라인</td>
+            <td>새 기능을 한방에 개발하고 싶을 때</td>
+          </tr>
+          <tr>
+            <td><span class="cmd accent-purple">/sb-design</span></td>
+            <td>.pen → design.md + tokens.css 생성</td>
+            <td>디자인 시스템 최초 구축 / 디자인 변경 시</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card-row cols-3 build slide-up" data-step="2">
+        <div class="card blue-border">
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);"><span class="cmd">/pdca plan/design/do</span><br>+ constitution.md 참조<br>+ design.md + tokens.css 참조<br>+ @vercel-react-best-practices</p>
+        </div>
+        <div class="card orange-border">
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);"><span class="cmd">/pdca analyze</span><br>토큰 하드코딩 감지<br>Match Rate 측정<br>설계-구현 갭 리포트</p>
+        </div>
+        <div class="card green-border">
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);"><span class="cmd">/pdca iterate</span><br>Match Rate &lt; 90% 시<br>자동 개선 (최대 5회)<br>→ /pdca report로 완료</p>
+        </div>
+      </div>
+    </div>
+    <aside class="speaker-notes">5가지 sb-flow 커스텀 명령어와 bkit PDCA 명령어입니다. /sb-oneshot이 가장 많이 사용되는 명령어입니다.</aside>
+  </section>
+
+  <!-- Slide 10: File Structure -->
+  <section class="slide" id="slide-10" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">프로젝트 파일 구조</h2>
+      <div class="card-row cols-2 build slide-up" data-step="1">
+        <div class="file-tree">
+<span class="dir">project-root/</span>
+├── <span class="required">constitution.md</span>         <span class="comment"># 개발 헌법 (필수)</span>
+├── <span class="dir">designs/</span>
+│   ├── <span class="required">design.md</span>           <span class="comment"># 디자인 명세 (필수)</span>
+│   ├── <span class="required">design-tokens.css</span>   <span class="comment"># CSS 변수 (필수)</span>
+│   ├── design-constitution.md  <span class="comment"># 정부 UIUX 기준</span>
+│   └── <span class="optional">*.pen</span>               <span class="comment"># Pencil 파일 (선택)</span>
+├── <span class="dir">prd/</span>                        <span class="comment"># PRD 문서 (선택)</span>
+│   └── <span class="optional">feature.md</span>
+├── <span class="dir">docs/</span>                       <span class="comment"># bkit 생성 문서</span>
+│   ├── <span class="dir">01-plan/</span>
+│   └── <span class="dir">02-design/</span>
+└── <span class="dir">src/</span>                        <span class="comment"># 소스 코드</span>
+        </div>
+        <div>
+          <div class="card blue-border" style="margin-bottom:0.7em;">
+            <h3>필수 파일</h3>
+            <ul>
+              <li><span class="accent-green">constitution.md</span> — 루트에 위치, 세션마다 읽기</li>
+              <li><span class="accent-green">designs/design.md</span> — 디자인 명세 본체</li>
+              <li><span class="accent-green">designs/design-tokens.css</span> — CSS 변수 집합</li>
+            </ul>
+          </div>
+          <div class="card orange-border">
+            <h3>선택 파일 (자동 감지)</h3>
+            <ul>
+              <li><span class="accent-orange">designs/*.pen</span> — UI 레이아웃 원본</li>
+              <li><span class="accent-orange">prd/*.md</span> — 기능 요구사항</li>
+              <li><span class="accent-purple">design-constitution.md</span> — sb-design에서만 사용</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="speaker-notes">파일 구조입니다. constitution.md는 프로젝트 루트에, .pen 파일은 반드시 designs/ 폴더에 위치해야 합니다. design-constitution.md는 sb-design 명령어에서만 사용됩니다.</aside>
+  </section>
+
+  <!-- Slide 11: FAQ -->
+  <section class="slide" id="slide-11" aria-roledescription="slide">
+    <div class="slide-content">
+      <h2 data-step="0">자주 묻는 질문 (FAQ)</h2>
+      <div class="card-row cols-2 build slide-up" data-step="1">
+        <div class="card blue-border">
+          <h3>Q. constitution.md는 어디에?</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">프로젝트 루트에 위치합니다. sb-flow setup.bat 실행 시 자동으로 복사됩니다. 세션 시작마다 CLAUDE.md 지시에 따라 AI가 자동으로 읽습니다.</p>
+        </div>
+        <div class="card orange-border">
+          <h3>Q. .pen 파일 없이도 되나요?</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">네. .pen이 없으면 /sb-design이 design-constitution.md 기반으로 기본 디자인 시스템을 생성합니다. 있으면 designs/ 폴더에 넣으면 자동 감지됩니다.</p>
+        </div>
+        <div class="card green-border">
+          <h3>Q. Match Rate가 90% 미만이면?</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">/pdca iterate를 실행합니다 (최대 5회). /sb-oneshot은 이를 자동으로 처리합니다. 90% 이상이 되면 /simplify → /pdca report 순서로 마무리합니다.</p>
+        </div>
+        <div class="card purple-border">
+          <h3>Q. design-constitution.md는 언제 쓰나요?</h3>
+          <p style="font-size:clamp(0.65rem,1.1vw,0.85rem);">/sb-design 실행 시에만 사용합니다. 정부 UIUX 가이드라인(색상 대비, 터치 타깃 등) 준수 여부를 토큰 생성 시 검증하는 용도입니다. 구현 단계에서는 사용하지 않습니다.</p>
+        </div>
+      </div>
+      <div class="card build" data-step="2" style="background:rgba(33,150,243,0.08); border:1px solid rgba(33,150,243,0.2); text-align:center;">
+        <p style="font-size:clamp(0.7rem,1.2vw,0.9rem);">💡 모르면 <span class="cmd">/sb-guide</span> — 현재 단계를 자동 감지하고 다음 실행 명령어를 안내합니다</p>
+      </div>
+    </div>
+    <aside class="speaker-notes">가장 많이 물어보는 4가지 질문에 대한 답변입니다. 핵심은 constitution.md는 루트에, .pen은 designs/에, design-constitution.md는 sb-design에서만 사용한다는 것입니다.</aside>
+  </section>
+
+  <!-- Slide 12: Closing -->
+  <section class="slide closing-slide" id="slide-12" aria-roledescription="slide">
+    <div class="slide-content">
+      <h1 data-step="0">sb-flow로<br>더 빠르게, 더 정확하게</h1>
+      <div class="divider" data-step="0" style="width:120px; height:3px; background:linear-gradient(90deg,#2196F3,#FF9800); border-radius:2px; margin:1em auto;"></div>
+      <div class="build slide-up" data-step="1" style="text-align:center;">
+        <p style="font-size:clamp(1rem,2vw,1.5rem); color:rgba(255,255,255,0.7);">헌법 준수 · 디자인 토큰 강제 · 6단계 자동화</p>
+      </div>
+      <div class="card-row cols-3 build scale-in" data-step="2" style="margin-top:1em;">
+        <div class="card" style="text-align:center;">
+          <p style="font-size:clamp(0.7rem,1.2vw,0.9rem); color:rgba(255,255,255,0.6);">시작</p>
+          <p style="font-size:clamp(0.9rem,1.6vw,1.2rem); font-weight:700; color:#64B5F6;">/sb-setup</p>
+        </div>
+        <div class="card" style="text-align:center; background:rgba(255,152,0,0.1); border-color:rgba(255,152,0,0.3);">
+          <p style="font-size:clamp(0.7rem,1.2vw,0.9rem); color:rgba(255,255,255,0.6);">자동 완주</p>
+          <p style="font-size:clamp(0.9rem,1.6vw,1.2rem); font-weight:700; color:#FFB74D;">/sb-oneshot [기능]</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <p style="font-size:clamp(0.7rem,1.2vw,0.9rem); color:rgba(255,255,255,0.6);">모르면</p>
+          <p style="font-size:clamp(0.9rem,1.6vw,1.2rem); font-weight:700; color:#81C784;">/sb-guide</p>
+        </div>
+      </div>
+    </div>
+    <aside class="speaker-notes">sb-flow는 헌법 준수, 디자인 토큰 강제, 6단계 자동화로 빠르고 정확한 개발을 지원합니다. /sb-setup으로 시작하고, /sb-oneshot으로 자동 완주하세요.</aside>
+  </section>
+
+</div>
+
+<!-- Controls -->
+<div class="presentation-controls">
+  <div class="progress-bar" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+<div class="slide-counter" id="slideCounter" aria-live="polite">1 / 12</div>
+<div class="transition-label" id="transitionLabel"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  const TOTAL_SLIDES = 12;
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let currentSlide = 0;
+  let isTransitioning = false;
+
+  // Build step tracking per slide
+  const slideSteps = slides.map(s => {
+    const steps = Array.from(s.querySelectorAll('[data-step]'));
+    const maxStep = steps.reduce((m, el) => Math.max(m, parseInt(el.dataset.step, 10)), -1);
+    return { steps, maxStep, currentStep: -1 };
+  });
+
+  function getStepElements(slideIdx, step) {
+    return slideSteps[slideIdx].steps.filter(el => parseInt(el.dataset.step, 10) === step);
+  }
+
+  function showStep(slideIdx, step) {
+    const info = slideSteps[slideIdx];
+    for (let s = 0; s <= step; s++) {
+      getStepElements(slideIdx, s).forEach(el => el.classList.add('visible'));
+    }
+    info.currentStep = step;
+  }
+
+  function hideStepsFrom(slideIdx, fromStep) {
+    const info = slideSteps[slideIdx];
+    for (let s = fromStep; s <= info.maxStep; s++) {
+      getStepElements(slideIdx, s).forEach(el => el.classList.remove('visible'));
+    }
+    info.currentStep = fromStep - 1;
+  }
+
+  function initSlide(slideIdx) {
+    const info = slideSteps[slideIdx];
+    info.steps.forEach(el => el.classList.remove('visible'));
+    info.currentStep = -1;
+    // Show step 0 immediately
+    if (info.maxStep >= 0) showStep(slideIdx, 0);
+  }
+
+  function updateProgress() {
+    const pct = ((currentSlide + 1) / TOTAL_SLIDES) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('slideCounter').textContent = (currentSlide + 1) + ' / ' + TOTAL_SLIDES;
+    document.getElementById('progressBar').setAttribute('aria-valuenow', Math.round(pct));
+  }
+
+  function setTransitionLabel(text) {
+    const el = document.getElementById('transitionLabel');
+    el.textContent = text;
+    el.style.opacity = text ? '1' : '0';
+  }
+
+  function goToSlide(idx, direction) {
+    if (isTransitioning || idx < 0 || idx >= TOTAL_SLIDES) return;
+    if (idx === currentSlide) return;
+
+    isTransitioning = true;
+    const outSlide = slides[currentSlide];
+    const inSlide = slides[idx];
+
+    setTransitionLabel(direction > 0 ? '→' : '←');
+
+    outSlide.classList.add('transitioning-out');
+    inSlide.classList.add('transitioning-in');
+    initSlide(idx);
+    inSlide.classList.add('active');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        outSlide.classList.remove('active', 'transitioning-out');
+        inSlide.classList.remove('transitioning-in');
+        currentSlide = idx;
+        updateProgress();
+        setTimeout(() => {
+          isTransitioning = false;
+          setTransitionLabel('');
+        }, 500);
+      });
+    });
+  }
+
+  function nextAction() {
+    const info = slideSteps[currentSlide];
+    if (info.currentStep < info.maxStep) {
+      showStep(currentSlide, info.currentStep + 1);
+    } else {
+      goToSlide(currentSlide + 1, 1);
+    }
+  }
+
+  function prevAction() {
+    const info = slideSteps[currentSlide];
+    if (info.currentStep > 0) {
+      hideStepsFrom(currentSlide, info.currentStep);
+    } else {
+      goToSlide(currentSlide - 1, -1);
+    }
+  }
+
+  // Init first slide
+  initSlide(0);
+  updateProgress();
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown':
+        e.preventDefault(); nextAction(); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+        e.preventDefault(); prevAction(); break;
+      case 'Home': e.preventDefault(); goToSlide(0, -1); break;
+      case 'End': e.preventDefault(); goToSlide(TOTAL_SLIDES - 1, 1); break;
+      case 'f': case 'F':
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+        break;
+      case 'n': case 'N':
+        document.body.classList.toggle('show-notes'); break;
+    }
+  });
+
+  // Touch / swipe
+  let touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      dx < 0 ? nextAction() : prevAction();
+    }
+  }, { passive: true });
+
+  // Click
+  document.getElementById('presentation').addEventListener('click', e => {
+    if (e.target.closest('.progress-bar')) return;
+    const rect = document.getElementById('presentation').getBoundingClientRect();
+    e.clientX - rect.left > rect.width / 2 ? nextAction() : prevAction();
+  });
+
+  // Progress bar click
+  document.getElementById('progressBar').addEventListener('click', e => {
+    const pct = e.offsetX / e.currentTarget.offsetWidth;
+    const targetSlide = Math.floor(pct * TOTAL_SLIDES);
+    goToSlide(Math.min(targetSlide, TOTAL_SLIDES - 1), targetSlide > currentSlide ? 1 : -1);
+  });
+})();
+</script>
+</body>
+</html>

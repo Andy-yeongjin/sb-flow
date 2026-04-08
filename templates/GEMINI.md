@@ -1,63 +1,65 @@
 # 프로젝트 개발 환경 (sb-flow Powered)
 
 > **sb-flow** 워크플로우 기반 SDD(Spec-Driven Development) 프로젝트
-> SpecKit으로 설계 → SPEC_CONTEXT.md로 브릿지 → bkit PDCA로 구현
->
-> 설치: `.\setup.ps1 [프로젝트경로] [sb-flow경로]` (PowerShell)
+> bkit PDCA로 개발하며, 헌법과 디자인 시스템을 모든 작업의 최우선 기준으로 삼습니다.
 
 ---
 
-## ⚡ 세션 시작 체크리스트
+## ⚡ 세션 시작 — 반드시 먼저 실행
 
-새 세션을 시작할 때 아래를 순서대로 실행합니다:
+**세션이 시작되면 아래 파일을 즉시 읽어라. 어떤 작업을 하기 전에 먼저 읽어야 한다.**
 
-1. **SDD 학습**: `guides/sdd_guide.md` 파일을 읽고 SDD 방법론과 spec-kit 사용법을 숙지합니다
-2. **기존 프로젝트 재개 시**: `/sb-setup` 실행
-3. **새 프로젝트 / 단계 파악 필요 시**: `/sb-guide` 실행
-4. **새 기능 바로 시작하고 싶을 때**: `/sb-oneshot [기능 설명]` 실행
-5. **커스텀 명령어 준수**: 모든 슬래시 명령어(`/sb-`, `/speckit.`, `/pdca`) 실행 시 반드시 `.gemini/commands/` 폴더의 해당 `.toml` 파일을 읽고 그 지침에 따라 작업을 수행할 것.
+1. `constitution.md` — 개발 헌법 전문. 모든 조항을 숙지하고 이 프로젝트의 모든 작업에 적용한다.
+
+읽은 후:
+
+- **기존 프로젝트 재개 시**: `/sb-setup` 실행
+- **새 프로젝트 / 단계 파악 필요 시**: `/sb-guide` 실행
+- **새 기능 바로 시작하고 싶을 때**: `/sb-oneshot [기능 설명]` 실행
 
 ---
 
-## 🗺️ 개발 워크플로우 개요
+## 🗺️ 개발 워크플로우
 
 ```
-[설계 — SpecKit]              [브릿지]         [구현·검증 — bkit PDCA]
-
-/speckit.constitution          SPEC_           /pdca plan      ← @vercel-react-best-practices
-/speckit.specify        →→→   CONTEXT   →→→  /pdca design    ← @vercel-react-best-practices
-/speckit.clarify (선택)        .md             /pdca do        ← @vercel-react-best-practices
-/speckit.plan                  (7.5단계)       /pdca analyze
-/speckit.tasks                                 /pdca iterate
-/speckit.analyze                               /pdca report
-                                               /pdca archive
+[1단계] /pdca plan    ← constitution.md + design.md + design-tokens.css 참조 필수
+[2단계] /pdca design  ← constitution.md + design.md + design-tokens.css 참조 필수
+[3단계] /pdca do      ← constitution.md + design.md + design-tokens.css 참조 필수
+[4단계] /pdca analyze
+[5단계] /pdca iterate (Match Rate < 90% 시)
+[6단계] 브라우저 검증 (browser_subagent)
 ```
 
-**역할 분리 원칙**:
-- SpecKit: "무엇을, 왜 만드는가?" (설계 전담)
-- bkit: "어떻게 만들고 제대로 됐는가?" (구현·검증 전담)
-- `/speckit.implement` 사용 금지 — 구현은 반드시 `/pdca do`
+**`/sb-oneshot [기능 설명]`** — 위 6단계를 한 번에 자동 완주합니다.
 
 ---
 
-## 📋 핵심 원칙 (반드시 지킬 것)
+## 🚨 핵심 규칙 (반드시 지킬 것)
 
-1. **설계 먼저**: `/pdca do` 전 반드시 SpecKit 설계 완료 (최소 spec.md + tasks.md)
-2. **브릿지 필수**: 모든 `/pdca` 명령에 반드시 추가:
-   ```
-   SPEC_CONTEXT.md 파일을 참조해서 작업해줘.
-   ```
-3. **서브에이전트 주의**: `/pdca analyze`, `/pdca iterate`는 내부 서브에이전트 실행
-   → 8~10단계에서 이미 SPEC_CONTEXT.md 기반으로 bkit plan/design 문서가 생성되므로 별도 참조 불필요:
-   ```
-   /pdca analyze 기능명
-   ```
-4. **Vercel React Best Practices 필수**: 8~10단계(`/pdca plan` · `/pdca design` · `/pdca do`) 실행 시 `@vercel-react-best-practices` 가이드라인을 먼저 읽고 기준에 맞춰 계획·설계·구현:
-   ```
-   @vercel-react-best-practices 가이드라인을 읽고 이 기준에 맞춰 작업해줘.
-   ```
-5. **bkit → SpecKit 흐름 금지**: `/pdca` 실행 후 다시 SpecKit 명령어 사용하지 않음
-6. **커스텀 명령어 준수**: 모든 슬래시 명령어(`/sb-`, `/speckit.`, `/pdca`) 실행 시 반드시 `.gemini/commands/` 폴더의 해당 `.toml` 파일을 읽고 그 지침에 따라 작업을 수행할 것.
+### 1. 헌법 + 디자인 시스템 강제 참조
+
+`/pdca plan`, `/pdca design`, `/pdca do` 실행 시 반드시 아래를 함께 입력합니다:
+
+```
+constitution.md 파일을 읽고 모든 원칙을 반드시 준수해서 작업해줘.
+designs/design.md와 designs/design-tokens.css를 읽고, 모든 UI 수치를 var(--토큰명) 형태로 참조해줘. 하드코딩 금지.
+```
+
+> **절대 `/pdca do {기능명}` 한 줄만 실행하지 말 것.** 위 지시를 항상 포함해야 합니다.
+
+### 2. 디자인 토큰 하드코딩 금지
+
+모든 CSS 스타일링에서 `design-tokens.css`의 CSS 변수만 사용합니다:
+- `color: #2563EB` ❌ → `color: var(--color-primary-600)` ✅
+- `height: 64px` ❌ → `height: var(--navbar-height)` ✅
+
+### 3. Vercel React Best Practices 필수
+
+`/pdca plan`, `/pdca design`, `/pdca do` 실행 시 `.claude/` 폴더를 참조해서 `@vercel-react-best-practices`를 함께 사용합니다.
+
+### 4. 커스텀 명령어 준수
+
+모든 슬래시 명령어(`/sb-`, `/pdca`) 실행 시 반드시 `.gemini/commands/` 폴더의 해당 `.toml` 파일을 읽고 그 지침에 따라 작업을 수행합니다.
 
 ---
 
@@ -67,36 +69,37 @@
 |--------|------|-----------|
 | `/sb-setup` | 세션 재개 + 현재 상태 복원 | 기존 프로젝트로 돌아올 때 |
 | `/sb-guide` | 현재 단계 파악 + 다음 단계 안내 | 어디서부터 해야 할지 모를 때 |
-| `/sb-oneshot [기능설명]` | 설계→브릿지→구현 자동 파이프라인 (PRD·.pen 자동 감지) | 새 기능을 한방에 설계하고 싶을 때 |
-| `/sb-bridge [spec-dir]` | SPEC_CONTEXT.md 자동 생성 | 7.5단계 (설계 완료 후) |
+| `/sb-oneshot [기능설명]` | 6단계 자동 파이프라인 (PRD·.pen 자동 감지) | 새 기능을 한방에 개발하고 싶을 때 |
 | `/sb-design` | .pen 분석 → design.md + design-tokens.css 생성 | 디자인 시스템 확정할 때 |
+
+> **`.pen` 파일 위치**: Pencil.dev 디자인 파일은 반드시 `designs/` 폴더에 넣어야 합니다. `/sb-design`과 `/sb-oneshot`은 `designs/*.pen`을 자동 탐색합니다.
 
 ---
 
 ## 🏛️ 개발 헌법 핵심 요약
 
-> 전체 원문: `.specify/memory/constitution.md`
+> 전체 원문: `constitution.md`
 
 | 조항 | 원칙 | 핵심 |
 |------|------|------|
 | 제0조 | 한글 작성 | 모든 표준 문서는 반드시 한글로 |
 | 제0조의2 | 표준 시간대·날짜 형식 | Asia/Seoul(UTC+9) 기준, YYYY-MM-DD 형식 일관 적용 |
-| 제1조 | 명세 우선 (SDD) | spec.md가 Single Source of Truth |
-| 제2조 | 보편 언어 (DDD) | 기획·명세·코드·DB에 동일한 용어 |
+| 제1조 | 명세 우선 (SDD) | 계획 문서가 Single Source of Truth |
+| 제2조 | 보편 언어 (DDD) | 기획·설계·코드·DB에 동일한 용어 |
 | 제3조 | 도메인 무결성 | 비즈니스 로직은 프레임워크와 격리 |
 | 제4조 | 결합도·응집도 | 도메인 간 명확한 인터페이스, 인프라는 교체 가능 플러그인 구조 |
 | 제5조 | 프론트엔드 품질 | Vercel React Best Practices 필수 |
 | 제6조 | 기술적 무결성·보안 | TypeScript Strict Mode, ACID 보장, 세션 검증 필수 |
 | 제7조 | 반응형 디자인·UX | 다기기 최적화, 웹 접근성(a11y) 표준 준수 |
 | 제8조 | 검증 의무 | 테스트 미통과 코드는 미완성 |
-| 제9조 | 명세-코드 동기화 | 코드 수정 시 spec.md 먼저 최신화 |
+| 제9조 | 명세-코드 동기화 | 코드 수정 시 계획 문서 먼저 최신화 |
 | 제10조 | 최종 빌드 검증 | 프로덕션 빌드 성공 = 완료 |
 | 제11조 | 보안·기밀 유지 | API 키·토큰 하드코딩 금지, .env 격리 필수 |
 | 제12조 | 결정의 기록 (ADR) | 중요한 아키텍처 결정 이유를 문서화 |
 | 제13조 | 예외 처리·사용자 피드백 | 개발자용 로그와 사용자 안내 메시지 명확히 분리 |
 | 제14조 | 구조화된 로깅 | JSON 구조 로그, Request ID 포함, 민감정보 제외 |
 | 제15조 | 메인 화면 우선 | 메인 화면 먼저 개발, 비인증 탐색 보장 |
-| 제16조 | 디자인 시스템 | design.md + design-tokens.css 필수, 하드코딩 금지 |
+| 제16조 | 디자인 시스템 | designs/design.md + design-tokens.css 필수, 하드코딩 금지 |
 | 제17조 | 디자인 원본 | .pen은 구조/배치 원본, 시각적 수치는 design.md 토큰으로 교정 |
 | 제18조 | 로컬 개발 DB | 로컬은 SQLite, 배포 전 NeonDB·Supabase 중 결정 후 ADR 문서화 |
 | 제19조 | 정부 디자인 헌법 | design-constitution.md가 불변 최저 기준 — 색상 대비 4.5:1, 터치 타깃 44px, 키보드 접근성 필수 |
@@ -108,18 +111,6 @@
 1. **Vercel React Best Practices 스킬**:
    - `npx skills add` 명령어 실행 시 기본적으로 `.claude/` 폴더가 생성됩니다.
    - Gemini CLI는 이 폴더 내의 스킬을 참조하여 동작하므로, 폴더 이름을 변경하지 마세요.
-
----
-
-## 📁 Spec References
-
-> `/speckit.specify` 실행 후 생성된 spec 경로를 여기에 추가합니다.
-> Gemini는 이 파일을 항상 읽으므로 여기 경로를 추가하면 자동 인식됩니다.
-
-<!-- 예시:
-- specs/001-meal-planner/
-- specs/002-auth/
--->
 
 ---
 
