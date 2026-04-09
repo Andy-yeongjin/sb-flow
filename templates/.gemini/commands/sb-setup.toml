@@ -1,25 +1,13 @@
 prompt = """
-# sb-setup — 초기 설치 & 세션 재개
+# sb-setup — 초기 설치
 
-처음 실행 시 필요한 도구를 자동으로 설치하고, 기존 프로젝트라면 이전 작업 상태를 복원합니다.
+처음 실행 시 필요한 도구를 자동으로 설치합니다.
 
 ---
 
 ## 실행 지시사항
 
-### Step 0: 초기 설치 여부 판단 — 반드시 먼저 실행
-
-`docs/` 폴더 존재 여부를 Bash 도구로 직접 확인한다:
-
-```bash
-ls docs
-```
-
-**결과에 따라 분기:**
-
----
-
-#### 🔴 `docs/` 폴더가 없는 경우 — 초기 설치 모드
+#### 초기 설치 모드
 
 아래 단계를 순서대로 직접 실행한다. 설명만 하지 말고 반드시 실행할 것.
 
@@ -33,14 +21,20 @@ winget install OpenJS.NodeJS.LTS --accept-package-agreements --accept-source-agr
 ```
 설치 완료 후 `node --version`으로 확인.
 
-**2단계 — bkit 익스텐션 설치:**
+**2단계 — bkit 익스텐션 설치 및 로드:**
 ```bash
-gemini extensions install https://github.com/popup-studio-ai/bkit-gemini.git
+# bkit 익스텐션이 존재하는지 확인 후 자동 설치 (프롬프트 자동 승인)
+# bkit 익스텐션이 존재하면 SKIP
+gemini extensions install https://github.com/popup-studio-ai/bkit-gemini.git --consent --skip-settings
+
+# 초기 설정 자동화
+gemini extensions config bkit "Output Style" bkit-learning
+gemini extensions config bkit "Project Level" Starter
 ```
 
 **3단계 — Vercel 스킬 설치:**
 ```bash
-npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
+npx --yes skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
 ```
 
 **4단계 — 헌법 파일 확인:**
@@ -56,94 +50,4 @@ ls constitution.md
 ```
 
 ---
-
-#### 🟢 `docs/` 폴더가 있는 경우 — 세션 복원 모드
-
-Step 1로 이동한다.
-
----
-
-### Step 1: bkit 상태 확인
-
-```
-/pdca status
-```
-
-### Step 2: 상황 판단 및 안내
-
-아래 표를 기준으로 현재 상황을 판단하고 다음 단계를 안내합니다:
-
-| 상황 | 판단 | 안내할 명령어 |
-|------|------|--------------|
-| docs/ 없음 | 새 프로젝트 | `/sb-oneshot [기능 설명]` |
-| docs/01-plan 없음 | 1단계 필요 | 아래 1단계 명령어 |
-| docs/01-plan 있음, docs/02-design 없음 | 2단계 필요 | 아래 2단계 명령어 |
-| docs/02-design 있음, 소스코드 미완 | 3단계 필요 | 아래 3단계 명령어 |
-| 소스코드 있음, gap 분석 없음 | 4단계 필요 | 아래 4단계 명령어 |
-| gap 분석: Match Rate < 90% | 5단계 필요 | 아래 5단계 명령어 |
-| gap 분석: Match Rate ≥ 90%, 보고서 없음 | 마무리 필요 | 아래 정리 명령어 |
-| 보고서 있음 | 완료 | — |
-| 버그 수정 / 소규모 수정 | 직접 수정 | 자연어로 요청 |
-
-**단계별 실행 명령어 (복사해서 사용)**
-
-1단계 — 개발 계획:
-```
-/pdca plan {기능명}
-constitution.md 파일을 읽고 모든 원칙을 반드시 준수해서 개발 계획을 세워줘.
-designs/design.md와 designs/design-tokens.css를 읽고, 모든 색상·크기·간격·그림자·둥글기는 design-tokens.css의 CSS 변수를 사용해줘. 하드코딩 금지.
-@vercel-react-best-practices 가이드라인을 읽고 이 기준에 맞춰 개발 계획을 세워줘.
-```
-
-2단계 — 상세 설계:
-```
-/pdca design {기능명}
-constitution.md 파일을 읽고 모든 원칙을 준수해서 상세 설계를 작성해줘.
-designs/design.md와 designs/design-tokens.css를 읽고, 모든 UI 수치를 var(--토큰명) 형태로 명시해줘. 하드코딩 금지.
-@vercel-react-best-practices 가이드라인을 읽고 이 기준에 맞춰 상세 설계를 작성해줘.
-```
-
-3단계 — 코드 구현:
-```
-/pdca do {기능명}
-constitution.md 파일을 읽고 모든 원칙을 반드시 준수해서 구현해줘.
-designs/design.md와 designs/design-tokens.css를 읽고, 모든 CSS 스타일링에서 var(--토큰명) 형태로 참조해줘. 하드코딩 금지.
-@vercel-react-best-practices 가이드라인을 읽고 이 기준에 맞춰 구현해줘.
-```
-
-4단계 — Gap 분석:
-```
-/pdca analyze {기능명}
-```
-
-5단계 — 자동 개선:
-```
-/pdca iterate {기능명}
-```
-
-정리 — 코드 정리:
-```
-/simplify
-```
-
-보고서:
-```
-/pdca report {기능명}
-```
-
----
-
-## 출력 형식 (세션 복원 시)
-
-```
-현재 단계: [N단계]
-
-다음:
-[다음 실행할 명령어]
-```
-
-진행 중인 기능이 없으면:
-```
-새 기능을 시작하려면: /sb-oneshot [기능 설명]
-```
 """

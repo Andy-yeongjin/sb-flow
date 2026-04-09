@@ -580,7 +580,15 @@ body {
         </div>
         <div class="cmd-code">gemini</div>
       </div>
-      <img src="images/g21.png" alt="프로젝트 폴더에서 터미널 열기" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px; margin-bottom:8px;">
+      <img src="images/g21.png" alt="프로젝트 폴더에서 터미널 열기" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:8px; margin-bottom:16px;">
+
+      <p style="font-size:14px; font-weight:600; margin-bottom:8px;">③ Yolo 모드 켜기 (권장) — 권한 확인 없이 자동 진행</p>
+      <p style="font-size:14px; color:var(--text2); margin-bottom:8px;">gemini 실행 후 <strong>Ctrl+Y</strong>를 누르면 모든 작업에 자동으로 권한이 허용됩니다.</p>
+      <div class="tip warn">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text"><strong>Yolo 모드</strong>를 켜면 gemini가 확인 없이 파일을 수정합니다. 신뢰할 수 있는 프로젝트 폴더에서만 사용하세요.</div>
+      </div>
+
       <div class="tip success" style="margin-top:8px;">
         <div class="tip-icon">✅</div>
         <div class="tip-text">이제 gemini 프롬프트에서 <code style="color:var(--cyan)">/sb-setup</code> 등 명령어를 입력할 수 있습니다.</div>
@@ -607,9 +615,14 @@ body {
         <div class="cmd-code">/sb-setup</div>
       </div>
       <img src="images/g22.png" alt="/sb-setup 실행 화면" style="width:100%; border-radius:8px; border:1px solid var(--border); margin-top:12px; margin-bottom:4px;">
-      <div class="tip success">
+      <div class="tip warn" style="margin-top:8px;">
+        <div class="tip-icon">🔄</div>
+        <div class="tip-text"><strong>설치 완료 후 gemini 재시작 필요!</strong><br>
+        <strong>Ctrl+C</strong>로 gemini를 종료한 뒤 다시 <code style="color:var(--cyan)">gemini</code>를 입력해서 재시작하세요. 익스텐션이 정상적으로 로드됩니다.</div>
+      </div>
+      <div class="tip success" style="margin-top:8px;">
         <div class="tip-icon">✅</div>
-        <div class="tip-text"><strong>설치 완료!</strong> 이제 아래 1단계로 넘어가서 <code style="color:var(--cyan)">/sb-oneshot</code>을 실행하면 됩니다.</div>
+        <div class="tip-text">재시작 후 <code style="color:var(--cyan)">/sb-oneshot</code>으로 개발을 시작하세요.</div>
       </div>
     </div>
   </div>

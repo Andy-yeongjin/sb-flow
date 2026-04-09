@@ -97,8 +97,9 @@ echo =============================================
 echo   Done!
 echo =============================================
 echo.
-echo   1. Open Antigravity
-echo   2. Open folder: %PROJECT_DIR%
+echo   1. Open terminal in: %PROJECT_DIR%
+echo      (Right-click the folder - "Open in Terminal")
+echo   2. Run: gemini  then press Ctrl+Y (Yolo mode)
 echo   3. Type:  /sb-setup
 echo.
 pause
