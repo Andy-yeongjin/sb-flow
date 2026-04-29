@@ -633,7 +633,18 @@ body {
       7. PRD 만들기 (선택) — AI로 기획서 자동 생성 <span class="acc-toggle">▼</span>
     </div>
     <div class="accordion-body">
-      <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">참고할 자료(기획서, 화면 캡처, 요구사항 문서 등)가 있다면 AI에게 맡겨서 PRD를 먼저 만들어두세요. <code style="color:var(--cyan)">/sb-oneshot</code>이 <code style="color:var(--cyan)">prd/</code> 폴더를 자동으로 감지해서 반영합니다.</p>
+      <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">참고할 자료(기획서, 화면 캡처, 요구사항 문서 등)가 있다면 PRD로 정리해 두세요. <code style="color:var(--cyan)">/sb-oneshot</code>이 <code style="color:var(--cyan)">prd/</code> 폴더의 <code style="color:var(--cyan)">.md</code>와 <code style="color:var(--cyan)">prd/refs/</code> 폴더의 모든 파일을 자동으로 감지해서 반영합니다.</p>
+
+      <div class="tip info" style="margin-bottom:16px; border-color:rgba(167,139,250,0.25); background:rgba(167,139,250,0.06);">
+        <div class="tip-icon">📝</div>
+        <div class="tip-text">
+          <strong style="color:var(--purple);">가장 쉬운 방법 — PRD Builder</strong><br>
+          <a href="prd-builder.html" target="_blank" style="color:var(--cyan); font-weight:600;">guides/prd-builder.html →</a>을 브라우저로 열고 폼을 채우면 PRD <code style="color:var(--cyan)">.md</code>가 자동 생성됩니다.<br>
+          참고 문서(PDF·이미지·기획서)를 첨부하면 ZIP으로 묶여 다운로드되고, <code style="color:var(--cyan)">prd/</code> 폴더에 풀면 <code style="color:var(--cyan)">prd/{이름}.md</code> + <code style="color:var(--cyan)">prd/refs/*</code>가 자동 배치됩니다.
+        </div>
+      </div>
+
+      <div class="phase-sep">또는 gemini에게 직접 시키기</div>
 
       <p style="font-size:14px; font-weight:600; margin-bottom:8px;">① 참고 파일을 프로젝트 폴더에 복사</p>
       <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">AI가 읽어야 할 문서, 이미지, 기획서 등을 프로젝트 폴더 안에 복사해 두세요.</p>
@@ -644,11 +655,11 @@ body {
           <span class="cmd-label">에이전트 채팅창에 입력 (예시)</span>
           <button class="cmd-copy" onclick="event.stopPropagation(); copyCmd(this)">복사</button>
         </div>
-        <div class="cmd-code">@파일명 참고해서 기획해서 prd/prd.md 만들어줘</div>
+        <div class="cmd-code">@파일명 참고해서 기획해서 prd/PRD-기능명.md 만들어줘</div>
       </div>
       <div class="tip info" style="margin-top:8px;">
         <div class="tip-icon">💡</div>
-        <div class="tip-text"><code style="color:var(--cyan)">@</code> 뒤에 파일명을 입력하면 해당 파일을 AI가 참조합니다. PRD 파일은 반드시 <code style="color:var(--cyan)">prd/</code> 폴더 안에 <code style="color:var(--cyan)">.md</code> 형식으로 저장하세요.</div>
+        <div class="tip-text"><code style="color:var(--cyan)">@</code> 뒤에 파일명을 입력하면 해당 파일을 AI가 참조합니다. PRD 파일은 반드시 <code style="color:var(--cyan)">prd/</code> 폴더 안에 <code style="color:var(--cyan)">.md</code> 형식으로 저장하고, 파일명에 <strong>PRD</strong>를 포함시키세요.</div>
       </div>
     </div>
   </div>
@@ -676,6 +687,7 @@ body {
     <div class="tip-text">
       <strong>파일 위치 안내</strong><br>
       • <strong>PRD 파일</strong> (.md): <code style="color:var(--cyan)">prd/</code> 폴더에 넣으세요 — AI가 자동으로 찾습니다.<br>
+      • <strong>PRD 참고 문서</strong> (PDF·이미지·기획서 등): <code style="color:var(--cyan)">prd/refs/</code> 폴더에 넣으면 보조 컨텍스트로 함께 읽습니다.<br>
       • <strong>Pencil.dev 디자인 파일</strong> (.pen): <code style="color:var(--cyan)">designs/</code> 폴더에 넣으세요<br>
       • <strong>Stitch 디자인 파일</strong>: ZIP 압축 해제 후 <code style="color:var(--cyan)">designs/stitch/</code> 폴더에 넣으세요<br>
       <span style="color:var(--text2); font-size:13px;">설치 시 <code style="color:var(--cyan)">designs/design.md</code>·<code style="color:var(--cyan)">designs/design-tokens.css</code>·<code style="color:var(--cyan)">designs/design-constitution.md</code>가 자동 생성됩니다.</span>
@@ -943,6 +955,25 @@ body {
 </div>
 
 </div><!-- /big-steps -->
+
+<!-- ══════════ 배포하기 (선택) ══════════ -->
+<section style="margin-bottom:48px;">
+  <h2 style="font-size:22px; font-weight:700; margin-bottom:8px;">🚀 만든 결과물을 인터넷에 올리고 싶다면</h2>
+  <p style="font-size:15px; color:var(--text2); margin-bottom:20px;">로컬 개발이 끝났다면 NeonDB + Vercel로 실제 배포할 수 있어요. <strong>가입·콘솔 작업은 사람이 직접</strong>, <strong>코드 작업은 가이드 안의 프롬프트를 복사해서 gemini에게</strong> 시키는 하이브리드 방식입니다.</p>
+
+  <div class="after-grid">
+    <div class="after-card">
+      <h4>🗄️ NeonDB 연결</h4>
+      <p>로컬 sqlite → NeonDB(PostgreSQL)로 마이그레이션. Prisma 설정·자동 검증 프롬프트 포함.</p>
+      <a href="neondb-guide.html" target="_blank" class="after-entry" style="text-decoration:none;">NeonDB 연결 가이드 →</a>
+    </div>
+    <div class="after-card">
+      <h4>▲ Vercel 배포</h4>
+      <p>GitHub repo → Vercel import → 환경변수 → 도메인까지 단계별로.</p>
+      <a href="vercel-guide.html" target="_blank" class="after-entry" style="text-decoration:none;">Vercel 배포 가이드 →</a>
+    </div>
+  </div>
+</section>
 
 <!-- ══════════ 다음 날 이어서 ══════════ -->
 <section style="margin-bottom:48px;">

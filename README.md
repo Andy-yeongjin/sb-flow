@@ -89,9 +89,20 @@ Pencil.dev(`.pen`) 또는 Stitch(ZIP)로 디자인을 만든 경우, `/sb-onesho
 
 이 명령어 하나로 개발 계획 → 구현 → 갭 분석 → 자동 개선 → 브라우저 검증까지 **6단계가 자동으로 완주**됩니다.
 
-> **PRD 파일 자동 감지**: `prd/` 폴더에 `.md` 파일이 있으면 자동으로 감지하여 구현에 반영합니다.
+> **PRD 파일 자동 감지**: `prd/` 폴더에 `.md` 파일이 있으면 자동으로 감지하여 구현에 반영합니다. `prd/refs/` 폴더 안의 모든 파일(PDF·이미지·기획서 등)도 보조 컨텍스트로 함께 읽습니다.
+
+> **PRD 작성이 막연하다면**: [`guides/prd-builder.html`](guides/prd-builder.html)을 브라우저로 열고 폼을 채우면 PRD `.md`가 자동 생성됩니다. 참고 문서를 첨부하면 **ZIP으로 묶여 다운로드**되고, 압축을 `prd/` 폴더에 풀면 `prd/{이름}.md` + `prd/refs/*`가 자동 배치됩니다.
 
 > **서버 실행**: 개발 완료 후 `start.bat`을 실행해서 브라우저에서 결과를 확인하세요.
+
+### 6. (선택) 배포하기
+
+로컬 개발이 끝났다면 실제 인터넷에 올릴 수 있습니다. 가입·설정은 사람이 직접 하고, 코드 작업은 가이드 안의 프롬프트를 복사해 Claude/Gemini에 시키는 하이브리드 방식입니다.
+
+| 단계 | 가이드 |
+|------|--------|
+| **DB 연결** (sqlite → PostgreSQL) | [NeonDB 연결 가이드](guides/neondb-guide.html) |
+| **프로덕션 배포** (GitHub → Vercel) | [Vercel 배포 가이드](guides/vercel-guide.html) |
 
 ---
 
@@ -99,10 +110,23 @@ Pencil.dev(`.pen`) 또는 Stitch(ZIP)로 디자인을 만든 경우, `/sb-onesho
 
 | 명령어 | 설명 |
 |--------|------|
-| `/sb-oneshot [기능 설명]` | 개발 계획부터 브라우저 검증까지 6단계 자동 완주 |
+| `/sb-oneshot [기능 설명]` | 개발 계획부터 브라우저 검증까지 6단계 자동 완주 (PRD·.pen·`prd/refs` 자동 감지) |
 | `/sb-guide` | 현재 단계 파악 + 다음 단계 안내 |
 | `/sb-setup` | 기존 프로젝트 세션 재개 |
 | `/sb-design` | .pen 또는 Stitch 분석 → designs/design.md + design-tokens.css 생성 |
+
+---
+
+## 추가 가이드
+
+| 가이드 | 용도 |
+|--------|------|
+| [PRD Builder](guides/prd-builder.html) | 폼만 채우면 PRD 자동 생성 + 참고 문서 첨부 → ZIP 다운로드 |
+| [NeonDB 연결 가이드](guides/neondb-guide.html) | NeonDB(PostgreSQL) 가입 → Prisma 연결 → 자동 검증 |
+| [Vercel 배포 가이드](guides/vercel-guide.html) | GitHub → Vercel import → 환경변수 → 도메인 |
+| [/sb-oneshot 가이드 (Claude)](guides/guide-oneshot.html) | Claude Code 사용자용 시각 가이드 |
+| [/sb-oneshot 가이드 (Gemini)](<guides/guide-oneshot(GEMINI).html>) | Gemini CLI 사용자용 시각 가이드 |
+| [sb-flow 워크플로우 상세](guides/sb-flow-workflow.md) | 6단계 PDCA 전체 흐름 |
 
 ---
 
@@ -188,6 +212,12 @@ sb-flow는 19개 조항의 개발 헌법을 기반으로 합니다:
 
 **Q. 디자인 시스템을 커스터마이징하고 싶어요**
 `/sb-design` 명령어로 `.pen` 파일 또는 Stitch ZIP에서 디자인 토큰을 추출하거나, `designs/design.md`와 `designs/design-tokens.css`를 직접 편집하세요.
+
+**Q. PRD 작성이 어려워요**
+[`guides/prd-builder.html`](guides/prd-builder.html)을 브라우저로 열고 폼을 채우세요. 기본 7개 필드(한 줄 설명·타겟 사용자·문제·핵심 기능·화면·있으면 좋은 것·범위 외) + 고급 5개(역할·데이터·규칙·페르소나·외부 연동) + 참고 문서 첨부까지. 다 채울 필요 없이 아는 것만 쓰면 됩니다. 다운로드된 `.md` 또는 ZIP을 `prd/` 폴더에 넣고 `/sb-oneshot`을 실행하세요.
+
+**Q. 만든 결과물을 인터넷에 올리고 싶어요**
+[NeonDB 연결 가이드](guides/neondb-guide.html)로 DB를 PostgreSQL로 옮기고, [Vercel 배포 가이드](guides/vercel-guide.html)로 GitHub → Vercel 배포까지 따라하세요. 가입·콘솔 작업은 사람이, 코드 작업은 가이드 안의 프롬프트를 Claude/Gemini에게 시키면 됩니다.
 
 ---
 

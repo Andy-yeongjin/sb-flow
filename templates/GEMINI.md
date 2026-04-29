@@ -69,7 +69,7 @@ designs/design.md와 designs/design-tokens.css를 읽고, 모든 UI 수치를 va
 |--------|------|-----------|
 | `/sb-setup` | 세션 재개 + 현재 상태 복원 | 기존 프로젝트로 돌아올 때 |
 | `/sb-guide` | 현재 단계 파악 + 다음 단계 안내 | 어디서부터 해야 할지 모를 때 |
-| `/sb-oneshot [기능설명]` | 6단계 자동 파이프라인 (PRD·.pen 자동 감지) | 새 기능을 한방에 개발하고 싶을 때 |
+| `/sb-oneshot [기능설명]` | 6단계 자동 파이프라인 (PRD·.pen·prd/refs 자동 감지) | 새 기능을 한방에 개발하고 싶을 때 |
 | `/sb-design` | .pen 분석 → design.md + design-tokens.css 생성 | 디자인 시스템 확정할 때 |
 
 > **`.pen` 파일 위치**: Pencil.dev 디자인 파일은 반드시 `designs/` 폴더에 넣어야 합니다. `/sb-design`과 `/sb-oneshot`은 `designs/*.pen`을 자동 탐색합니다.
