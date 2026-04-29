@@ -14,3 +14,12 @@ Thumbs.db
 
 # Node
 node_modules/
+
+# Env / secrets
+.env
+.env*.local
+
+# Local DB (sqlite dev)
+*.db
+*.db-journal
+prisma/dev.db
